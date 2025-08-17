@@ -1,0 +1,180 @@
+# Tailwind
+
+> A React component to wrap emails with Tailwind CSS.
+
+## Install
+
+Install component from your command line.
+
+<CodeGroup>
+  ```sh npm
+  npm install @react-email/components -E
+
+# or get the individual package
+
+npm install @react-email/tailwind -E
+
+````
+
+```sh yarn
+yarn add @react-email/components -E
+
+# or get the individual package
+
+yarn add @react-email/tailwind -E
+````
+
+```sh pnpm
+pnpm add @react-email/components -E
+
+# or get the individual package
+
+pnpm add @react-email/tailwind -E
+```
+
+</CodeGroup>
+
+## Getting started
+
+<Info>The current `tailwindcss` version used for this component is `3.4.10`</Info>
+
+Add the component around your email body content.
+
+```jsx
+import { Tailwind, pixelBasedPreset, Button } from '@react-email/components'
+
+const Email = () => {
+  return (
+    <Tailwind
+      config={{
+        presets: [pixelBasedPreset],
+        theme: {
+          extend: {
+            colors: {
+              brand: '#007291',
+            },
+          },
+        },
+      }}
+    >
+      <Button
+        href='https://example.com'
+        className='bg-brand px-3 py-2 font-medium leading-4 text-white'
+      >
+        Click me
+      </Button>
+    </Tailwind>
+  )
+}
+```
+
+## Props
+
+<ResponseField name="config" type="object">
+  Customize the default theme for your project with the available properties in
+  [Tailwind docs](https://v3.tailwindcss.com/docs/theme).
+</ResponseField>
+
+<Info>
+  Most email clients are style-limited and some styles may not work.
+
+One example of this is how Tailwind uses `rem` as its main unit for better accessibility. This
+is not supported by [some email clients](https://www.caniemail.com/features/css-unit-rem/), and
+the `pixelBasedPreset` changes it so that the styles are based on `16px` instead.
+</Info>
+
+## Live example
+
+<Card title="Tailwind Demo" icon="arrow-up-right-from-square" iconType="duotone" href="https://demo.react.email/preview/notifications/vercel-invite-user">
+  See the full demo and source code.
+</Card>
+
+## Support
+
+All components were tested using the most popular email clients.
+
+<div
+  role="list"
+  className="grid py-2 list-none border rounded-xl text-sm"
+  style={{
+  gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))',
+  columnGap: '0.5rem',
+  borderColor: 'rgb(30 41 59/1)'
+}}
+>
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/gmail.svg" width="56px" height="56px" alt="Gmail" className="mx-auto mb-1" />
+
+    Gmail
+
+  </div>
+
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/apple-mail.svg" width="56px" height="56px" alt="Apple Mail" className="mx-auto mb-1" />
+
+    Apple Mail
+
+  </div>
+
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/outlook.svg" width="56px" height="56px" alt="Outlook" className="mx-auto mb-1" />
+
+    Outlook
+
+  </div>
+
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/yahoo-mail.svg" width="56px" height="56px" alt="Yahoo! Mail" className="mx-auto mb-1" />
+
+    Yahoo! Mail
+
+  </div>
+
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/hey.svg" width="56px" height="56px" alt="HEY" className="mx-auto mb-1" />
+
+    HEY
+
+  </div>
+
+  <div className="text-center block not-prose group relative my-2 ring-2 ring-transparent overflow-hidden">
+    <img src="https://react.email/static/icons/superhuman.svg" width="56px" height="56px" alt="Superhuman" className="mx-auto mb-1" />
+
+    Superhuman
+
+  </div>
+</div>
+
+## Known limitations
+
+<AccordionGroup>
+  <Accordion title="No support for contexts inside the component">
+    Currently adding a context's provider inside of the Tailwind component, won't allow you
+    to properly call the `useContext` in any of the children of it, due to some technical limitations
+    regarding on how we currently map the classNames into styles.
+
+    The current workaround for this right now is to move the context's provider higher than the Tailwind
+    component, so that all children inside Tailwind can properly call `useContext` with the context.
+
+  </Accordion>
+
+  <Accordion title="No support for prose from @tailwindcss/typography">
+    We do not yet support `prose`, and beyond that, we don't yet support classes that might
+    be resolved into selectors that are relatively complex. That is, selectors with more
+    than a class lookup.
+
+    This is because we optimistically look into the selectors for class names
+    and look these up later on the elements, and since `prose`, by using more complicated selectors,
+    cannot be directly inlined without matching the selectors to the elements, it isn't able to
+    match the selectors appropriately.
+
+    This also means some other utilities do not work either, like the [`space-*` utility](https://v3.tailwindcss.com/docs/space).
+
+    The only exception for this inlining of styles is with media queries, as they are not inlinable. We do not
+    do the same for `hover:` styles though, but since [their support is not best](https://www.caniemail.com/features/css-pseudo-class-hover/), you probably won't need it.
+
+    In the future, we will be inlining all the styles we can by actually matching the
+    selectors *against the elements* themselves.
+
+  </Accordion>
+</AccordionGroup>

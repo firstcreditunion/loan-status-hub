@@ -1,0 +1,153 @@
+# Render
+
+> Transform React components into HTML email templates.
+
+## 1. Install dependencies
+
+Install package from your command line.
+
+<CodeGroup>
+  ```sh npm
+  npm install @react-email/render -E
+  ```
+
+```sh yarn
+yarn add @react-email/render -E
+```
+
+```sh pnpm
+pnpm add @react-email/render -E
+```
+
+</CodeGroup>
+
+## 2. Create an email using React
+
+Start by building your email template in a `.jsx` or `.tsx` file.
+
+```jsx email.jsx
+import * as React from 'react'
+import { Html, Button, Hr, Text } from '@react-email/components'
+
+export function MyTemplate(props) {
+  return (
+    <Html lang='en'>
+      <Text>Some title</Text>
+      <Hr />
+      <Button href='https://example.com'>Click me</Button>
+    </Html>
+  )
+}
+
+export default MyTemplate
+```
+
+## 3. Convert to HTML
+
+Import an existing React component and convert into a HTML string.
+
+<Info>You can use the `pretty` function to beautify the output.</Info>
+
+```jsx
+import { MyTemplate } from './email'
+import { render, pretty } from '@react-email/render'
+
+const html = await pretty(await render(<MyTemplate />))
+
+console.log(html)
+```
+
+This will generate the following output:
+
+```html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
+  <p style="font-size:14px;line-height:24px;margin:16px 0">Some title</p>
+  <hr style="width:100%;border:none;border-top:1px solid #eaeaea" />
+  <a
+    href="https://example.com"
+    target="_blank"
+    style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;padding:0px 0px"
+  >
+    <span>
+      <!--[if mso]>
+        <i
+          style="letter-spacing: undefinedpx;mso-font-width:-100%;mso-text-raise:0"
+          hidden
+          >&nbsp;</i
+        >
+      <![endif]-->
+    </span>
+    <span
+      style="max-width:100%;display:inline-block;line-height:120%;text-decoration:none;text-transform:none;mso-padding-alt:0px;mso-text-raise:0"
+      >Click me</span
+    >
+    <span>
+      <!--[if mso]>
+        <i style="letter-spacing: undefinedpx;mso-font-width:-100%" hidden
+          >&nbsp;</i
+        >
+      <![endif]-->
+    </span>
+  </a>
+</html>
+```
+
+<Danger>
+  When running on the browser, to properly support Safari and browsers running on iOS, you will
+  need to polyfill the [ReadableByteStreamController API](https://developer.mozilla.org/en-US/docs/Web/API/ReadableByteStreamController#browser_compatibility).
+
+We recommend [npm i web-streams-polyfill](https://www.npmjs.com/package/web-streams-polyfill),
+and it can be applied as follows in some sort of root file for your website:
+
+```jsx
+import 'web-streams-polyfill/polyfill'
+```
+
+</Danger>
+
+## 4. Convert to Plain Text
+
+Plain text versions of emails are important because they ensure that the message can be read by the recipient even if they are unable to view the HTML version of the email.
+
+This is important because not all email clients and devices can display HTML email, and some recipients may have chosen to disable HTML email for security or accessibility reasons.
+
+Here's how to convert a React component into plain text.
+
+<Warning>
+  The `plainText` option in the `render` function is deprecated since [@react-email/render@1.2.0](https://github.com/resend/react-email/releases/tag/%40react-email%2Frender%401.2.0). Use the `toPlainText` function instead.
+</Warning>
+
+```jsx
+import { MyTemplate } from './email'
+import { toPlainText, render } from '@react-email/render'
+
+const html = await render(<MyTemplate />)
+const text = toPlainText(html)
+
+console.log(text)
+```
+
+This will generate the following output:
+
+```
+Some title
+
+---
+
+Click me [https://example.com]
+```
+
+## Options
+
+<ResponseField name="pretty" type="boolean" deprecated>
+  Beautify HTML output
+</ResponseField>
+
+<ResponseField name="plainText" type="boolean" deprecated>
+  Generate plain text version
+</ResponseField>
+
+<ResponseField name="htmlToTextOptions" type="HtmlToTextOptions">
+  `html-to-text` [options](https://github.com/html-to-text/node-html-to-text/tree/master/packages/html-to-text#options) used for rendering
+</ResponseField>
