@@ -14,6 +14,8 @@ export const emailConfig: EmailConfig = {
 export function validateEmailConfig(): void {
   const requiredEnvVars = [
     'AWS_SES_REGION',
+    'AWS_ACCESS_KEY_ID',
+    'AWS_SECRET_ACCESS_KEY',
     'FROM_EMAIL',
     'SUPPORT_EMAIL',
     'NEXT_PUBLIC_DASHBOARD_URL',

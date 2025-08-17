@@ -27,8 +27,14 @@ function getSESClient(): SES {
     validateEmailConfig()
     sesClient = new SES({
       region: emailConfig.region,
-      // AWS credentials should be configured via environment variables:
-      // AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN (if using temporary credentials)
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+        // Optional: Add session token if using temporary credentials
+        ...(process.env.AWS_SESSION_TOKEN && {
+          sessionToken: process.env.AWS_SESSION_TOKEN,
+        }),
+      },
     })
   }
   return sesClient
