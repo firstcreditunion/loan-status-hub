@@ -872,7 +872,7 @@ function DashboardPageContent() {
                 <CardContent className='space-y-4'>
                   {loanData?.branchInfo ? (
                     <div className='space-y-4'>
-                      <div className='p-4 bg-fcu-secondary-50 rounded-lg'>
+                      <div className='p-4  rounded-lg'>
                         <h4 className='font-semibold text-fcu-primary-500 mb-2'>
                           {loanData.branchInfo.Organisation_Unit_Name}
                         </h4>
