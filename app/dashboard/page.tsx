@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -63,7 +63,7 @@ interface SessionInfo {
 
 type DashboardState = 'loading' | 'active' | 'session-expired' | 'error'
 
-export default function DashboardPage() {
+function DashboardPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -86,21 +86,7 @@ export default function DashboardPage() {
     }
   }, [sessionTimeLeft, sessionInfo])
 
-  // Session warning at 2 minutes
-  useEffect(() => {
-    if (sessionTimeLeft === 120 && !showSessionDialog) {
-      // 2 minutes
-      setShowSessionDialog(true)
-      toast.warning('Your session will expire in 2 minutes')
-    }
-  }, [sessionTimeLeft, showSessionDialog])
-
-  // Load dashboard data on mount
-  useEffect(() => {
-    loadDashboardData()
-  }, [])
-
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     try {
       setState('loading')
       setError('')
@@ -154,12 +140,26 @@ export default function DashboardPage() {
       setState('active')
 
       toast.success('Dashboard loaded successfully')
-    } catch (error) {
-      console.error('Dashboard load error:', error)
+    } catch {
+      console.error('Dashboard load error')
       setError('Network error. Please check your connection.')
       setState('error')
     }
-  }
+  }, [searchParams])
+
+  // Session warning at 2 minutes
+  useEffect(() => {
+    if (sessionTimeLeft === 120 && !showSessionDialog) {
+      // 2 minutes
+      setShowSessionDialog(true)
+      toast.warning('Your session will expire in 2 minutes')
+    }
+  }, [sessionTimeLeft, showSessionDialog])
+
+  // Load dashboard data on mount
+  useEffect(() => {
+    loadDashboardData()
+  }, [loadDashboardData])
 
   const handleSessionExpired = () => {
     setState('session-expired')
@@ -195,7 +195,7 @@ export default function DashboardPage() {
       } else {
         handleSessionExpired()
       }
-    } catch (error) {
+    } catch {
       handleSessionExpired()
     }
   }
@@ -574,5 +574,94 @@ export default function DashboardPage() {
         </DialogContent>
       </Dialog>
     </div>
+  )
+}
+
+// Loading component for Suspense fallback
+function DashboardPageLoading() {
+  return (
+    <div className='min-h-screen bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='container mx-auto px-4 py-8'>
+        <div className='max-w-4xl mx-auto space-y-6'>
+          {/* Header skeleton */}
+          <Card>
+            <CardHeader>
+              <div className='flex items-center justify-between'>
+                <div className='space-y-2'>
+                  <Skeleton className='h-8 w-64' />
+                  <Skeleton className='h-4 w-48' />
+                </div>
+                <div className='flex items-center space-x-3'>
+                  <Skeleton className='h-6 w-20' />
+                  <Skeleton className='h-8 w-20' />
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+
+          {/* Content skeletons */}
+          <div className='grid md:grid-cols-2 gap-6'>
+            <Card>
+              <CardHeader>
+                <Skeleton className='h-6 w-32' />
+              </CardHeader>
+              <CardContent className='space-y-4'>
+                <div className='flex justify-between'>
+                  <Skeleton className='h-4 w-16' />
+                  <Skeleton className='h-6 w-20' />
+                </div>
+                <div className='space-y-3'>
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className='flex justify-between'>
+                      <Skeleton className='h-4 w-24' />
+                      <Skeleton className='h-4 w-16' />
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <Skeleton className='h-6 w-32' />
+              </CardHeader>
+              <CardContent className='space-y-4'>
+                <div className='space-y-3'>
+                  <Skeleton className='h-4 w-full' />
+                  <Skeleton className='h-4 w-3/4' />
+                  <Skeleton className='h-4 w-1/2' />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Session info skeleton */}
+          <Card>
+            <CardHeader>
+              <Skeleton className='h-6 w-40' />
+            </CardHeader>
+            <CardContent>
+              <div className='grid sm:grid-cols-3 gap-4'>
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className='space-y-2'>
+                    <Skeleton className='h-3 w-16' />
+                    <Skeleton className='h-4 w-24' />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Main component with Suspense boundary
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<DashboardPageLoading />}>
+      <DashboardPageContent />
+    </Suspense>
   )
 }

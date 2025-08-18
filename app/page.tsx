@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -42,7 +42,7 @@ interface TokenValidation {
   sessionExpiresAt?: string
 }
 
-export default function LandingPage() {
+function LandingPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -413,5 +413,34 @@ export default function LandingPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+// Loading component for Suspense fallback
+function LandingPageLoading() {
+  return (
+    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <Card className='w-full max-w-lg'>
+        <CardContent className='pt-6'>
+          <div className='flex flex-col items-center space-y-4'>
+            <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
+            <div className='space-y-2 text-center'>
+              <Skeleton className='h-4 w-48 mx-auto' />
+              <Skeleton className='h-4 w-32 mx-auto' />
+            </div>
+            <p className='text-sm text-muted-foreground'>Loading...</p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+// Main component with Suspense boundary
+export default function LandingPage() {
+  return (
+    <Suspense fallback={<LandingPageLoading />}>
+      <LandingPageContent />
+    </Suspense>
   )
 }
