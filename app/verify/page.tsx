@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from '@/components/ui/input-otp'
 import {
   Card,
   CardContent,
@@ -151,80 +155,87 @@ function VerifyPageContent() {
     initiateVerification({ token, email, loan })
   }, [searchParams, initiateVerification])
 
-  const verifyCode = useCallback(async () => {
-    if (state.code.length !== 6) {
-      setState((prev) => ({ ...prev, error: 'Please enter a 6-digit code' }))
-      return
+  const handleCodeChange = (value: string) => {
+    // OTP component already handles numeric validation and length
+    setState((prev) => ({ ...prev, code: value, error: '' }))
+
+    // Auto-submit when 6 digits entered
+    if (value.length === 6) {
+      // Use a small timeout to ensure state is updated and call verify with the actual value
+      setTimeout(() => {
+        verifyCodeWithValue(value)
+      }, 50)
     }
+  }
 
-    if (state.attempts >= state.maxAttempts) {
-      setState((prev) => ({
-        ...prev,
-        error:
-          'Maximum attempts exceeded. Please request a new verification code.',
-      }))
-      return
-    }
-
-    setState((prev) => ({ ...prev, loading: true, error: '' }))
-
-    try {
-      const email = searchParams.get('email')
-      const loan = searchParams.get('loan')
-
-      const response = await fetch('/api/verify-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          loanApplicationNumber: loan,
-          verificationCode: state.code,
-        }),
-      })
-
-      const data = await response.json()
-
-      if (!response.ok) {
-        setState((prev) => ({
-          ...prev,
-          error: data.error || 'Verification failed',
-          attempts: prev.attempts + 1,
-          loading: false,
-        }))
-
-        // Clear code on error for retry
-        setTimeout(() => {
-          setState((prev) => ({ ...prev, code: '' }))
-        }, 2000)
-
+  const verifyCodeWithValue = useCallback(
+    async (codeValue?: string) => {
+      const currentCode = codeValue || state.code
+      if (!currentCode || currentCode.length !== 6) {
+        setState((prev) => ({ ...prev, error: 'Please enter a 6-digit code' }))
         return
       }
 
-      setState((prev) => ({ ...prev, step: 'success', loading: false }))
-      toast.success('Email verified successfully!')
+      if (state.attempts >= state.maxAttempts) {
+        setState((prev) => ({
+          ...prev,
+          error:
+            'Maximum attempts exceeded. Please request a new verification code.',
+        }))
+        return
+      }
 
-      // Redirect to dashboard after showing success
-      setTimeout(() => {
-        router.push('/dashboard')
-      }, 2000)
-    } catch {
-      setState((prev) => ({
-        ...prev,
-        error: 'Network error. Please try again.',
-        loading: false,
-      }))
-    }
-  }, [state.code, state.attempts, state.maxAttempts, searchParams, router])
+      setState((prev) => ({ ...prev, loading: true, error: '' }))
 
-  const handleCodeChange = (value: string) => {
-    const numericValue = value.replace(/\D/g, '').slice(0, 6)
-    setState((prev) => ({ ...prev, code: numericValue, error: '' }))
+      try {
+        const email = searchParams.get('email')
+        const loan = searchParams.get('loan')
 
-    // Auto-submit when 6 digits entered
-    if (numericValue.length === 6) {
-      setTimeout(() => verifyCode(), 500)
-    }
-  }
+        const response = await fetch('/api/verify-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            loanApplicationNumber: loan,
+            verificationCode: currentCode,
+          }),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+          setState((prev) => ({
+            ...prev,
+            error: data.error || 'Verification failed',
+            attempts: prev.attempts + 1,
+            loading: false,
+          }))
+
+          // Clear code on error for retry
+          setTimeout(() => {
+            setState((prev) => ({ ...prev, code: '' }))
+          }, 2000)
+
+          return
+        }
+
+        setState((prev) => ({ ...prev, step: 'success', loading: false }))
+        toast.success('Email verified successfully!')
+
+        // Redirect to dashboard after showing success
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 2000)
+      } catch {
+        setState((prev) => ({
+          ...prev,
+          error: 'Network error. Please try again.',
+          loading: false,
+        }))
+      }
+    },
+    [state.code, state.attempts, state.maxAttempts, searchParams, router]
+  )
 
   const resendCode = async () => {
     if (state.resendCooldown > 0) return
@@ -395,16 +406,31 @@ function VerifyPageContent() {
 
           <div className='space-y-4'>
             <div className='space-y-2'>
-              <Input
-                type='text'
-                placeholder='000000'
-                value={state.code}
-                onChange={(e) => handleCodeChange(e.target.value)}
-                className='text-center text-2xl font-mono tracking-[0.5em] h-14'
-                maxLength={6}
-                disabled={state.loading}
-                autoComplete='one-time-code'
-              />
+              <div className='flex justify-center'>
+                <InputOTP
+                  maxLength={6}
+                  value={state.code}
+                  onChange={handleCodeChange}
+                  disabled={state.loading}
+                  className='gap-2'
+                >
+                  <InputOTPGroup className='gap-2'>
+                    <InputOTPSlot index={0} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot index={1} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot index={2} className='w-12 h-12 text-lg' />
+                  </InputOTPGroup>
+                  <InputOTPGroup className='gap-2'>
+                    <InputOTPSlot index={3} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot index={4} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot index={5} className='w-12 h-12 text-lg' />
+                  </InputOTPGroup>
+                </InputOTP>
+              </div>
+              <div className='text-center'>
+                <p className='text-sm text-muted-foreground mb-2'>
+                  Enter the 6-digit code from your email or paste it here
+                </p>
+              </div>
               <div className='flex justify-between items-center text-xs text-muted-foreground'>
                 <span>Code expires in 10 minutes</span>
                 <span>
@@ -415,9 +441,9 @@ function VerifyPageContent() {
             </div>
 
             <Button
-              onClick={verifyCode}
+              onClick={() => verifyCodeWithValue()}
               className='w-full bg-fcu-secondary-600 hover:bg-fcu-secondary-700'
-              disabled={state.loading || state.code.length !== 6}
+              disabled={state.loading || !state.code || state.code.length !== 6}
             >
               {state.loading ? (
                 <>
@@ -465,7 +491,7 @@ function VerifyPageContent() {
 // Loading component for Suspense fallback
 function VerifyPageLoading() {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center'>
       <Card className='w-full max-w-md'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
