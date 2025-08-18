@@ -316,13 +316,23 @@ SELECT cleanup_expired_sessions();
 ```sql
 ALTER TABLE api.user_verification_sessions ENABLE ROW LEVEL SECURITY;
 
--- Users can only see their own verification sessions
-CREATE POLICY "Users can view own verification sessions" ON api.user_verification_sessions
-    FOR SELECT USING (email = auth.jwt() ->> 'email');
+-- System can manage verification sessions (using anon role for consistency)
+CREATE POLICY "System can insert verification sessions" ON api.user_verification_sessions
+    FOR INSERT TO anon WITH CHECK (true);
 
--- Service role can manage all sessions
-CREATE POLICY "Service role can manage all sessions" ON api.user_verification_sessions
-    FOR ALL USING (auth.role() = 'service_role');
+CREATE POLICY "System can update verification sessions" ON api.user_verification_sessions
+    FOR UPDATE TO anon USING (true);
+
+-- Users can only see their own verification sessions
+CREATE POLICY "Users can read own verification sessions" ON api.user_verification_sessions
+    FOR SELECT TO anon USING (
+        (auth.jwt() ->> 'email') = email OR
+        auth.uid()::text IN (
+            SELECT supabase_user_id::text
+            FROM api.verified_users
+            WHERE verified_users.email = user_verification_sessions.email
+        )
+    );
 ```
 
 ### `verified_users`
@@ -330,9 +340,19 @@ CREATE POLICY "Service role can manage all sessions" ON api.user_verification_se
 ```sql
 ALTER TABLE api.verified_users ENABLE ROW LEVEL SECURITY;
 
+-- System can manage verified users (using anon role for consistency)
+CREATE POLICY "System can insert verified users" ON api.verified_users
+    FOR INSERT TO anon WITH CHECK (true);
+
+CREATE POLICY "System can update verified users" ON api.verified_users
+    FOR UPDATE TO anon USING (true);
+
 -- Users can only see their own verification status
-CREATE POLICY "Users can view own verification status" ON api.verified_users
-    FOR SELECT USING (email = auth.jwt() ->> 'email');
+CREATE POLICY "Users can read own verified user record" ON api.verified_users
+    FOR SELECT TO anon USING (
+        (auth.jwt() ->> 'email') = email OR
+        auth.uid() = supabase_user_id
+    );
 ```
 
 ## Environment Variables

@@ -180,6 +180,16 @@ export async function POST(request: NextRequest) {
       userAgent,
     })
 
+    console.log('Verification Email Payload', {
+      recipientEmail: email,
+      verificationCode: verificationCode,
+      loanApplicationNumber: loanNumberAsInt.toString(),
+      applicantName: loanApplication.applicant_name || 'Applicant',
+      expiresInMinutes: 10,
+      ipAddress,
+      userAgent,
+    })
+
     if (!emailResult.success) {
       await logUserAction(
         email,
