@@ -323,6 +323,9 @@ CREATE POLICY "System can insert verification sessions" ON api.user_verification
 CREATE POLICY "System can update verification sessions" ON api.user_verification_sessions
     FOR UPDATE TO anon USING (true);
 
+CREATE POLICY "System can delete verification sessions" ON api.user_verification_sessions
+    FOR DELETE TO anon USING (true);
+
 -- Users can only see their own verification sessions
 CREATE POLICY "Users can read own verification sessions" ON api.user_verification_sessions
     FOR SELECT TO anon USING (
@@ -1253,6 +1256,209 @@ FINGERPRINT_JS_API_KEY=your_fingerprintjs_api_key
 - ✅ Automated threat detection
 - ✅ Security alerting system
 - ✅ Device fingerprinting
+
+## Troubleshooting Common Issues
+
+### Database-Related Errors
+
+#### 1. Duplicate Key Violation (`unique_active_session`)
+
+**Error Message:**
+
+```
+Error creating verification session: {
+  code: '23505',
+  details: null,
+  hint: null,
+  message: 'duplicate key value violates unique constraint "unique_active_session"'
+}
+```
+
+**Root Cause:** Multiple unverified sessions exist for the same email/loan combination.
+
+**Solution:**
+
+- Ensure the DELETE policy exists for `user_verification_sessions`:
+
+```sql
+CREATE POLICY "System can delete verification sessions" ON api.user_verification_sessions
+    FOR DELETE TO anon USING (true);
+```
+
+- The `createVerificationSession` function automatically cleans up existing sessions
+- If issues persist, manually clean up expired sessions:
+
+```sql
+DELETE FROM api.user_verification_sessions
+WHERE code_expires_at < NOW() AND is_verified = false;
+```
+
+#### 2. Multiple (or no) rows returned (`PGRST116`)
+
+**Error Message:**
+
+```
+Error fetching verified user: {
+  code: 'PGRST116',
+  details: 'The result contains 0 rows',
+  hint: null,
+  message: 'JSON object requested, multiple (or no) rows returned'
+}
+```
+
+**Root Cause:** Using `.single()` when no rows exist in the database.
+
+**Solution:** Use `.maybeSingle()` instead of `.single()` for queries that might return zero rows:
+
+```typescript
+// ✅ Correct - handles zero rows gracefully
+const { data, error } = await supabase
+  .from('verified_users')
+  .select('*')
+  .eq('email', email)
+  .maybeSingle()
+
+// ❌ Incorrect - throws error when no rows exist
+const { data, error } = await supabase
+  .from('verified_users')
+  .select('*')
+  .eq('email', email)
+  .single()
+```
+
+#### 3. Foreign Key Constraint Violations
+
+**Error Message:**
+
+```
+Error logging user action: {
+  code: '23503',
+  details: 'Key is not present in table "tblLoanApplication".',
+  message: 'insert or update on table "user_access_logs" violates foreign key constraint'
+}
+```
+
+**Root Cause:** Attempting to log actions with loan numbers that don't exist.
+
+**Solution:** Validate loan numbers before logging:
+
+```typescript
+// Check if loan exists first
+const loanApplication = await getLoanApplication(loanNumberAsInt)
+if (!loanApplication) {
+  // Use security event logging instead of user action logging
+  await logSecurityEvent(
+    'loan_not_found',
+    'medium',
+    'Verification requested for non-existent loan application',
+    ipAddress,
+    email,
+    undefined, // Don't pass non-existent loan number
+    userAgent,
+    { requestedLoanNumber: loanNumberAsInt }
+  )
+  return
+}
+```
+
+### RLS Policy Issues
+
+#### 4. Access Denied Errors
+
+**Root Cause:** Inconsistent role usage between `anon` and `public`.
+
+**Solution:** Ensure all custom tables use `anon` role consistently:
+
+```sql
+-- ✅ Correct - uses anon role
+CREATE POLICY "System can insert" ON api.table_name
+    FOR INSERT TO anon WITH CHECK (true);
+
+-- ❌ Incorrect - uses public role (inconsistent)
+CREATE POLICY "System can insert" ON api.table_name
+    FOR INSERT TO public WITH CHECK (true);
+```
+
+### Email Delivery Issues
+
+#### 5. AWS SES Authentication Errors
+
+**Root Cause:** Missing or incorrect AWS credentials.
+
+**Solution:** Verify environment variables:
+
+```env
+AWS_ACCESS_KEY_ID=your_access_key_id
+AWS_SECRET_ACCESS_KEY=your_secret_access_key
+AWS_SES_REGION=us-east-1
+```
+
+#### 6. Email Template Rendering Errors
+
+**Root Cause:** React component issues in email templates.
+
+**Solution:** Use proper React.createElement syntax:
+
+```typescript
+// ✅ Correct
+const emailHtml = await render(
+  React.createElement(VerificationCodeEmail, props)
+)
+
+// ❌ Incorrect
+const emailHtml = await render(VerificationCodeEmail(props))
+```
+
+### Session Management Issues
+
+#### 7. Session Timeout Problems
+
+**Root Cause:** Incorrect session expiry calculations or timezone issues.
+
+**Solution:** Use consistent UTC timestamps:
+
+```typescript
+const sessionExpires = new Date(Date.now() + 15 * 60 * 1000) // 15 minutes
+const expiryISO = sessionExpires.toISOString() // Always use ISO format
+```
+
+### Performance Issues
+
+#### 8. Slow Database Queries
+
+**Solution:** Ensure proper indexes exist:
+
+```sql
+-- Check existing indexes
+SELECT schemaname, tablename, indexname, indexdef
+FROM pg_indexes
+WHERE schemaname = 'api'
+  AND tablename IN ('user_verification_sessions', 'verified_users', 'user_access_logs');
+
+-- Add missing indexes if needed
+CREATE INDEX IF NOT EXISTS idx_verification_sessions_email_loan
+ON api.user_verification_sessions(email, loan_application_number);
+```
+
+### Debugging Tips
+
+1. **Enable detailed logging** in development:
+
+```typescript
+console.log('Debug info:', { email, loanNumber, sessionData })
+```
+
+2. **Check Supabase logs** in the dashboard for detailed error information
+
+3. **Use database functions** for complex operations to reduce round trips
+
+4. **Monitor rate limits** and adjust thresholds based on usage patterns
+
+5. **Test error scenarios** explicitly:
+   - Non-existent loan numbers
+   - Expired sessions
+   - Rate limit exceeded
+   - Invalid email formats
 
 ## Conclusion
 

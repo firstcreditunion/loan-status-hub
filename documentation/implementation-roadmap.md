@@ -111,14 +111,27 @@ ALTER TABLE api.user_access_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE api.verified_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE api.email_logs ENABLE ROW LEVEL SECURITY;
 
--- Create policies (service role can manage all, users see their own data)
-CREATE POLICY "Service role full access" ON api.user_verification_sessions
-    FOR ALL USING (auth.role() = 'service_role');
+-- Create policies (using anon role for consistency with existing database structure)
+CREATE POLICY "System can insert verification sessions" ON api.user_verification_sessions
+    FOR INSERT TO anon WITH CHECK (true);
 
-CREATE POLICY "Users view own sessions" ON api.user_verification_sessions
-    FOR SELECT USING (email = auth.jwt() ->> 'email');
+CREATE POLICY "System can update verification sessions" ON api.user_verification_sessions
+    FOR UPDATE TO anon USING (true);
 
--- Similar policies for other tables...
+CREATE POLICY "System can delete verification sessions" ON api.user_verification_sessions
+    FOR DELETE TO anon USING (true);
+
+CREATE POLICY "Users can read own verification sessions" ON api.user_verification_sessions
+    FOR SELECT TO anon USING (
+        (auth.jwt() ->> 'email') = email OR
+        auth.uid()::text IN (
+            SELECT supabase_user_id::text
+            FROM api.verified_users
+            WHERE verified_users.email = user_verification_sessions.email
+        )
+    );
+
+-- Similar policies for other tables (user_access_logs, verified_users, security_events, rate_limiting)...
 ```
 
 #### 1.3 Create Utility Functions
