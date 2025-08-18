@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, Suspense } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
   InputOTP,
@@ -50,7 +50,6 @@ interface VerificationState {
 
 function VerifyPageContent() {
   const searchParams = useSearchParams()
-  const router = useRouter()
 
   const [state, setState] = useState<VerificationState>({
     step: 'loading',
@@ -236,11 +235,6 @@ function VerifyPageContent() {
 
         setState((prev) => ({ ...prev, step: 'success', loading: false }))
         toast.success('Email verified successfully!')
-
-        // Redirect to dashboard after showing success
-        setTimeout(() => {
-          router.push('/dashboard')
-        }, 2000)
       } catch {
         setState((prev) => ({
           ...prev,
@@ -249,7 +243,7 @@ function VerifyPageContent() {
         }))
       }
     },
-    [state.code, state.attempts, state.maxAttempts, searchParams, router]
+    [state.code, state.attempts, state.maxAttempts, searchParams]
   )
 
   const resendCode = async () => {
@@ -334,18 +328,39 @@ function VerifyPageContent() {
               <CheckCircle className='h-6 w-6 text-fcu-secondary-600' />
             </div>
             <CardTitle className='text-fcu-secondary-900'>
-              Email Verified!
+              Email Verified Successfully!
             </CardTitle>
             <CardDescription>
-              Redirecting you to your loan status dashboard...
+              Your email has been verified and your account is now active.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className='flex items-center justify-center space-x-2'>
-              <Loader2 className='h-4 w-4 animate-spin text-fcu-secondary-600' />
-              <span className='text-sm text-muted-foreground'>
-                Loading dashboard...
-              </span>
+          <CardContent className='space-y-4'>
+            <div className='flex items-center space-x-3 p-4 bg-fcu-primary-50 rounded-lg border border-fcu-primary-200'>
+              <Mail className='h-5 w-5 text-fcu-primary-600 flex-shrink-0' />
+              <div className='text-sm'>
+                <p className='font-medium text-fcu-primary-900 mb-1'>
+                  Check your inbox for access link
+                </p>
+                <p className='text-fcu-primary-700'>
+                  We&apos;ve sent you an email with a secure link to access your
+                  loan tracker dashboard.
+                </p>
+              </div>
+            </div>
+            <div className='text-center space-y-2'>
+              <p className='text-xs text-muted-foreground'>
+                The email may take a few minutes to arrive. Check your spam
+                folder if you don&apos;t see it.
+              </p>
+              <Button
+                variant='outline'
+                size='sm'
+                onClick={() => (window.location.href = 'mailto:')}
+                className='text-fcu-primary-600 border-fcu-primary-200 hover:bg-fcu-primary-50'
+              >
+                <Mail className='mr-2 h-4 w-4' />
+                Open Email App
+              </Button>
             </div>
           </CardContent>
         </Card>

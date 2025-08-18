@@ -407,6 +407,12 @@ function DashboardPageContent() {
                       {loanData?.Lnd_application_number}
                     </span>
                   </div>
+                  <div className='flex justify-between'>
+                    <span className='text-sm text-muted-foreground'>
+                      Application Status:
+                    </span>
+                    <span className='text-sm'>{loanData?.current_status}</span>
+                  </div>
 
                   <div className='flex justify-between'>
                     <span className='text-sm text-muted-foreground'>
