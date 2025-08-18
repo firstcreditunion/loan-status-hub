@@ -391,18 +391,18 @@ function DashboardPageContent() {
   // Loading state
   if (state === 'loading') {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+      <div className='min-h-screen bg-white'>
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header skeleton */}
-            <Card className='shadow-lg border-0'>
+            <Card className='shadow-md'>
               <CardHeader>
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
                   <div className='space-y-3'>
                     <Skeleton className='h-10 w-80' />
                     <Skeleton className='h-6 w-64' />
                   </div>
-                  <div className='flex items-center space-x-3'>
+                  <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3'>
                     <Skeleton className='h-8 w-32' />
                     <Skeleton className='h-10 w-24' />
                   </div>
@@ -411,7 +411,7 @@ function DashboardPageContent() {
             </Card>
 
             {/* Progress skeleton */}
-            <Card className='shadow-lg border-0'>
+            <Card className='shadow-md'>
               <CardHeader>
                 <Skeleton className='h-6 w-48' />
                 <Skeleton className='h-4 w-full' />
@@ -421,7 +421,7 @@ function DashboardPageContent() {
             {/* Content grid skeleton */}
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
               {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className='shadow-lg border-0'>
+                <Card key={i} className='shadow-md'>
                   <CardHeader>
                     <Skeleton className='h-6 w-32' />
                   </CardHeader>
@@ -442,13 +442,13 @@ function DashboardPageContent() {
   // Session expired state
   if (state === 'session-expired') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
-        <Card className='w-full max-w-md shadow-xl border-0'>
+      <div className='min-h-screen flex items-center justify-center bg-white'>
+        <Card className='w-full max-w-md shadow-lg'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100'>
               <Timer className='h-8 w-8 text-orange-600' />
             </div>
-            <CardTitle className='text-2xl text-orange-900'>
+            <CardTitle className='text-2xl text-fcu-primary-500'>
               Session Expired
             </CardTitle>
             <CardDescription className='text-base'>
@@ -459,7 +459,7 @@ function DashboardPageContent() {
           <CardContent>
             <Button
               onClick={() => router.push('/')}
-              className='w-full h-12 text-base'
+              className='w-full h-12 text-base bg-fcu-primary-500 hover:bg-fcu-primary-600 text-white'
             >
               Return to Verification
             </Button>
@@ -472,25 +472,30 @@ function DashboardPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
-        <Card className='w-full max-w-md shadow-xl border-0'>
+      <div className='min-h-screen flex items-center justify-center bg-white'>
+        <Card className='w-full max-w-md shadow-lg'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100'>
               <AlertCircle className='h-8 w-8 text-red-600' />
             </div>
-            <CardTitle className='text-2xl text-red-900'>Error</CardTitle>
+            <CardTitle className='text-2xl text-fcu-primary-500'>
+              Error
+            </CardTitle>
             <CardDescription className='text-base'>{error}</CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
             <Button
               onClick={loadDashboardData}
-              className='w-full h-12'
+              className='w-full h-12 border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
               variant='outline'
             >
               <RefreshCw className='mr-2 h-4 w-4' />
               Try Again
             </Button>
-            <Button onClick={() => router.push('/')} className='w-full h-12'>
+            <Button
+              onClick={() => router.push('/')}
+              className='w-full h-12 bg-fcu-primary-500 hover:bg-fcu-primary-600 text-white'
+            >
               Return to Verification
             </Button>
           </CardContent>
@@ -502,29 +507,29 @@ function DashboardPageContent() {
   // Active dashboard
   return (
     <TooltipProvider>
-      <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+      <div className='min-h-screen bg-white'>
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header */}
-            <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm'>
+            <Card className='shadow-md'>
               <CardHeader>
-                <div className='flex items-center justify-between'>
-                  <div>
-                    <CardTitle className='text-3xl font-bold text-fcu-primary-900 mb-2'>
+                <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
+                  <div className='flex-1'>
+                    <CardTitle className='text-2xl md:text-3xl font-bold text-fcu-primary-500 mb-2'>
                       🏦 Loan Status Dashboard
                     </CardTitle>
-                    <CardDescription className='text-lg text-fcu-primary-700'>
+                    <CardDescription className='text-base md:text-lg text-fcu-secondary-300'>
                       Welcome back,{' '}
                       {loanData?.loanApplication.applicant_name ||
                         'Valued Customer'}
                     </CardDescription>
                   </div>
-                  <div className='flex items-center space-x-4'>
+                  <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4'>
                     <Tooltip>
                       <TooltipTrigger>
                         <Badge
                           variant='outline'
-                          className='text-sm px-4 py-2 bg-white/50'
+                          className='text-sm px-4 py-2 border-fcu-primary-500 text-fcu-primary-500'
                         >
                           <Shield className='mr-2 h-4 w-4' />
                           {formatTimeLeft(sessionTimeLeft)}
@@ -540,7 +545,7 @@ function DashboardPageContent() {
                       variant='outline'
                       size='lg'
                       onClick={handleLogout}
-                      className='bg-white/50'
+                      className='border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
                     >
                       <LogOut className='mr-2 h-4 w-4' />
                       Logout
@@ -552,16 +557,16 @@ function DashboardPageContent() {
 
             {/* Progress Tracker */}
             {loanData?.statusInfo && (
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm'>
+              <Card className='shadow-md'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
-                    <TrendingUp className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    <TrendingUp className='mr-3 h-6 w-6 text-fcu-primary-500' />
                     Application Progress
                   </CardTitle>
                   <CardDescription>
                     Current Status:{' '}
                     {loanData.statusInfo.application_status_desc}
-                    <span className='ml-2 text-fcu-primary-600 font-medium'>
+                    <span className='ml-2 text-fcu-primary-500 font-medium'>
                       (Step {loanData.statusInfo.order_by + 1} of 15)
                     </span>
                   </CardDescription>
@@ -574,13 +579,15 @@ function DashboardPageContent() {
                       )}
                       className='h-3'
                     />
-                    <div className='flex justify-between text-sm text-muted-foreground'>
+                    <div className='flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-y-0 text-sm text-muted-foreground'>
                       <span>Application Started</span>
-                      <span className='font-medium text-fcu-primary-600'>
+                      <span className='font-medium text-fcu-primary-500'>
                         {getProgressPercentage(loanData.statusInfo.order_by)}%
                         Complete
                       </span>
-                      <span>Application Complete</span>
+                      <span className='hidden sm:block'>
+                        Application Complete
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -588,18 +595,18 @@ function DashboardPageContent() {
             )}
 
             {/* Main Content Grid */}
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
               {/* Loan Overview Card */}
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+              <Card className='shadow-md lg:col-span-1'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
-                    <FileText className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    <FileText className='mr-3 h-6 w-6 text-fcu-primary-500' />
                     Loan Overview
                   </CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-6'>
                   <div className='flex items-center justify-between p-4 bg-fcu-primary-50 rounded-lg'>
-                    <span className='text-sm font-medium text-fcu-primary-700'>
+                    <span className='text-sm font-medium text-fcu-primary-500'>
                       Current Status
                     </span>
                     <Badge
@@ -618,7 +625,7 @@ function DashboardPageContent() {
                       <span className='text-sm text-muted-foreground'>
                         Application #:
                       </span>
-                      <span className='text-sm font-mono font-bold text-fcu-primary-900'>
+                      <span className='text-sm font-mono font-bold text-fcu-primary-500'>
                         #{loanData?.loanApplication.Lnd_application_number}
                       </span>
                     </div>
@@ -673,7 +680,7 @@ function DashboardPageContent() {
               </Card>
 
               {/* Financial Details Card */}
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+              <Card className='shadow-md lg:col-span-1'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
                     <DollarSign className='mr-3 h-6 w-6 text-green-600' />
@@ -775,10 +782,10 @@ function DashboardPageContent() {
               </Card>
 
               {/* Loan Officer Card */}
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+              <Card className='shadow-md lg:col-span-1'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
-                    <User className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    <User className='mr-3 h-6 w-6 text-fcu-primary-500' />
                     Your Loan Team
                   </CardTitle>
                 </CardHeader>
@@ -788,18 +795,18 @@ function DashboardPageContent() {
                     <div className='p-4 bg-fcu-primary-50 rounded-lg'>
                       <div className='flex items-start space-x-4'>
                         <Avatar className='h-12 w-12'>
-                          <AvatarFallback className='bg-fcu-primary-600 text-white font-bold'>
+                          <AvatarFallback className='bg-fcu-primary-500 text-white font-bold'>
                             {getUserInitials(loanData.loanOfficer)}
                           </AvatarFallback>
                         </Avatar>
                         <div className='flex-1'>
-                          <h4 className='font-semibold text-fcu-primary-900'>
+                          <h4 className='font-semibold text-fcu-primary-500'>
                             {getUserFullName(loanData.loanOfficer)}
                           </h4>
-                          <p className='text-sm text-fcu-primary-700 mb-2'>
+                          <p className='text-sm text-fcu-secondary-300 mb-2'>
                             {loanData.loanOfficer.job_title || 'Loan Officer'}
                           </p>
-                          <div className='flex items-center text-sm text-fcu-primary-600'>
+                          <div className='flex items-center text-sm text-fcu-primary-500'>
                             <Mail className='h-4 w-4 mr-2' />
                             <a
                               href={`mailto:${loanData.loanOfficer.work_email}`}
@@ -855,10 +862,10 @@ function DashboardPageContent() {
               </Card>
 
               {/* Branch Information Card */}
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+              <Card className='shadow-md lg:col-span-1'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
-                    <Building2 className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    <Building2 className='mr-3 h-6 w-6 text-fcu-primary-500' />
                     Branch Information
                   </CardTitle>
                 </CardHeader>
@@ -866,17 +873,17 @@ function DashboardPageContent() {
                   {loanData?.branchInfo ? (
                     <div className='space-y-4'>
                       <div className='p-4 bg-fcu-secondary-50 rounded-lg'>
-                        <h4 className='font-semibold text-fcu-secondary-900 mb-2'>
+                        <h4 className='font-semibold text-fcu-primary-500 mb-2'>
                           {loanData.branchInfo.Organisation_Unit_Name}
                         </h4>
                         <div className='space-y-2 text-sm'>
-                          <div className='flex items-center text-fcu-secondary-700'>
+                          <div className='flex items-center text-fcu-secondary-300'>
                             <MapPin className='h-4 w-4 mr-2' />
                             Branch Code:{' '}
                             {loanData.branchInfo.Organisation_Unit_id}
                           </div>
                           {loanData.branchInfo.Org_Unit_Client_Number && (
-                            <div className='flex items-center text-fcu-secondary-700'>
+                            <div className='flex items-center text-fcu-secondary-300'>
                               <Building2 className='h-4 w-4 mr-2' />
                               Client Number:{' '}
                               {loanData.branchInfo.Org_Unit_Client_Number}
@@ -901,21 +908,21 @@ function DashboardPageContent() {
               </Card>
 
               {/* Session Information Card */}
-              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-2'>
+              <Card className='shadow-md lg:col-span-2'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
-                    <Shield className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    <Shield className='mr-3 h-6 w-6 text-fcu-primary-500' />
                     Session & Account Information
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className='grid md:grid-cols-3 gap-6'>
                     <div className='text-center p-4 bg-fcu-primary-50 rounded-lg'>
-                      <Mail className='h-6 w-6 text-fcu-primary-600 mx-auto mb-2' />
+                      <Mail className='h-6 w-6 text-fcu-primary-500 mx-auto mb-2' />
                       <div className='text-sm text-muted-foreground mb-1'>
                         Email Address
                       </div>
-                      <div className='font-medium text-fcu-primary-900 break-all'>
+                      <div className='font-medium text-fcu-primary-500 break-all'>
                         {sessionInfo?.email}
                       </div>
                     </div>
@@ -952,7 +959,7 @@ function DashboardPageContent() {
                 onClick={loadDashboardData}
                 variant='outline'
                 size='lg'
-                className='bg-white/50 hover:bg-white/80 border-fcu-primary-200 text-fcu-primary-700 font-medium px-8'
+                className='border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50 font-medium px-8'
               >
                 <RefreshCw className='mr-2 h-5 w-5' />
                 Refresh Dashboard
@@ -975,14 +982,17 @@ function DashboardPageContent() {
               </DialogDescription>
             </DialogHeader>
             <div className='flex space-x-4 pt-6'>
-              <Button onClick={extendSession} className='flex-1 h-12'>
+              <Button
+                onClick={extendSession}
+                className='flex-1 h-12 bg-fcu-primary-500 hover:bg-fcu-primary-600 text-white'
+              >
                 <Shield className='mr-2 h-4 w-4' />
                 Extend Session
               </Button>
               <Button
                 onClick={handleLogout}
                 variant='outline'
-                className='flex-1 h-12'
+                className='flex-1 h-12 border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
               >
                 <LogOut className='mr-2 h-4 w-4' />
                 Logout Now
@@ -998,18 +1008,18 @@ function DashboardPageContent() {
 // Loading component for Suspense fallback
 function DashboardPageLoading() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+    <div className='min-h-screen bg-white'>
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-7xl mx-auto space-y-8'>
           {/* Header skeleton */}
-          <Card className='shadow-lg border-0'>
+          <Card className='shadow-md'>
             <CardHeader>
-              <div className='flex items-center justify-between'>
+              <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
                 <div className='space-y-3'>
                   <Skeleton className='h-10 w-80' />
                   <Skeleton className='h-6 w-64' />
                 </div>
-                <div className='flex items-center space-x-3'>
+                <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3'>
                   <Skeleton className='h-8 w-32' />
                   <Skeleton className='h-10 w-24' />
                 </div>
@@ -1018,9 +1028,9 @@ function DashboardPageLoading() {
           </Card>
 
           {/* Content grid skeleton */}
-          <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+          <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className='shadow-lg border-0'>
+              <Card key={i} className='shadow-md'>
                 <CardHeader>
                   <Skeleton className='h-6 w-32' />
                 </CardHeader>
