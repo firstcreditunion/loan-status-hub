@@ -41,7 +41,7 @@ export function LoadingSpinner({
 // Verification page loading state
 export function VerificationPageSkeleton() {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center '>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100'>
@@ -71,7 +71,7 @@ export function VerificationPageSkeleton() {
 // Dashboard page loading state
 export function DashboardPageSkeleton() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen '>
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-4xl mx-auto space-y-6'>
           {/* Header skeleton */}
@@ -151,7 +151,7 @@ export function DashboardPageSkeleton() {
 // Landing page loading state
 export function LandingPageSkeleton() {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center '>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100'>
@@ -181,7 +181,7 @@ export function LandingPageSkeleton() {
 // Email sending state
 export function EmailSendingState({ email }: { email: string }) {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center '>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-primary-100'>
@@ -234,7 +234,7 @@ export function DashboardDataLoading() {
 // Session validation state
 export function SessionValidationState() {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center '>
       <Card className='w-full max-w-md'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>

@@ -294,7 +294,7 @@ function DashboardPageContent() {
   // Session expired state
   if (state === 'session-expired') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100'>
@@ -319,7 +319,7 @@ function DashboardPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
@@ -348,7 +348,7 @@ function DashboardPageContent() {
 
   // Active dashboard
   return (
-    <div className='min-h-screen bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen '>
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-4xl mx-auto space-y-6'>
           {/* Header */}
@@ -580,7 +580,7 @@ function DashboardPageContent() {
 // Loading component for Suspense fallback
 function DashboardPageLoading() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen '>
       <div className='container mx-auto px-4 py-8'>
         <div className='max-w-4xl mx-auto space-y-6'>
           {/* Header skeleton */}

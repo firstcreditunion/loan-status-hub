@@ -10,7 +10,7 @@ This document provides comprehensive documentation for all UI components impleme
 
 - **Primary Blue**: `fcu-primary-*` (50-950 shades)
 - **Secondary Green**: `fcu-secondary-*` (50-950 shades)
-- **Gradients**: `bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50`
+- **Gradients**: ``
 
 ### Typography & Spacing
 

@@ -29,10 +29,12 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json()
-    const { email, loanApplicationNumber, code } = body
+    const { email, loanApplicationNumber, verificationCode } = body
+
+    // Debug logging removed for security - verification code should not be logged
 
     // Validate required fields
-    if (!email || !loanApplicationNumber || !code) {
+    if (!email || !loanApplicationNumber || !verificationCode) {
       await logSecurityEvent(
         'invalid_request',
         'medium',
@@ -53,7 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate code format (6 digits)
-    if (!/^\d{6}$/.test(code)) {
+    if (!/^\d{6}$/.test(verificationCode)) {
       await logSecurityEvent(
         'invalid_code_format',
         'medium',
@@ -129,7 +131,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the code
-    const verificationResult = await verifyCode(email, loanNumberAsInt, code)
+    const verificationResult = await verifyCode(
+      email,
+      loanNumberAsInt,
+      verificationCode
+    )
 
     if (!verificationResult.success) {
       // Only log with loan number if we know it exists (check if verification session exists)

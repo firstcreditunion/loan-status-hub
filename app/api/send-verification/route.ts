@@ -9,6 +9,13 @@ import {
   logSecurityEvent,
 } from '@/lib/supabase-services'
 
+// Import validation function for consistency
+function validateEmail(email: string): boolean {
+  if (!email || email.trim() === '') return false
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email.trim())
+}
+
 // API route for sending verification codes
 export async function POST(request: NextRequest) {
   const ipAddress =
@@ -40,8 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
+    if (!validateEmail(email)) {
       await logSecurityEvent(
         'invalid_email_format',
         'low',
@@ -180,15 +186,7 @@ export async function POST(request: NextRequest) {
       userAgent,
     })
 
-    console.log('Verification Email Payload', {
-      recipientEmail: email,
-      verificationCode: verificationCode,
-      loanApplicationNumber: loanNumberAsInt.toString(),
-      applicantName: loanApplication.applicant_name || 'Applicant',
-      expiresInMinutes: 10,
-      ipAddress,
-      userAgent,
-    })
+    // Debug logging removed for security - verification code should not be logged
 
     if (!emailResult.success) {
       await logUserAction(

@@ -171,6 +171,7 @@ function VerifyPageContent() {
   const verifyCodeWithValue = useCallback(
     async (codeValue?: string) => {
       const currentCode = codeValue || state.code
+
       if (!currentCode || currentCode.length !== 6) {
         setState((prev) => ({ ...prev, error: 'Please enter a 6-digit code' }))
         return
@@ -191,14 +192,28 @@ function VerifyPageContent() {
         const email = searchParams.get('email')
         const loan = searchParams.get('loan')
 
+        // Validate that we have all required parameters
+        if (!email || !loan || !currentCode) {
+          setState((prev) => ({
+            ...prev,
+            error: `Missing required data: ${!email ? 'email ' : ''}${!loan ? 'loan number ' : ''}${!currentCode ? 'verification code' : ''}`,
+            loading: false,
+          }))
+          return
+        }
+
+        const requestBody = {
+          email,
+          loanApplicationNumber: loan,
+          verificationCode: currentCode,
+        }
+
+        // Debug logging removed for security
+
         const response = await fetch('/api/verify-code', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            loanApplicationNumber: loan,
-            verificationCode: currentCode,
-          }),
+          body: JSON.stringify(requestBody),
         })
 
         const data = await response.json()
@@ -263,7 +278,7 @@ function VerifyPageContent() {
   // Loading state
   if (state.step === 'loading') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center'>
         <Card className='w-full max-w-md'>
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
@@ -285,7 +300,7 @@ function VerifyPageContent() {
   // Error state
   if (state.step === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
@@ -341,7 +356,7 @@ function VerifyPageContent() {
   // Email sent state
   if (state.step === 'email-sent') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-primary-100'>
@@ -382,7 +397,7 @@ function VerifyPageContent() {
 
   // Code entry state
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center '>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>

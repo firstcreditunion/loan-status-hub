@@ -125,19 +125,6 @@ export async function createVerificationSession(
   try {
     const hashedCode = hashVerificationCode(verificationCode)
 
-    // First, clean up any existing sessions for this email/loan combo
-    const { error: deleteError } = await supabase
-      .schema('api')
-      .from('user_verification_sessions')
-      .delete()
-      .eq('email', sanitizeString(email))
-      .eq('loan_application_number', loanApplicationNumber)
-
-    if (deleteError) {
-      console.error('Error deleting existing sessions:', deleteError)
-      // Continue anyway - might be no existing sessions
-    }
-
     const sessionData: VerificationSessionInsert = {
       email: sanitizeString(email),
       loan_application_number: loanApplicationNumber,
@@ -155,10 +142,13 @@ export async function createVerificationSession(
       is_verified: false,
     }
 
+    // Use upsert to handle existing sessions gracefully
     const { error } = await supabase
       .schema('api')
       .from('user_verification_sessions')
-      .insert(sessionData)
+      .upsert(sessionData, {
+        onConflict: 'email,loan_application_number',
+      })
 
     if (error) {
       console.error('Error creating verification session:', error)

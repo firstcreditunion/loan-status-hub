@@ -239,7 +239,7 @@ function LandingPageContent() {
   // Validating state
   if (state === 'validating') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
@@ -261,7 +261,7 @@ function LandingPageContent() {
   // Invalid token state
   if (state === 'invalid-token') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
@@ -299,7 +299,7 @@ function LandingPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+      <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
@@ -321,7 +321,7 @@ function LandingPageContent() {
   // Existing session state
   if (state === 'existing-session') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+      <div className='min-h-screen flex items-center justify-center'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
@@ -369,7 +369,7 @@ function LandingPageContent() {
 
   // Valid token state - ready for verification
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center'>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-primary-100'>
@@ -419,7 +419,7 @@ function LandingPageContent() {
 // Loading component for Suspense fallback
 function LandingPageLoading() {
   return (
-    <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50'>
+    <div className='min-h-screen flex items-center justify-center'>
       <Card className='w-full max-w-lg'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
