@@ -145,7 +145,7 @@ interface WelcomeEmailProps {
 
 ```bash
 # AWS SES Configuration
-AWS_SES_REGION=us-east-1
+AWS_REGION=us-east-1
 AWS_ACCESS_KEY_ID=your_access_key_here
 AWS_SECRET_ACCESS_KEY=your_secret_key_here
 

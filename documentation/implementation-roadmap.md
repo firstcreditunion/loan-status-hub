@@ -178,7 +178,7 @@ npm install --save-dev @types/bcryptjs @types/jsonwebtoken
 import { SESClient } from '@aws-sdk/client-ses'
 
 const sesClient = new SESClient({
-  region: process.env.AWS_SES_REGION || 'us-east-1',
+  region: process.env.AWS_REGION || 'us-east-1',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
@@ -1142,7 +1142,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 # AWS SES Configuration
 AWS_ACCESS_KEY_ID=your_aws_access_key_id
 AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
-AWS_SES_REGION=us-east-1
+AWS_REGION=us-east-1
 AWS_SES_FROM_EMAIL=noreply@yourdomain.com
 
 # JWT & Security

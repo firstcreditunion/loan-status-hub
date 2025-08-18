@@ -50,7 +50,7 @@ import { render } from '@react-email/components'
 import { SES } from '@aws-sdk/client-ses'
 import { Email } from './email'
 
-const ses = new SES({ region: process.env.AWS_SES_REGION })
+const ses = new SES({ region: process.env.AWS_REGION })
 
 const emailHtml = await render(<Email url='https://example.com' />)
 
