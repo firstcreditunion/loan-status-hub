@@ -73,6 +73,69 @@ export function verifyCodeHash(code: string, hash: string): boolean {
   }
 }
 
+// Enhanced types for comprehensive loan data
+interface LoanApplicationFinancialDetails {
+  id: number
+  Lnd_application_number: number | null
+  product: string | null
+  costOfGoods: number | null
+  defaultFees: number | null
+  need_insurance: boolean | null
+  component: string | null
+  cover_type: string | null
+  loan_cost_recovery_fees: string[]
+  loan_term_1: number | null
+  loan_term_2: string | null
+  payment_frequency: string | null
+  start_date: string | null
+  interest_rate: number | null
+  created_at: string | null
+}
+
+interface LoanApplicationStatusMaster {
+  application_status_code: string
+  application_status_desc: string
+  is_application_maintainable: boolean | null
+  order_by: number
+  has_checklists: boolean
+  has_standalone_checklist: boolean
+  is_portal_status: boolean
+}
+
+interface TradingBranch {
+  Organisation_Unit_id: string
+  Organisation_Unit_Name: string
+  Organisation_Unit_Type_id: string | null
+  Org_Unit_Client_Number: string | null
+  Hidden: boolean
+}
+
+interface SovereignUser {
+  title: string | null
+  first_name: string
+  middle_name: string | null
+  last_name: string
+  work_email: string
+  effective_date: string | null
+  termination_date: string | null
+  client_number: string
+  clerk_user: string | null
+  key_person_initials: string | null
+  job_title: string | null
+  date_of_birth: string | null
+  wished_birthday_for_the_day: boolean | null
+  default_org_unit_id: string | null
+}
+
+interface ComprehensiveLoanData {
+  loanApplication: LoanApplication
+  financialDetails: LoanApplicationFinancialDetails | null
+  statusInfo: LoanApplicationStatusMaster | null
+  branchInfo: TradingBranch | null
+  loanOfficer: SovereignUser | null
+  delegatedUser: SovereignUser | null
+}
+
 // Loan Application Services
 export async function getLoanApplication(
   loanNumber: number
@@ -97,6 +160,85 @@ export async function getLoanApplication(
   }
 
   return data
+}
+
+// Get comprehensive loan data with all related information
+export async function getComprehensiveLoanData(
+  loanNumber: number
+): Promise<ComprehensiveLoanData | null> {
+  if (!validateLoanNumber(loanNumber)) {
+    console.error('Invalid loan number provided:', loanNumber)
+    return null
+  }
+
+  const supabase = await createClient()
+
+  try {
+    // Get main loan application
+    const { data: loanApplication, error: loanError } = await supabase
+      .schema('api')
+      .from('tblLoanApplication')
+      .select('*')
+      .eq('Lnd_application_number', loanNumber)
+      .single()
+
+    if (loanError || !loanApplication) {
+      console.error('Error fetching loan application:', loanError)
+      return null
+    }
+
+    // Get financial details
+    const { data: financialDetails } = await supabase
+      .schema('api')
+      .from('tblLoanApplicationFinancialDetails')
+      .select('*')
+      .eq('Lnd_application_number', loanNumber)
+      .maybeSingle()
+
+    // Get status information
+    const { data: statusInfo } = await supabase
+      .schema('api')
+      .from('tblLoanApplicationStatusMaster')
+      .select('*')
+      .eq('application_status_code', loanApplication.app_status)
+      .maybeSingle()
+
+    // Get branch information
+    const { data: branchInfo } = await supabase
+      .schema('api')
+      .from('tblFCU_TradingBranches')
+      .select('*')
+      .eq('Organisation_Unit_id', loanApplication.trading_branch || '')
+      .maybeSingle()
+
+    // Get loan officer (app_owner)
+    const { data: loanOfficer } = await supabase
+      .schema('api')
+      .from('tblSovereignUsers')
+      .select('*')
+      .eq('client_number', loanApplication.app_owner || '')
+      .maybeSingle()
+
+    // Get delegated user
+    const { data: delegatedUser } = await supabase
+      .schema('api')
+      .from('tblSovereignUsers')
+      .select('*')
+      .eq('client_number', loanApplication.delegated_user || '')
+      .maybeSingle()
+
+    return {
+      loanApplication,
+      financialDetails,
+      statusInfo,
+      branchInfo,
+      loanOfficer,
+      delegatedUser,
+    }
+  } catch (error) {
+    console.error('Error fetching comprehensive loan data:', error)
+    return null
+  }
 }
 
 // Verification Session Services

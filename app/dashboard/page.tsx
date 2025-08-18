@@ -10,46 +10,132 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-// Removed unused Alert components
 import { Badge } from '@/components/ui/badge'
-// Removed unused Separator
 import { Skeleton } from '@/components/ui/skeleton'
+import { Progress } from '@/components/ui/progress'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  // DialogTrigger unused
 } from '@/components/ui/dialog'
 import {
-  // Loader2 unused in main component
   FileText,
   Clock,
-  CheckCircle,
   AlertTriangle,
   LogOut,
   RefreshCw,
   User,
   Calendar,
-  // DollarSign unused
   Shield,
   Info,
+  Building2,
+  DollarSign,
+  Percent,
+  CreditCard,
+  Mail,
+  MapPin,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle2,
+  Timer,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
+// Enhanced interfaces for comprehensive loan data
 interface LoanApplication {
   Lnd_application_number: number
-  applicant_name: string
-  applicant_email: string
-  loan_amount: number
-  loan_type: string
-  application_date: string
-  current_status: string
-  status_updated_at: string
-  estimated_completion_date?: string
-  loan_officer_name?: string
-  loan_officer_phone?: string
+  applicant_name: string | null
+  email_address: string | null
+  app_status: string
+  app_owner: string | null
+  app_currently_with: string | null
+  trading_branch: string | null
+  app_conditional_approval_date: string | null
+  app_withdrawal_date: string | null
+  app_originator: string | null
+  app_declined_date: string | null
+  app_last_amend_date: string | null
+  app_sales_channel: string | null
+  created_at: string
+  product_type: string | null
+  is_draft: boolean | null
+  delegated_user: string | null
+  application_completed_by_member: boolean | null
+  application_completed_by_member_timestamp: string | null
+  privacy_declaration: boolean | null
+  is_joint_application: boolean | null
+  is_existing_member: boolean | null
+}
+
+interface LoanApplicationFinancialDetails {
+  id: number
+  Lnd_application_number: number | null
+  product: string | null
+  costOfGoods: number | null
+  defaultFees: number | null
+  need_insurance: boolean | null
+  component: string | null
+  cover_type: string | null
+  loan_cost_recovery_fees: string[]
+  loan_term_1: number | null
+  loan_term_2: string | null
+  payment_frequency: string | null
+  start_date: string | null
+  interest_rate: number | null
+  created_at: string | null
+}
+
+interface LoanApplicationStatusMaster {
+  application_status_code: string
+  application_status_desc: string
+  is_application_maintainable: boolean | null
+  order_by: number
+  has_checklists: boolean
+  has_standalone_checklist: boolean
+  is_portal_status: boolean
+}
+
+interface TradingBranch {
+  Organisation_Unit_id: string
+  Organisation_Unit_Name: string
+  Organisation_Unit_Type_id: string | null
+  Org_Unit_Client_Number: string | null
+  Hidden: boolean
+}
+
+interface SovereignUser {
+  title: string | null
+  first_name: string
+  middle_name: string | null
+  last_name: string
+  work_email: string
+  effective_date: string | null
+  termination_date: string | null
+  client_number: string
+  clerk_user: string | null
+  key_person_initials: string | null
+  job_title: string | null
+  date_of_birth: string | null
+  wished_birthday_for_the_day: boolean | null
+  default_org_unit_id: string | null
+}
+
+interface ComprehensiveLoanData {
+  loanApplication: LoanApplication
+  financialDetails: LoanApplicationFinancialDetails | null
+  statusInfo: LoanApplicationStatusMaster | null
+  branchInfo: TradingBranch | null
+  loanOfficer: SovereignUser | null
+  delegatedUser: SovereignUser | null
 }
 
 interface SessionInfo {
@@ -68,7 +154,7 @@ function DashboardPageContent() {
   const searchParams = useSearchParams()
 
   const [state, setState] = useState<DashboardState>('loading')
-  const [loanData, setLoanData] = useState<LoanApplication | null>(null)
+  const [loanData, setLoanData] = useState<ComprehensiveLoanData | null>(null)
   const [sessionInfo, setSessionInfo] = useState<SessionInfo | null>(null)
   const [error, setError] = useState('')
   const [sessionTimeLeft, setSessionTimeLeft] = useState<number>(0)
@@ -135,8 +221,8 @@ function DashboardPageContent() {
       )
       setSessionTimeLeft(timeLeft)
 
-      // Set loan data
-      setLoanData(sessionData.loanApplication)
+      // Set comprehensive loan data
+      setLoanData(sessionData.comprehensiveLoanData)
       setState('active')
 
       toast.success('Dashboard loaded successfully')
@@ -150,7 +236,6 @@ function DashboardPageContent() {
   // Session warning at 2 minutes
   useEffect(() => {
     if (sessionTimeLeft === 120 && !showSessionDialog) {
-      // 2 minutes
       setShowSessionDialog(true)
       toast.warning('Your session will expire in 2 minutes')
     }
@@ -212,78 +297,141 @@ function DashboardPageContent() {
   }
 
   const getStatusColor = (status: string): string => {
-    switch (status.toLowerCase()) {
-      case 'approved':
+    switch (status?.toUpperCase()) {
+      case 'CBPAA': // Application Approved
         return 'bg-green-100 text-green-800 border-green-200'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      case 'under review':
+      case 'INIT': // Application Started
+      case 'DRAFT': // Draft Application
         return 'bg-blue-100 text-blue-800 border-blue-200'
-      case 'rejected':
+      case 'RCVD': // Application Received
+      case 'ASGN': // Application Assigned
+      case 'SOVSUB': // Application Submitted to G3
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+      case 'CBPMCA': // Manual Credit Assessment
+      case 'CBPACA': // Automatic Credit Assessment
+      case 'CBPCCF': // Application Progressed
+        return 'bg-purple-100 text-purple-800 border-purple-200'
+      case 'CBPAD': // Application Declined
+      case 'CBPAW': // Application Withdrawn
         return 'bg-red-100 text-red-800 border-red-200'
-      case 'on hold':
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+      case 'CBPAC': // Application Complete
+        return 'bg-green-100 text-green-800 border-green-200'
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200'
     }
   }
 
   const getStatusIcon = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return <CheckCircle className='h-4 w-4' />
-      case 'pending':
-        return <Clock className='h-4 w-4' />
-      case 'under review':
+    switch (status?.toUpperCase()) {
+      case 'CBPAA': // Application Approved
+      case 'CBPAC': // Application Complete
+        return <CheckCircle2 className='h-4 w-4' />
+      case 'INIT': // Application Started
+      case 'DRAFT': // Draft Application
         return <FileText className='h-4 w-4' />
-      case 'rejected':
+      case 'RCVD': // Application Received
+      case 'ASGN': // Application Assigned
+      case 'SOVSUB': // Application Submitted to G3
+        return <Clock className='h-4 w-4' />
+      case 'CBPMCA': // Manual Credit Assessment
+      case 'CBPACA': // Automatic Credit Assessment
+      case 'CBPCCF': // Application Progressed
+        return <TrendingUp className='h-4 w-4' />
+      case 'CBPAD': // Application Declined
+      case 'CBPAW': // Application Withdrawn
         return <AlertTriangle className='h-4 w-4' />
       default:
         return <Info className='h-4 w-4' />
     }
   }
 
+  const getProgressPercentage = (orderBy: number): number => {
+    // Convert order_by (0-14) to percentage (0-100)
+    return Math.round((orderBy / 14) * 100)
+  }
+
+  const formatCurrency = (amount: number | null): string => {
+    if (!amount) return 'N/A'
+    return new Intl.NumberFormat('en-NZ', {
+      style: 'currency',
+      currency: 'NZD',
+    }).format(amount)
+  }
+
+  const formatPaymentFrequency = (freq: string | null): string => {
+    switch (freq?.toUpperCase()) {
+      case 'W':
+        return 'Weekly'
+      case 'F':
+        return 'Fortnightly'
+      case 'M':
+        return 'Monthly'
+      case 'Q':
+        return 'Quarterly'
+      default:
+        return freq || 'N/A'
+    }
+  }
+
+  const getUserInitials = (user: SovereignUser | null): string => {
+    if (!user) return '?'
+    const first = user.first_name?.charAt(0) || ''
+    const last = user.last_name?.charAt(0) || ''
+    return `${first}${last}`.toUpperCase()
+  }
+
+  const getUserFullName = (user: SovereignUser | null): string => {
+    if (!user) return 'Not assigned'
+    const title = user.title ? `${user.title} ` : ''
+    const first = user.first_name || ''
+    const last = user.last_name || ''
+    return `${title}${first} ${last}`.trim()
+  }
+
   // Loading state
   if (state === 'loading') {
     return (
-      <div className='min-h-screen bg-white'>
+      <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
         <div className='container mx-auto px-4 py-8'>
-          <div className='max-w-4xl mx-auto space-y-6'>
+          <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header skeleton */}
-            <Card>
+            <Card className='shadow-lg border-0'>
               <CardHeader>
                 <div className='flex items-center justify-between'>
-                  <div className='space-y-2'>
-                    <Skeleton className='h-8 w-64' />
-                    <Skeleton className='h-4 w-48' />
+                  <div className='space-y-3'>
+                    <Skeleton className='h-10 w-80' />
+                    <Skeleton className='h-6 w-64' />
                   </div>
-                  <Skeleton className='h-10 w-24' />
+                  <div className='flex items-center space-x-3'>
+                    <Skeleton className='h-8 w-32' />
+                    <Skeleton className='h-10 w-24' />
+                  </div>
                 </div>
               </CardHeader>
             </Card>
 
-            {/* Content skeletons */}
-            <div className='grid md:grid-cols-2 gap-6'>
-              <Card>
-                <CardHeader>
-                  <Skeleton className='h-6 w-32' />
-                </CardHeader>
-                <CardContent className='space-y-4'>
-                  <Skeleton className='h-4 w-full' />
-                  <Skeleton className='h-4 w-3/4' />
-                  <Skeleton className='h-4 w-1/2' />
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <Skeleton className='h-6 w-32' />
-                </CardHeader>
-                <CardContent className='space-y-4'>
-                  <Skeleton className='h-4 w-full' />
-                  <Skeleton className='h-4 w-3/4' />
-                  <Skeleton className='h-4 w-1/2' />
-                </CardContent>
-              </Card>
+            {/* Progress skeleton */}
+            <Card className='shadow-lg border-0'>
+              <CardHeader>
+                <Skeleton className='h-6 w-48' />
+                <Skeleton className='h-4 w-full' />
+              </CardHeader>
+            </Card>
+
+            {/* Content grid skeleton */}
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Card key={i} className='shadow-lg border-0'>
+                  <CardHeader>
+                    <Skeleton className='h-6 w-32' />
+                  </CardHeader>
+                  <CardContent className='space-y-4'>
+                    <Skeleton className='h-4 w-full' />
+                    <Skeleton className='h-4 w-3/4' />
+                    <Skeleton className='h-4 w-1/2' />
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
@@ -294,20 +442,25 @@ function DashboardPageContent() {
   // Session expired state
   if (state === 'session-expired') {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <Card className='w-full max-w-md'>
+      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+        <Card className='w-full max-w-md shadow-xl border-0'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-orange-100'>
-              <Clock className='h-6 w-6 text-orange-600' />
+            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100'>
+              <Timer className='h-8 w-8 text-orange-600' />
             </div>
-            <CardTitle className='text-orange-900'>Session Expired</CardTitle>
-            <CardDescription>
+            <CardTitle className='text-2xl text-orange-900'>
+              Session Expired
+            </CardTitle>
+            <CardDescription className='text-base'>
               Your session has expired for security reasons. Please verify your
               email again to continue.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => router.push('/')} className='w-full'>
+            <Button
+              onClick={() => router.push('/')}
+              className='w-full h-12 text-base'
+            >
               Return to Verification
             </Button>
           </CardContent>
@@ -319,25 +472,25 @@ function DashboardPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
-        <Card className='w-full max-w-md'>
+      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+        <Card className='w-full max-w-md shadow-xl border-0'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
-              <AlertTriangle className='h-6 w-6 text-red-600' />
+            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100'>
+              <AlertCircle className='h-8 w-8 text-red-600' />
             </div>
-            <CardTitle className='text-red-900'>Error</CardTitle>
-            <CardDescription>{error}</CardDescription>
+            <CardTitle className='text-2xl text-red-900'>Error</CardTitle>
+            <CardDescription className='text-base'>{error}</CardDescription>
           </CardHeader>
-          <CardContent className='space-y-3'>
+          <CardContent className='space-y-4'>
             <Button
               onClick={loadDashboardData}
-              className='w-full'
+              className='w-full h-12'
               variant='outline'
             >
               <RefreshCw className='mr-2 h-4 w-4' />
               Try Again
             </Button>
-            <Button onClick={() => router.push('/')} className='w-full'>
+            <Button onClick={() => router.push('/')} className='w-full h-12'>
               Return to Verification
             </Button>
           </CardContent>
@@ -348,315 +501,537 @@ function DashboardPageContent() {
 
   // Active dashboard
   return (
-    <div className='min-h-screen '>
-      <div className='container mx-auto px-4 py-8'>
-        <div className='max-w-4xl mx-auto space-y-6'>
-          {/* Header */}
-          <Card>
-            <CardHeader>
-              <div className='flex items-center justify-between'>
-                <div>
-                  <CardTitle className='text-2xl text-fcu-primary-900'>
-                    Loan Status Dashboard
-                  </CardTitle>
-                  <CardDescription>
-                    Welcome back, {loanData?.applicant_name}
-                  </CardDescription>
-                </div>
-                <div className='flex items-center space-x-3'>
-                  <Badge variant='outline' className='text-xs'>
-                    <Shield className='mr-1 h-3 w-3' />
-                    Session: {formatTimeLeft(sessionTimeLeft)}
-                  </Badge>
-                  <Button variant='outline' size='sm' onClick={handleLogout}>
-                    <LogOut className='mr-2 h-4 w-4' />
-                    Logout
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-          </Card>
-
-          {/* Main content */}
-          <div className='grid md:grid-cols-2 gap-6'>
-            {/* Loan Status Card */}
-            <Card>
+    <TooltipProvider>
+      <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+        <div className='container mx-auto px-4 py-8'>
+          <div className='max-w-7xl mx-auto space-y-8'>
+            {/* Header */}
+            <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm'>
               <CardHeader>
-                <CardTitle className='flex items-center'>
-                  <FileText className='mr-2 h-5 w-5 text-fcu-primary-600' />
-                  Current Status
-                </CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
                 <div className='flex items-center justify-between'>
-                  <span className='text-sm font-medium'>Status:</span>
-                  <Badge
-                    className={`${getStatusColor(loanData?.current_status || '')} flex items-center gap-1`}
-                  >
-                    {getStatusIcon(loanData?.current_status || '')}
-                    {loanData?.current_status}
-                  </Badge>
-                </div>
-
-                <div className='space-y-3'>
-                  <div className='flex justify-between'>
-                    <span className='text-sm text-muted-foreground'>
-                      Application #:
-                    </span>
-                    <span className='text-sm font-mono'>
-                      {loanData?.Lnd_application_number}
-                    </span>
+                  <div>
+                    <CardTitle className='text-3xl font-bold text-fcu-primary-900 mb-2'>
+                      🏦 Loan Status Dashboard
+                    </CardTitle>
+                    <CardDescription className='text-lg text-fcu-primary-700'>
+                      Welcome back,{' '}
+                      {loanData?.loanApplication.applicant_name ||
+                        'Valued Customer'}
+                    </CardDescription>
                   </div>
-                  <div className='flex justify-between'>
-                    <span className='text-sm text-muted-foreground'>
-                      Application Status:
-                    </span>
-                    <span className='text-sm'>{loanData?.current_status}</span>
-                  </div>
-
-                  <div className='flex justify-between'>
-                    <span className='text-sm text-muted-foreground'>
-                      Loan Amount:
-                    </span>
-                    <span className='text-sm font-semibold'>
-                      ${loanData?.loan_amount?.toLocaleString()}
-                    </span>
-                  </div>
-
-                  <div className='flex justify-between'>
-                    <span className='text-sm text-muted-foreground'>
-                      Loan Type:
-                    </span>
-                    <span className='text-sm'>{loanData?.loan_type}</span>
-                  </div>
-
-                  <div className='flex justify-between'>
-                    <span className='text-sm text-muted-foreground'>
-                      Last Updated:
-                    </span>
-                    <span className='text-sm'>
-                      {loanData?.status_updated_at
-                        ? new Date(
-                            loanData.status_updated_at
-                          ).toLocaleDateString()
-                        : 'N/A'}
-                    </span>
+                  <div className='flex items-center space-x-4'>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Badge
+                          variant='outline'
+                          className='text-sm px-4 py-2 bg-white/50'
+                        >
+                          <Shield className='mr-2 h-4 w-4' />
+                          {formatTimeLeft(sessionTimeLeft)}
+                        </Badge>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Session expires in {formatTimeLeft(sessionTimeLeft)}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                    <Button
+                      variant='outline'
+                      size='lg'
+                      onClick={handleLogout}
+                      className='bg-white/50'
+                    >
+                      <LogOut className='mr-2 h-4 w-4' />
+                      Logout
+                    </Button>
                   </div>
                 </div>
-
-                {loanData?.estimated_completion_date && (
-                  <div className='pt-3 border-t'>
-                    <div className='flex items-center text-sm text-fcu-secondary-700'>
-                      <Calendar className='mr-2 h-4 w-4' />
-                      Estimated completion:{' '}
-                      {new Date(
-                        loanData.estimated_completion_date
-                      ).toLocaleDateString()}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
+              </CardHeader>
             </Card>
 
-            {/* Contact Information Card */}
-            <Card>
-              <CardHeader>
-                <CardTitle className='flex items-center'>
-                  <User className='mr-2 h-5 w-5 text-fcu-primary-600' />
-                  Loan Officer
-                </CardTitle>
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                {loanData?.loan_officer_name ? (
-                  <div className='space-y-3'>
-                    <div>
-                      <p className='text-sm font-medium'>
-                        {loanData.loan_officer_name}
-                      </p>
-                      <p className='text-sm text-muted-foreground'>
-                        Your assigned loan officer
-                      </p>
+            {/* Progress Tracker */}
+            {loanData?.statusInfo && (
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <TrendingUp className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    Application Progress
+                  </CardTitle>
+                  <CardDescription>
+                    Current Status:{' '}
+                    {loanData.statusInfo.application_status_desc}
+                    <span className='ml-2 text-fcu-primary-600 font-medium'>
+                      (Step {loanData.statusInfo.order_by + 1} of 15)
+                    </span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className='space-y-4'>
+                    <Progress
+                      value={getProgressPercentage(
+                        loanData.statusInfo.order_by
+                      )}
+                      className='h-3'
+                    />
+                    <div className='flex justify-between text-sm text-muted-foreground'>
+                      <span>Application Started</span>
+                      <span className='font-medium text-fcu-primary-600'>
+                        {getProgressPercentage(loanData.statusInfo.order_by)}%
+                        Complete
+                      </span>
+                      <span>Application Complete</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Main Content Grid */}
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+              {/* Loan Overview Card */}
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <FileText className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    Loan Overview
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className='space-y-6'>
+                  <div className='flex items-center justify-between p-4 bg-fcu-primary-50 rounded-lg'>
+                    <span className='text-sm font-medium text-fcu-primary-700'>
+                      Current Status
+                    </span>
+                    <Badge
+                      className={`${getStatusColor(loanData?.loanApplication.app_status || '')} flex items-center gap-2 px-3 py-1`}
+                    >
+                      {getStatusIcon(
+                        loanData?.loanApplication.app_status || ''
+                      )}
+                      {loanData?.statusInfo?.application_status_desc ||
+                        loanData?.loanApplication.app_status}
+                    </Badge>
+                  </div>
+
+                  <div className='space-y-4'>
+                    <div className='flex justify-between items-center'>
+                      <span className='text-sm text-muted-foreground'>
+                        Application #:
+                      </span>
+                      <span className='text-sm font-mono font-bold text-fcu-primary-900'>
+                        #{loanData?.loanApplication.Lnd_application_number}
+                      </span>
                     </div>
 
-                    {loanData.loan_officer_phone && (
-                      <div className='flex items-center text-sm'>
-                        <span className='text-muted-foreground mr-2'>
-                          Phone:
+                    <div className='flex justify-between items-center'>
+                      <span className='text-sm text-muted-foreground'>
+                        Product Type:
+                      </span>
+                      <span className='text-sm font-medium'>
+                        {loanData?.financialDetails?.product ||
+                          loanData?.loanApplication.product_type ||
+                          'N/A'}
+                      </span>
+                    </div>
+
+                    <div className='flex justify-between items-center'>
+                      <span className='text-sm text-muted-foreground'>
+                        Application Date:
+                      </span>
+                      <span className='text-sm'>
+                        {loanData?.loanApplication.created_at
+                          ? new Date(
+                              loanData.loanApplication.created_at
+                            ).toLocaleDateString('en-NZ')
+                          : 'N/A'}
+                      </span>
+                    </div>
+
+                    <div className='flex justify-between items-center'>
+                      <span className='text-sm text-muted-foreground'>
+                        Last Updated:
+                      </span>
+                      <span className='text-sm'>
+                        {loanData?.loanApplication.app_last_amend_date
+                          ? new Date(
+                              loanData.loanApplication.app_last_amend_date
+                            ).toLocaleDateString('en-NZ')
+                          : 'N/A'}
+                      </span>
+                    </div>
+
+                    {loanData?.loanApplication.is_joint_application && (
+                      <div className='flex justify-between items-center'>
+                        <span className='text-sm text-muted-foreground'>
+                          Application Type:
                         </span>
-                        <a
-                          href={`tel:${loanData.loan_officer_phone}`}
-                          className='text-fcu-primary-600 hover:underline'
-                        >
-                          {loanData.loan_officer_phone}
-                        </a>
+                        <Badge variant='secondary'>Joint Application</Badge>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Financial Details Card */}
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <DollarSign className='mr-3 h-6 w-6 text-green-600' />
+                    Financial Details
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className='space-y-6'>
+                  {loanData?.financialDetails ? (
+                    <>
+                      <div className='p-4 bg-green-50 rounded-lg'>
+                        <div className='flex items-center justify-between'>
+                          <span className='text-sm font-medium text-green-700'>
+                            Loan Amount
+                          </span>
+                          <span className='text-2xl font-bold text-green-800'>
+                            {formatCurrency(
+                              loanData.financialDetails.costOfGoods
+                            )}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className='grid grid-cols-2 gap-4'>
+                        <div className='text-center p-3 bg-blue-50 rounded-lg'>
+                          <Percent className='h-5 w-5 text-blue-600 mx-auto mb-1' />
+                          <div className='text-lg font-bold text-blue-800'>
+                            {loanData.financialDetails.interest_rate || 'N/A'}%
+                          </div>
+                          <div className='text-xs text-blue-600'>
+                            Interest Rate
+                          </div>
+                        </div>
+                        <div className='text-center p-3 bg-purple-50 rounded-lg'>
+                          <Calendar className='h-5 w-5 text-purple-600 mx-auto mb-1' />
+                          <div className='text-lg font-bold text-purple-800'>
+                            {loanData.financialDetails.loan_term_1 || 'N/A'}
+                          </div>
+                          <div className='text-xs text-purple-600'>
+                            {loanData.financialDetails.loan_term_2 === 'M'
+                              ? 'Months'
+                              : 'Period'}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className='space-y-3'>
+                        <div className='flex justify-between items-center'>
+                          <span className='text-sm text-muted-foreground'>
+                            Payment Frequency:
+                          </span>
+                          <span className='text-sm font-medium'>
+                            {formatPaymentFrequency(
+                              loanData.financialDetails.payment_frequency
+                            )}
+                          </span>
+                        </div>
+
+                        <div className='flex justify-between items-center'>
+                          <span className='text-sm text-muted-foreground'>
+                            Default Fees:
+                          </span>
+                          <span className='text-sm font-medium'>
+                            {formatCurrency(
+                              loanData.financialDetails.defaultFees
+                            )}
+                          </span>
+                        </div>
+
+                        {loanData.financialDetails.need_insurance && (
+                          <div className='flex justify-between items-center'>
+                            <span className='text-sm text-muted-foreground'>
+                              Insurance:
+                            </span>
+                            <Badge variant='secondary'>Required</Badge>
+                          </div>
+                        )}
+
+                        {loanData.financialDetails.start_date && (
+                          <div className='flex justify-between items-center'>
+                            <span className='text-sm text-muted-foreground'>
+                              Start Date:
+                            </span>
+                            <span className='text-sm'>
+                              {new Date(
+                                loanData.financialDetails.start_date
+                              ).toLocaleDateString('en-NZ')}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className='text-center py-8 text-muted-foreground'>
+                      <CreditCard className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                      <p>Financial details not yet available</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Loan Officer Card */}
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <User className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    Your Loan Team
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className='space-y-6'>
+                  {/* Loan Officer */}
+                  {loanData?.loanOfficer ? (
+                    <div className='p-4 bg-fcu-primary-50 rounded-lg'>
+                      <div className='flex items-start space-x-4'>
+                        <Avatar className='h-12 w-12'>
+                          <AvatarFallback className='bg-fcu-primary-600 text-white font-bold'>
+                            {getUserInitials(loanData.loanOfficer)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className='flex-1'>
+                          <h4 className='font-semibold text-fcu-primary-900'>
+                            {getUserFullName(loanData.loanOfficer)}
+                          </h4>
+                          <p className='text-sm text-fcu-primary-700 mb-2'>
+                            {loanData.loanOfficer.job_title || 'Loan Officer'}
+                          </p>
+                          <div className='flex items-center text-sm text-fcu-primary-600'>
+                            <Mail className='h-4 w-4 mr-2' />
+                            <a
+                              href={`mailto:${loanData.loanOfficer.work_email}`}
+                              className='hover:underline'
+                            >
+                              {loanData.loanOfficer.work_email}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='text-center py-6 text-muted-foreground'>
+                      <User className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                      <p>Loan officer will be assigned soon</p>
+                    </div>
+                  )}
+
+                  {/* Delegated User */}
+                  {loanData?.delegatedUser &&
+                    loanData.delegatedUser.client_number !==
+                      loanData?.loanOfficer?.client_number && (
+                      <div className='p-4 bg-blue-50 rounded-lg'>
+                        <div className='flex items-start space-x-4'>
+                          <Avatar className='h-10 w-10'>
+                            <AvatarFallback className='bg-blue-600 text-white font-bold text-sm'>
+                              {getUserInitials(loanData.delegatedUser)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className='flex-1'>
+                            <h5 className='font-medium text-blue-900'>
+                              {getUserFullName(loanData.delegatedUser)}
+                            </h5>
+                            <p className='text-sm text-blue-700'>
+                              {loanData.delegatedUser.job_title ||
+                                'Support Staff'}
+                            </p>
+                            <p className='text-xs text-blue-600 mt-1'>
+                              Currently handling your application
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
 
-                    <div className='pt-3 border-t'>
-                      <p className='text-xs text-muted-foreground'>
-                        Feel free to contact your loan officer if you have any
-                        questions about your application.
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className='text-center py-6'>
-                    <User className='mx-auto h-8 w-8 text-muted-foreground mb-2' />
-                    <p className='text-sm text-muted-foreground'>
-                      A loan officer will be assigned to your application soon.
+                  <div className='text-center'>
+                    <p className='text-xs text-muted-foreground'>
+                      Feel free to contact your loan team if you have any
+                      questions about your application.
                     </p>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
 
-          {/* Session Info Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center text-lg'>
-                <Shield className='mr-2 h-5 w-5 text-fcu-primary-600' />
-                Session Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className='grid sm:grid-cols-3 gap-4 text-sm'>
-                <div>
-                  <span className='text-muted-foreground'>Email:</span>
-                  <p className='font-medium'>{sessionInfo?.email}</p>
-                </div>
-                <div>
-                  <span className='text-muted-foreground'>Total Logins:</span>
-                  <p className='font-medium'>{sessionInfo?.totalLogins}</p>
-                </div>
-                <div>
-                  <span className='text-muted-foreground'>Last Login:</span>
-                  <p className='font-medium'>
-                    {sessionInfo?.lastLoginAt
-                      ? new Date(sessionInfo.lastLoginAt).toLocaleString()
-                      : 'N/A'}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              {/* Branch Information Card */}
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-1'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <Building2 className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    Branch Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className='space-y-4'>
+                  {loanData?.branchInfo ? (
+                    <div className='space-y-4'>
+                      <div className='p-4 bg-fcu-secondary-50 rounded-lg'>
+                        <h4 className='font-semibold text-fcu-secondary-900 mb-2'>
+                          {loanData.branchInfo.Organisation_Unit_Name}
+                        </h4>
+                        <div className='space-y-2 text-sm'>
+                          <div className='flex items-center text-fcu-secondary-700'>
+                            <MapPin className='h-4 w-4 mr-2' />
+                            Branch Code:{' '}
+                            {loanData.branchInfo.Organisation_Unit_id}
+                          </div>
+                          {loanData.branchInfo.Org_Unit_Client_Number && (
+                            <div className='flex items-center text-fcu-secondary-700'>
+                              <Building2 className='h-4 w-4 mr-2' />
+                              Client Number:{' '}
+                              {loanData.branchInfo.Org_Unit_Client_Number}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className='text-center'>
+                        <p className='text-xs text-muted-foreground'>
+                          This is your designated branch for this loan
+                          application.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className='text-center py-8 text-muted-foreground'>
+                      <Building2 className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                      <p>Branch information not available</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
 
-          {/* Refresh Button */}
-          <div className='text-center'>
-            <Button
-              onClick={loadDashboardData}
-              variant='outline'
-              size='sm'
-              className='text-fcu-primary-600 border-fcu-primary-200 hover:bg-fcu-primary-50'
-            >
-              <RefreshCw className='mr-2 h-4 w-4' />
-              Refresh Status
-            </Button>
+              {/* Session Information Card */}
+              <Card className='shadow-lg border-0 bg-white/80 backdrop-blur-sm lg:col-span-2'>
+                <CardHeader>
+                  <CardTitle className='flex items-center text-xl'>
+                    <Shield className='mr-3 h-6 w-6 text-fcu-primary-600' />
+                    Session & Account Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className='grid md:grid-cols-3 gap-6'>
+                    <div className='text-center p-4 bg-fcu-primary-50 rounded-lg'>
+                      <Mail className='h-6 w-6 text-fcu-primary-600 mx-auto mb-2' />
+                      <div className='text-sm text-muted-foreground mb-1'>
+                        Email Address
+                      </div>
+                      <div className='font-medium text-fcu-primary-900 break-all'>
+                        {sessionInfo?.email}
+                      </div>
+                    </div>
+                    <div className='text-center p-4 bg-green-50 rounded-lg'>
+                      <TrendingUp className='h-6 w-6 text-green-600 mx-auto mb-2' />
+                      <div className='text-sm text-muted-foreground mb-1'>
+                        Total Logins
+                      </div>
+                      <div className='text-2xl font-bold text-green-800'>
+                        {sessionInfo?.totalLogins || 0}
+                      </div>
+                    </div>
+                    <div className='text-center p-4 bg-blue-50 rounded-lg'>
+                      <Clock className='h-6 w-6 text-blue-600 mx-auto mb-2' />
+                      <div className='text-sm text-muted-foreground mb-1'>
+                        Last Login
+                      </div>
+                      <div className='font-medium text-blue-800'>
+                        {sessionInfo?.lastLoginAt
+                          ? new Date(sessionInfo.lastLoginAt).toLocaleString(
+                              'en-NZ'
+                            )
+                          : 'N/A'}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Action Bar */}
+            <div className='text-center'>
+              <Button
+                onClick={loadDashboardData}
+                variant='outline'
+                size='lg'
+                className='bg-white/50 hover:bg-white/80 border-fcu-primary-200 text-fcu-primary-700 font-medium px-8'
+              >
+                <RefreshCw className='mr-2 h-5 w-5' />
+                Refresh Dashboard
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Session Extension Dialog */}
-      <Dialog open={showSessionDialog} onOpenChange={setShowSessionDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className='flex items-center'>
-              <Clock className='mr-2 h-5 w-5 text-orange-600' />
-              Session Expiring Soon
-            </DialogTitle>
-            <DialogDescription>
-              Your session will expire in {formatTimeLeft(sessionTimeLeft)} for
-              security reasons. Would you like to extend your session?
-            </DialogDescription>
-          </DialogHeader>
-          <div className='flex space-x-3 pt-4'>
-            <Button onClick={extendSession} className='flex-1'>
-              Extend Session
-            </Button>
-            <Button onClick={handleLogout} variant='outline' className='flex-1'>
-              Logout Now
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+        {/* Session Extension Dialog */}
+        <Dialog open={showSessionDialog} onOpenChange={setShowSessionDialog}>
+          <DialogContent className='sm:max-w-md'>
+            <DialogHeader>
+              <DialogTitle className='flex items-center text-xl'>
+                <Timer className='mr-3 h-6 w-6 text-orange-600' />
+                Session Expiring Soon
+              </DialogTitle>
+              <DialogDescription className='text-base'>
+                Your session will expire in {formatTimeLeft(sessionTimeLeft)}{' '}
+                for security reasons. Would you like to extend your session?
+              </DialogDescription>
+            </DialogHeader>
+            <div className='flex space-x-4 pt-6'>
+              <Button onClick={extendSession} className='flex-1 h-12'>
+                <Shield className='mr-2 h-4 w-4' />
+                Extend Session
+              </Button>
+              <Button
+                onClick={handleLogout}
+                variant='outline'
+                className='flex-1 h-12'
+              >
+                <LogOut className='mr-2 h-4 w-4' />
+                Logout Now
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </TooltipProvider>
   )
 }
 
 // Loading component for Suspense fallback
 function DashboardPageLoading() {
   return (
-    <div className='min-h-screen '>
+    <div className='min-h-screen bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
       <div className='container mx-auto px-4 py-8'>
-        <div className='max-w-4xl mx-auto space-y-6'>
+        <div className='max-w-7xl mx-auto space-y-8'>
           {/* Header skeleton */}
-          <Card>
+          <Card className='shadow-lg border-0'>
             <CardHeader>
               <div className='flex items-center justify-between'>
-                <div className='space-y-2'>
-                  <Skeleton className='h-8 w-64' />
-                  <Skeleton className='h-4 w-48' />
+                <div className='space-y-3'>
+                  <Skeleton className='h-10 w-80' />
+                  <Skeleton className='h-6 w-64' />
                 </div>
                 <div className='flex items-center space-x-3'>
-                  <Skeleton className='h-6 w-20' />
-                  <Skeleton className='h-8 w-20' />
+                  <Skeleton className='h-8 w-32' />
+                  <Skeleton className='h-10 w-24' />
                 </div>
               </div>
             </CardHeader>
           </Card>
 
-          {/* Content skeletons */}
-          <div className='grid md:grid-cols-2 gap-6'>
-            <Card>
-              <CardHeader>
-                <Skeleton className='h-6 w-32' />
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <div className='flex justify-between'>
-                  <Skeleton className='h-4 w-16' />
-                  <Skeleton className='h-6 w-20' />
-                </div>
-                <div className='space-y-3'>
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className='flex justify-between'>
-                      <Skeleton className='h-4 w-24' />
-                      <Skeleton className='h-4 w-16' />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <Skeleton className='h-6 w-32' />
-              </CardHeader>
-              <CardContent className='space-y-4'>
-                <div className='space-y-3'>
+          {/* Content grid skeleton */}
+          <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i} className='shadow-lg border-0'>
+                <CardHeader>
+                  <Skeleton className='h-6 w-32' />
+                </CardHeader>
+                <CardContent className='space-y-4'>
                   <Skeleton className='h-4 w-full' />
                   <Skeleton className='h-4 w-3/4' />
                   <Skeleton className='h-4 w-1/2' />
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-
-          {/* Session info skeleton */}
-          <Card>
-            <CardHeader>
-              <Skeleton className='h-6 w-40' />
-            </CardHeader>
-            <CardContent>
-              <div className='grid sm:grid-cols-3 gap-4'>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className='space-y-2'>
-                    <Skeleton className='h-3 w-16' />
-                    <Skeleton className='h-4 w-24' />
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import {
   updateUserSession,
   logUserAction,
   logSecurityEvent,
-  getLoanApplication,
+  getComprehensiveLoanData,
 } from '@/lib/supabase-services'
 
 // API route for checking session status
@@ -92,9 +92,10 @@ export async function POST(request: NextRequest) {
       console.error('Failed to update user session:', sessionResult.error)
     }
 
-    // Get loan application data for dashboard
-    const loanApplication = await getLoanApplication(loanNumberAsInt)
-    if (!loanApplication) {
+    // Get comprehensive loan data for dashboard
+    const comprehensiveLoanData =
+      await getComprehensiveLoanData(loanNumberAsInt)
+    if (!comprehensiveLoanData) {
       return NextResponse.json(
         { error: 'Loan application not found' },
         { status: 404 }
@@ -129,7 +130,7 @@ export async function POST(request: NextRequest) {
         lastLoginAt: user.last_login_at,
         isActive: user.is_active,
       },
-      loanApplication: loanApplication,
+      comprehensiveLoanData: comprehensiveLoanData,
       expiresAt: sessionExpires.toISOString(),
       remainingMinutes: Math.round(
         (sessionExpires.getTime() - now.getTime()) / (1000 * 60)
