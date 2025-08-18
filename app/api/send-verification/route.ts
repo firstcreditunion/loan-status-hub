@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         'Missing required fields in verification request',
         ipAddress,
         email,
-        loanApplicationNumber,
+        undefined, // Don't pass unvalidated loan number
         userAgent
       )
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         'Invalid email format provided',
         ipAddress,
         email,
-        loanApplicationNumber,
+        undefined, // Don't pass unvalidated loan number
         userAgent
       )
 
@@ -67,13 +67,20 @@ export async function POST(request: NextRequest) {
     )
 
     if (!rateLimitResult.allowed) {
+      // Convert loan application number to validate it first
+      const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
+      const validLoanNumber =
+        !isNaN(loanNumberAsInt) && loanNumberAsInt > 0
+          ? loanNumberAsInt
+          : undefined
+
       await logSecurityEvent(
         'rate_limit_exceeded',
         'high',
         'Rate limit exceeded for verification requests',
         ipAddress,
         email,
-        loanApplicationNumber,
+        validLoanNumber,
         userAgent,
         {
           currentRequests: rateLimitResult.currentRequests,
@@ -113,14 +120,18 @@ export async function POST(request: NextRequest) {
     const loanApplication = await getLoanApplication(loanNumberAsInt)
 
     if (!loanApplication) {
-      await logUserAction(
-        email,
-        loanNumberAsInt,
-        'verification_requested',
-        false,
+      // Don't log with non-existent loan number - use security event instead
+      await logSecurityEvent(
+        'loan_not_found',
+        'medium',
+        'Verification requested for non-existent loan application',
         ipAddress,
+        email,
+        undefined, // Don't pass non-existent loan number
         userAgent,
-        'Loan application not found'
+        {
+          requestedLoanNumber: loanNumberAsInt,
+        }
       )
 
       return NextResponse.json(

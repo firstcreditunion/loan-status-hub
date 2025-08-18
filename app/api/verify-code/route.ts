@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
         'Missing required fields in code verification',
         ipAddress,
         email,
-        loanApplicationNumber,
+        undefined, // Don't pass unvalidated loan number
         userAgent
       )
 
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
         'Invalid verification code format',
         ipAddress,
         email,
-        loanApplicationNumber,
+        undefined, // Don't pass unvalidated loan number
         userAgent
       )
 
@@ -79,13 +79,20 @@ export async function POST(request: NextRequest) {
     )
 
     if (!rateLimitResult.allowed) {
+      // Convert loan application number to validate it first
+      const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
+      const validLoanNumber =
+        !isNaN(loanNumberAsInt) && loanNumberAsInt > 0
+          ? loanNumberAsInt
+          : undefined
+
       await logSecurityEvent(
         'rate_limit_exceeded',
         'high',
         'Rate limit exceeded for code verification attempts',
         ipAddress,
         email,
-        loanApplicationNumber,
+        validLoanNumber,
         userAgent,
         {
           currentRequests: rateLimitResult.currentRequests,
@@ -125,16 +132,34 @@ export async function POST(request: NextRequest) {
     const verificationResult = await verifyCode(email, loanNumberAsInt, code)
 
     if (!verificationResult.success) {
-      // Log failed verification attempt
-      await logUserAction(
-        email,
-        loanNumberAsInt,
-        'code_verification_failed',
-        false,
-        ipAddress,
-        userAgent,
-        verificationResult.error
-      )
+      // Only log with loan number if we know it exists (check if verification session exists)
+      if (verificationResult.session) {
+        // Log failed verification attempt - we know loan exists if session exists
+        await logUserAction(
+          email,
+          loanNumberAsInt,
+          'code_verification_failed',
+          false,
+          ipAddress,
+          userAgent,
+          verificationResult.error
+        )
+      } else {
+        // Log as security event instead if no session found
+        await logSecurityEvent(
+          'verification_attempt_no_session',
+          'high',
+          'Code verification attempted without valid session',
+          ipAddress,
+          email,
+          undefined,
+          userAgent,
+          {
+            requestedLoanNumber: loanNumberAsInt,
+            error: verificationResult.error || 'Unknown verification error',
+          }
+        )
+      }
 
       // Log security event for suspicious activity
       if (verificationResult.error?.includes('Too many')) {

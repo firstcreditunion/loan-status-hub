@@ -39,14 +39,18 @@ export async function POST(request: NextRequest) {
     const user = await getVerifiedUser(email, loanNumberAsInt)
 
     if (!user) {
+      // Don't pass loan number if user doesn't exist - it might not be a valid loan
       await logSecurityEvent(
         'unauthorized_access_attempt',
         'medium',
         'Attempt to access session for unverified user',
         ipAddress,
         email,
-        loanNumberAsInt,
-        userAgent
+        undefined, // Don't pass potentially invalid loan number
+        userAgent,
+        {
+          requestedLoanNumber: loanNumberAsInt,
+        }
       )
 
       return NextResponse.json({ error: 'User not verified' }, { status: 401 })
