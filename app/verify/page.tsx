@@ -28,6 +28,7 @@ import {
   RefreshCw,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import Image from 'next/image'
 
 type VerificationStep =
   | 'loading'
@@ -272,7 +273,7 @@ function VerifyPageContent() {
   // Loading state
   if (state.step === 'loading') {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
+      <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
@@ -294,7 +295,7 @@ function VerifyPageContent() {
   // Error state
   if (state.step === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
+      <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
@@ -321,7 +322,7 @@ function VerifyPageContent() {
   // Success state
   if (state.step === 'success') {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
+      <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
@@ -374,8 +375,13 @@ function VerifyPageContent() {
       <div className='min-h-screen flex items-center justify-center '>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-primary-100'>
-              <Mail className='h-6 w-6 text-fcu-primary-600' />
+            <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+              <Image
+                src='/logo/android-chrome-192x192.png'
+                alt='FCU Logo'
+                width={80}
+                height={80}
+              />
             </div>
             <CardTitle>Check Your Email</CardTitle>
             <CardDescription>
@@ -412,7 +418,7 @@ function VerifyPageContent() {
 
   // Code entry state
   return (
-    <div className='min-h-screen flex items-center justify-center '>
+    <div className='h-full flex items-center justify-center pt-20'>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
@@ -521,7 +527,7 @@ function VerifyPageContent() {
 // Loading component for Suspense fallback
 function VerifyPageLoading() {
   return (
-    <div className='min-h-screen flex items-center justify-center'>
+    <div className='h-full flex items-center justify-center pt-20'>
       <Card className='w-full max-w-md'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>

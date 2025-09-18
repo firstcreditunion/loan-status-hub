@@ -15,7 +15,6 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Loader2,
-  Shield,
   CheckCircle,
   AlertTriangle,
   Mail,
@@ -408,7 +407,7 @@ function LandingPageContent() {
       />
 
       <div className='w-full max-w-md'>
-        <Card className='w-full outline-2 outline-offset-4 outline-gray-400/10 shadow-xl bg-white/95 backdrop-blur-sm'>
+        <Card className='w-full shadow-xl bg-white/95 backdrop-blur-sm'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
