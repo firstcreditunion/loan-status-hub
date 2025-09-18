@@ -546,45 +546,6 @@ function DashboardPageContent() {
               </CardHeader>
             </Card>
 
-            {/* Progress Tracker */}
-            {/* {loanData?.statusInfo && (
-              <Card className='shadow-md'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl'>
-                    <TrendingUp className='mr-3 h-6 w-6 text-fcu-primary-500' />
-                    Application Progress
-                  </CardTitle>
-                  <CardDescription>
-                    Current Status:{' '}
-                    {loanData.statusInfo.application_status_desc}
-                    <span className='ml-2 text-fcu-primary-500 font-medium'>
-                      (Step {loanData.statusInfo.order_by + 1} of 15)
-                    </span>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className='space-y-4'>
-                    <Progress
-                      value={getProgressPercentage(
-                        loanData.statusInfo.order_by
-                      )}
-                      className='h-3'
-                    />
-                    <div className='flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-y-0 text-sm text-muted-foreground'>
-                      <span>Application Started</span>
-                      <span className='font-medium text-fcu-primary-500'>
-                        {getProgressPercentage(loanData.statusInfo.order_by)}%
-                        Complete
-                      </span>
-                      <span className='hidden sm:block'>
-                        Application Complete
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )} */}
-
             {/* Main Content Grid */}
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
               {/* Loan Overview Card */}
