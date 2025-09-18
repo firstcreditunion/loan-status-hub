@@ -23,7 +23,8 @@ import {
   Lock,
   Clock,
 } from 'lucide-react'
-import { AnimatedShinyText, BorderBeam, DotPattern } from '@/components/magic'
+import { AnimatedShinyText, DotPattern } from '@/components/magic'
+import Image from 'next/image'
 // toast not used in landing page
 
 type LandingState =
@@ -171,7 +172,7 @@ function LandingPageContent() {
   // Initial state - no parameters
   if (state === 'initial') {
     return (
-      <div className='min-h-screen flex items-center justify-center relative'>
+      <div className='h-full flex items-center justify-center relative pt-20'>
         {/* Dot pattern background */}
         <DotPattern
           className='text-fcu-primary-500'
@@ -183,27 +184,30 @@ function LandingPageContent() {
         <div className='w-full max-w-lg'>
           <Card className='w-full border-0 shadow-2xl bg-white/95 backdrop-blur-sm'>
             <CardHeader className='text-center pb-8'>
-              <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-fcu-primary-100 to-fcu-primary-50 shadow-lg'>
-                <Shield className='h-10 w-10 text-fcu-primary-600' />
+              <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+                <Image
+                  src='/logo/android-chrome-192x192.png'
+                  alt='FCU Logo'
+                  width={80}
+                  height={80}
+                />
               </div>
-              <AnimatedShinyText
-                text='FCU Loan Status Portal'
-                className='text-3xl text-fcu-primary-900 mb-2'
-                delay={1}
-              />
-              <CardDescription className='text-lg text-fcu-primary-700'>
-                Secure access to your loan application status
+              <div className='text-3xl tracking-tight font-light uppercase text-fcu-primary-500 mb-2'>
+                Status Hub
+              </div>
+              <CardDescription className='text-lg text-fcu-secondary-300'>
+                Secure access to your application status
               </CardDescription>
             </CardHeader>
             <CardContent className='space-y-6'>
               <div className='space-y-4'>
                 <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-lg'>
-                  <Mail className='h-5 w-5 text-fcu-primary-600 mt-0.5 flex-shrink-0' />
+                  <Mail className='h-5 w-5 text-sky-700 mt-0.5 flex-shrink-0' />
                   <div>
-                    <h3 className='font-medium text-fcu-primary-900'>
+                    <h3 className='font-medium text-gray-700'>
                       Check Your Email
                     </h3>
-                    <p className='text-sm text-fcu-primary-700'>
+                    <p className='text-sm text-gray-700'>
                       Click the secure link in the email we sent you to access
                       your loan status.
                     </p>
@@ -211,12 +215,12 @@ function LandingPageContent() {
                 </div>
 
                 <div className='flex items-start space-x-3 p-4 bg-green-50 rounded-lg'>
-                  <Lock className='h-5 w-5 text-fcu-secondary-600 mt-0.5 flex-shrink-0' />
+                  <Lock className='h-5 w-5 text-green-700 mt-0.5 flex-shrink-0' />
                   <div>
-                    <h3 className='font-medium text-fcu-secondary-900'>
+                    <h3 className='font-medium text-gray-700'>
                       Secure Verification
                     </h3>
-                    <p className='text-sm text-fcu-secondary-700'>
+                    <p className='text-sm text-gray-700'>
                       We&apos;ll send a 6-digit code to verify your identity
                       before showing your loan status.
                     </p>
@@ -226,7 +230,7 @@ function LandingPageContent() {
                 <div className='flex items-start space-x-3 p-4 bg-gray-50 rounded-lg'>
                   <Clock className='h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0' />
                   <div>
-                    <h3 className='font-medium text-gray-900'>
+                    <h3 className='font-medium text-gray-700'>
                       Session Security
                     </h3>
                     <p className='text-sm text-gray-700'>
@@ -342,12 +346,7 @@ function LandingPageContent() {
           height={24}
         />
 
-        <BorderBeam
-          className='w-full max-w-md'
-          colorFrom='rgb(118, 193, 113)'
-          colorTo='rgb(3, 105, 161)'
-          delay={0.2}
-        >
+        <div className='w-full max-w-md'>
           <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
             <CardHeader className='text-center'>
               <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fcu-secondary-100 to-fcu-secondary-50 shadow-lg'>
@@ -393,7 +392,7 @@ function LandingPageContent() {
               </Button>
             </CardContent>
           </Card>
-        </BorderBeam>
+        </div>
       </div>
     )
   }
@@ -408,29 +407,37 @@ function LandingPageContent() {
         height={18}
       />
 
-      <BorderBeam className='w-full max-w-md' delay={0.3}>
+      <div className='w-full max-w-md'>
         <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fcu-primary-100 to-fcu-primary-50 shadow-lg'>
-              <Shield className='h-8 w-8 text-fcu-primary-600' />
+            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+              <Image
+                src='/logo/android-chrome-192x192.png'
+                alt='FCU Logo'
+                width={80}
+                height={80}
+              />
             </div>
-            <AnimatedShinyText
-              text='Secure Access Verified'
-              className='text-2xl text-fcu-primary-900 mb-2'
-              delay={0.7}
-            />
-            <CardDescription className='text-base'>
+            <div className='text-xl font-light tracking-tight text-fcu-primary-500 mb-2 uppercase'>
+              Secure Access Verified
+            </div>
+
+            <CardDescription className='text-base text-fcu-secondary-300 tracking-tight'>
               We&apos;ll send a verification code to confirm your identity.
             </CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='space-y-3 p-4 bg-fcu-primary-50 rounded-lg'>
+            <div className='space-y-3 p-4 bg-sky-50 rounded-lg'>
               <div className='flex justify-between text-sm'>
-                <span className='text-muted-foreground'>Email:</span>
-                <span className='font-medium'>{tokenData?.email}</span>
+                <span className='text-gray-700'>Email:</span>
+                <span className='font-medium text-gray-700'>
+                  {tokenData?.email}
+                </span>
               </div>
               <div className='flex justify-between text-sm'>
-                <span className='text-muted-foreground'>Application #:</span>
+                <span className='text-muted-foreground'>
+                  Application Number:
+                </span>
                 <span className='font-mono'>
                   {tokenData?.loanApplicationNumber}
                 </span>
@@ -447,14 +454,14 @@ function LandingPageContent() {
 
             <Button
               onClick={proceedToVerification}
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700'
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full'
             >
               <Mail className='mr-2 h-4 w-4' />
               Send Verification Code
             </Button>
           </CardContent>
         </Card>
-      </BorderBeam>
+      </div>
     </div>
   )
 }
