@@ -321,7 +321,7 @@ function VerifyPageContent() {
   // Success state
   if (state.step === 'success') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-gradient-to-br from-fcu-secondary-50 to-fcu-primary-50'>
+      <div className='min-h-screen flex items-center justify-center'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>

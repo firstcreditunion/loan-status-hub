@@ -23,6 +23,7 @@ import {
   Lock,
   Clock,
 } from 'lucide-react'
+import { AnimatedShinyText, BorderBeam, DotPattern } from '@/components/magic'
 // toast not used in landing page
 
 type LandingState =
@@ -170,68 +171,80 @@ function LandingPageContent() {
   // Initial state - no parameters
   if (state === 'initial') {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <Card className='w-full max-w-lg'>
-          <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-fcu-primary-100'>
-              <Shield className='h-8 w-8 text-fcu-primary-600' />
-            </div>
-            <CardTitle className='text-2xl text-fcu-primary-900'>
-              FCU Loan Status Portal
-            </CardTitle>
-            <CardDescription className='text-base'>
-              Secure access to your loan application status
-            </CardDescription>
-          </CardHeader>
-          <CardContent className='space-y-6'>
-            <div className='space-y-4'>
-              <div className='flex items-start space-x-3 p-4 bg-fcu-primary-50 rounded-lg'>
-                <Mail className='h-5 w-5 text-fcu-primary-600 mt-0.5 flex-shrink-0' />
-                <div>
-                  <h3 className='font-medium text-fcu-primary-900'>
-                    Check Your Email
-                  </h3>
-                  <p className='text-sm text-fcu-primary-700'>
-                    Click the secure link in the email we sent you to access
-                    your loan status.
-                  </p>
+      <div className='min-h-screen flex items-center justify-center relative'>
+        {/* Dot pattern background */}
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.05}
+          width={20}
+          height={20}
+        />
+
+        <div className='w-full max-w-lg'>
+          <Card className='w-full border-0 shadow-2xl bg-white/95 backdrop-blur-sm'>
+            <CardHeader className='text-center pb-8'>
+              <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-fcu-primary-100 to-fcu-primary-50 shadow-lg'>
+                <Shield className='h-10 w-10 text-fcu-primary-600' />
+              </div>
+              <AnimatedShinyText
+                text='FCU Loan Status Portal'
+                className='text-3xl text-fcu-primary-900 mb-2'
+                delay={1}
+              />
+              <CardDescription className='text-lg text-fcu-primary-700'>
+                Secure access to your loan application status
+              </CardDescription>
+            </CardHeader>
+            <CardContent className='space-y-6'>
+              <div className='space-y-4'>
+                <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-lg'>
+                  <Mail className='h-5 w-5 text-fcu-primary-600 mt-0.5 flex-shrink-0' />
+                  <div>
+                    <h3 className='font-medium text-fcu-primary-900'>
+                      Check Your Email
+                    </h3>
+                    <p className='text-sm text-fcu-primary-700'>
+                      Click the secure link in the email we sent you to access
+                      your loan status.
+                    </p>
+                  </div>
+                </div>
+
+                <div className='flex items-start space-x-3 p-4 bg-green-50 rounded-lg'>
+                  <Lock className='h-5 w-5 text-fcu-secondary-600 mt-0.5 flex-shrink-0' />
+                  <div>
+                    <h3 className='font-medium text-fcu-secondary-900'>
+                      Secure Verification
+                    </h3>
+                    <p className='text-sm text-fcu-secondary-700'>
+                      We&apos;ll send a 6-digit code to verify your identity
+                      before showing your loan status.
+                    </p>
+                  </div>
+                </div>
+
+                <div className='flex items-start space-x-3 p-4 bg-gray-50 rounded-lg'>
+                  <Clock className='h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0' />
+                  <div>
+                    <h3 className='font-medium text-gray-900'>
+                      Session Security
+                    </h3>
+                    <p className='text-sm text-gray-700'>
+                      Your session will automatically expire after 15 minutes
+                      for security.
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className='flex items-start space-x-3 p-4 bg-fcu-secondary-50 rounded-lg'>
-                <Lock className='h-5 w-5 text-fcu-secondary-600 mt-0.5 flex-shrink-0' />
-                <div>
-                  <h3 className='font-medium text-fcu-secondary-900'>
-                    Secure Verification
-                  </h3>
-                  <p className='text-sm text-fcu-secondary-700'>
-                    We&apos;ll send a 6-digit code to verify your identity
-                    before showing your loan status.
-                  </p>
-                </div>
+              <div className='text-center pt-4'>
+                <p className='text-sm text-muted-foreground'>
+                  Need help? Contact our support team for assistance.
+                </p>
               </div>
-
-              <div className='flex items-start space-x-3 p-4 bg-gray-50 rounded-lg'>
-                <Clock className='h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0' />
-                <div>
-                  <h3 className='font-medium text-gray-900'>
-                    Session Security
-                  </h3>
-                  <p className='text-sm text-gray-700'>
-                    Your session will automatically expire after 15 minutes for
-                    security.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className='text-center pt-4'>
-              <p className='text-sm text-muted-foreground'>
-                Need help? Contact our support team for assistance.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     )
   }
@@ -321,21 +334,97 @@ function LandingPageContent() {
   // Existing session state
   if (state === 'existing-session') {
     return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <Card className='w-full max-w-md'>
+      <div className='min-h-screen flex items-center justify-center relative'>
+        <DotPattern
+          className='text-fcu-secondary-500'
+          opacity={0.03}
+          width={24}
+          height={24}
+        />
+
+        <BorderBeam
+          className='w-full max-w-md'
+          colorFrom='rgb(118, 193, 113)'
+          colorTo='rgb(3, 105, 161)'
+          delay={0.2}
+        >
+          <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
+            <CardHeader className='text-center'>
+              <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fcu-secondary-100 to-fcu-secondary-50 shadow-lg'>
+                <CheckCircle className='h-8 w-8 text-fcu-secondary-600' />
+              </div>
+              <AnimatedShinyText
+                text='Welcome Back!'
+                className='text-2xl text-fcu-secondary-900 mb-2'
+                delay={0.5}
+              />
+              <CardDescription className='text-base'>
+                You have an active session for your loan application.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className='space-y-4'>
+              <div className='space-y-3 p-4 bg-fcu-secondary-50 rounded-lg'>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-muted-foreground'>Email:</span>
+                  <span className='font-medium'>{tokenData?.email}</span>
+                </div>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-muted-foreground'>Application #:</span>
+                  <span className='font-mono'>
+                    {tokenData?.loanApplicationNumber}
+                  </span>
+                </div>
+                <div className='flex justify-between text-sm'>
+                  <span className='text-muted-foreground'>
+                    Session expires:
+                  </span>
+                  <Badge variant='outline' className='text-xs'>
+                    {getSessionTimeLeft()}
+                  </Badge>
+                </div>
+              </div>
+
+              <Button
+                onClick={proceedToDashboard}
+                className='w-full bg-fcu-secondary-600 hover:bg-fcu-secondary-700'
+              >
+                <FileText className='mr-2 h-4 w-4' />
+                View Loan Status
+              </Button>
+            </CardContent>
+          </Card>
+        </BorderBeam>
+      </div>
+    )
+  }
+
+  // Valid token state - ready for verification
+  return (
+    <div className='min-h-screen flex items-center justify-center relative'>
+      <DotPattern
+        className='text-fcu-primary-500'
+        opacity={0.04}
+        width={18}
+        height={18}
+      />
+
+      <BorderBeam className='w-full max-w-md' delay={0.3}>
+        <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
-              <CheckCircle className='h-6 w-6 text-fcu-secondary-600' />
+            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fcu-primary-100 to-fcu-primary-50 shadow-lg'>
+              <Shield className='h-8 w-8 text-fcu-primary-600' />
             </div>
-            <CardTitle className='text-fcu-secondary-900'>
-              Welcome Back!
-            </CardTitle>
-            <CardDescription>
-              You have an active session for your loan application.
+            <AnimatedShinyText
+              text='Secure Access Verified'
+              className='text-2xl text-fcu-primary-900 mb-2'
+              delay={0.7}
+            />
+            <CardDescription className='text-base'>
+              We&apos;ll send a verification code to confirm your identity.
             </CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='space-y-3 p-4 bg-fcu-secondary-50 rounded-lg'>
+            <div className='space-y-3 p-4 bg-fcu-primary-50 rounded-lg'>
               <div className='flex justify-between text-sm'>
                 <span className='text-muted-foreground'>Email:</span>
                 <span className='font-medium'>{tokenData?.email}</span>
@@ -346,72 +435,26 @@ function LandingPageContent() {
                   {tokenData?.loanApplicationNumber}
                 </span>
               </div>
-              <div className='flex justify-between text-sm'>
-                <span className='text-muted-foreground'>Session expires:</span>
-                <Badge variant='outline' className='text-xs'>
-                  {getSessionTimeLeft()}
-                </Badge>
-              </div>
             </div>
 
+            <Alert>
+              <Mail className='h-4 w-4' />
+              <AlertDescription>
+                We&apos;ll send a 6-digit verification code to your email
+                address.
+              </AlertDescription>
+            </Alert>
+
             <Button
-              onClick={proceedToDashboard}
-              className='w-full bg-fcu-secondary-600 hover:bg-fcu-secondary-700'
+              onClick={proceedToVerification}
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700'
             >
-              <FileText className='mr-2 h-4 w-4' />
-              View Loan Status
+              <Mail className='mr-2 h-4 w-4' />
+              Send Verification Code
             </Button>
           </CardContent>
         </Card>
-      </div>
-    )
-  }
-
-  // Valid token state - ready for verification
-  return (
-    <div className='min-h-screen flex items-center justify-center'>
-      <Card className='w-full max-w-md'>
-        <CardHeader className='text-center'>
-          <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-primary-100'>
-            <Shield className='h-6 w-6 text-fcu-primary-600' />
-          </div>
-          <CardTitle className='text-fcu-primary-900'>
-            Secure Access Verified
-          </CardTitle>
-          <CardDescription>
-            We&apos;ll send a verification code to confirm your identity.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className='space-y-4'>
-          <div className='space-y-3 p-4 bg-fcu-primary-50 rounded-lg'>
-            <div className='flex justify-between text-sm'>
-              <span className='text-muted-foreground'>Email:</span>
-              <span className='font-medium'>{tokenData?.email}</span>
-            </div>
-            <div className='flex justify-between text-sm'>
-              <span className='text-muted-foreground'>Application #:</span>
-              <span className='font-mono'>
-                {tokenData?.loanApplicationNumber}
-              </span>
-            </div>
-          </div>
-
-          <Alert>
-            <Mail className='h-4 w-4' />
-            <AlertDescription>
-              We&apos;ll send a 6-digit verification code to your email address.
-            </AlertDescription>
-          </Alert>
-
-          <Button
-            onClick={proceedToVerification}
-            className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700'
-          >
-            <Mail className='mr-2 h-4 w-4' />
-            Send Verification Code
-          </Button>
-        </CardContent>
-      </Card>
+      </BorderBeam>
     </div>
   )
 }

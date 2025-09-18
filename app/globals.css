@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* FCU Primary Palette - Based on fcu-primary-500 (#0369a1) */
+
   --color-fcu-primary-50: oklch(86.62% 0.048 227.58);
   --color-fcu-primary-100: oklch(82.06% 0.081 224.86);
   --color-fcu-primary-200: oklch(73.35% 0.094 222.94);
@@ -142,5 +144,26 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Animation Performance Optimizations */
+  .animate-element {
+    will-change: transform, opacity;
+  }
+
+  .animate-element.animate-complete {
+    will-change: auto;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

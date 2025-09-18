@@ -556,7 +556,7 @@ function DashboardPageContent() {
             </Card>
 
             {/* Progress Tracker */}
-            {loanData?.statusInfo && (
+            {/* {loanData?.statusInfo && (
               <Card className='shadow-md'>
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl'>
@@ -592,7 +592,7 @@ function DashboardPageContent() {
                   </div>
                 </CardContent>
               </Card>
-            )}
+            )} */}
 
             {/* Main Content Grid */}
             <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
