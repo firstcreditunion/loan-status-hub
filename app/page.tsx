@@ -21,6 +21,7 @@ import {
   FileText,
   Lock,
   Clock,
+  ArrowRight,
 } from 'lucide-react'
 import { AnimatedShinyText, DotPattern } from '@/components/magic'
 import Image from 'next/image'
@@ -255,8 +256,16 @@ function LandingPageContent() {
   // Validating state
   if (state === 'validating') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
+      <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
+          <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+            <Image
+              src='/logo/android-chrome-192x192.png'
+              alt='FCU Logo'
+              width={80}
+              height={80}
+            />
+          </div>
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
               <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
@@ -337,7 +346,7 @@ function LandingPageContent() {
   // Existing session state
   if (state === 'existing-session') {
     return (
-      <div className='min-h-screen flex items-center justify-center relative'>
+      <div className='h-full flex items-center justify-center relative'>
         <DotPattern
           className='text-fcu-secondary-500'
           opacity={0.03}
@@ -345,38 +354,39 @@ function LandingPageContent() {
           height={24}
         />
 
-        <div className='w-full max-w-md'>
+        <div className='h-full flex items-center justify-center pt-20 w-full max-w-md'>
           <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
             <CardHeader className='text-center'>
-              <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-fcu-secondary-100 to-fcu-secondary-50 shadow-lg'>
-                <CheckCircle className='h-8 w-8 text-fcu-secondary-600' />
+              <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+                <Image
+                  src='/logo/android-chrome-192x192.png'
+                  alt='FCU Logo'
+                  width={80}
+                  height={80}
+                />
               </div>
-              <AnimatedShinyText
-                text='Welcome Back!'
-                className='text-2xl text-fcu-secondary-900 mb-2'
-                delay={0.5}
-              />
-              <CardDescription className='text-base'>
+              <div className='text-2xl text-fcu-primary-500 mb-2 font-medium tracking-tight'>
+                Welcome Back!
+              </div>
+              <CardDescription className='text-base tracking-tight'>
                 You have an active session for your loan application.
               </CardDescription>
             </CardHeader>
-            <CardContent className='space-y-4'>
-              <div className='space-y-3 p-4 bg-fcu-secondary-50 rounded-lg'>
+            <CardContent className='space-y-4 pt-4'>
+              <div className='space-y-3 p-4 bg-fcu-primary-500 rounded-lg text-white'>
                 <div className='flex justify-between text-sm'>
-                  <span className='text-muted-foreground'>Email:</span>
+                  <span>Email:</span>
                   <span className='font-medium'>{tokenData?.email}</span>
                 </div>
                 <div className='flex justify-between text-sm'>
-                  <span className='text-muted-foreground'>Application #:</span>
+                  <span>Application #:</span>
                   <span className='font-mono'>
                     {tokenData?.loanApplicationNumber}
                   </span>
                 </div>
                 <div className='flex justify-between text-sm'>
-                  <span className='text-muted-foreground'>
-                    Session expires:
-                  </span>
-                  <Badge variant='outline' className='text-xs'>
+                  <span>Session expires:</span>
+                  <Badge variant='outline' className='text-xs text-white'>
                     {getSessionTimeLeft()}
                   </Badge>
                 </div>
@@ -384,10 +394,10 @@ function LandingPageContent() {
 
               <Button
                 onClick={proceedToDashboard}
-                className='w-full bg-fcu-secondary-600 hover:bg-fcu-secondary-700'
+                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
               >
-                <FileText className='mr-2 h-4 w-4' />
                 View Loan Status
+                <ArrowRight className='mr-2 h-4 w-4' />
               </Button>
             </CardContent>
           </Card>

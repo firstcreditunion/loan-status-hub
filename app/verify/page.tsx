@@ -325,21 +325,26 @@ function VerifyPageContent() {
       <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
-              <CheckCircle className='h-6 w-6 text-fcu-secondary-600' />
+            <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+              <Image
+                src='/logo/android-chrome-192x192.png'
+                alt='FCU Logo'
+                width={80}
+                height={80}
+              />
             </div>
-            <CardTitle className='text-fcu-secondary-900'>
+            <div className='text-base tracking-tight font-medium text-fcu-primary-500 mb-2'>
               Email Verified Successfully!
-            </CardTitle>
+            </div>
             <CardDescription>
               Your email has been verified and your account is now active.
             </CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='flex items-center space-x-3 p-4 bg-fcu-primary-50 rounded-lg border border-fcu-primary-200'>
-              <Mail className='h-5 w-5 text-fcu-primary-600 flex-shrink-0' />
+            <div className='flex items-center space-x-3 p-4 bg-sky-50 rounded-lg border'>
+              <Mail className='h-5 w-5 text-gray-700 flex-shrink-0' />
               <div className='text-sm'>
-                <p className='font-medium text-fcu-primary-900 mb-1'>
+                <p className='font-medium text-gray-700 mb-1'>
                   Check your inbox for access link
                 </p>
                 <p className='text-fcu-primary-700'>
@@ -353,15 +358,6 @@ function VerifyPageContent() {
                 The email may take a few minutes to arrive. Check your spam
                 folder if you don&apos;t see it.
               </p>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => (window.location.href = 'mailto:')}
-                className='text-fcu-primary-600 border-fcu-primary-200 hover:bg-fcu-primary-50'
-              >
-                <Mail className='mr-2 h-4 w-4' />
-                Open Email App
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -372,7 +368,7 @@ function VerifyPageContent() {
   // Email sent state
   if (state.step === 'email-sent') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
+      <div className='h-full flex items-center justify-center pt-20'>
         <Card className='w-full max-w-md'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
@@ -406,7 +402,7 @@ function VerifyPageContent() {
                   step: 'enter-code',
                 }))
               }
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700'
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full cursor-pointer'
             >
               I&apos;ve received the code
             </Button>
@@ -421,8 +417,13 @@ function VerifyPageContent() {
     <div className='h-full flex items-center justify-center pt-20'>
       <Card className='w-full max-w-md'>
         <CardHeader className='text-center'>
-          <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-fcu-secondary-100'>
-            <Shield className='h-6 w-6 text-fcu-secondary-600' />
+          <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+            <Image
+              src='/logo/android-chrome-192x192.png'
+              alt='FCU Logo'
+              width={80}
+              height={80}
+            />
           </div>
           <CardTitle>Enter Verification Code</CardTitle>
           <CardDescription>
@@ -451,14 +452,32 @@ function VerifyPageContent() {
                   className='gap-2'
                 >
                   <InputOTPGroup className='gap-2'>
-                    <InputOTPSlot index={0} className='w-12 h-12 text-lg' />
-                    <InputOTPSlot index={1} className='w-12 h-12 text-lg' />
-                    <InputOTPSlot index={2} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot
+                      index={0}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
+                    <InputOTPSlot
+                      index={1}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
+                    <InputOTPSlot
+                      index={2}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
                   </InputOTPGroup>
                   <InputOTPGroup className='gap-2'>
-                    <InputOTPSlot index={3} className='w-12 h-12 text-lg' />
-                    <InputOTPSlot index={4} className='w-12 h-12 text-lg' />
-                    <InputOTPSlot index={5} className='w-12 h-12 text-lg' />
+                    <InputOTPSlot
+                      index={3}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
+                    <InputOTPSlot
+                      index={4}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
+                    <InputOTPSlot
+                      index={5}
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                    />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
@@ -478,7 +497,7 @@ function VerifyPageContent() {
 
             <Button
               onClick={() => verifyCodeWithValue()}
-              className='w-full bg-fcu-secondary-600 hover:bg-fcu-secondary-700'
+              className='w-full bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer'
               disabled={state.loading || !state.code || state.code.length !== 6}
             >
               {state.loading ? (

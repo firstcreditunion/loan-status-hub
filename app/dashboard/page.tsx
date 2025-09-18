@@ -511,14 +511,14 @@ function DashboardPageContent() {
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header */}
-            <Card className='shadow-md'>
+            <Card className='shadow-none'>
               <CardHeader>
                 <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
                   <div className='flex-1'>
-                    <CardTitle className='text-2xl md:text-3xl font-bold text-fcu-primary-500 mb-2'>
+                    <CardTitle className='text-2xl md:text-3xl font-semibold tracking-tight text-fcu-primary-500 mb-2'>
                       🏦 Loan Status Dashboard
                     </CardTitle>
-                    <CardDescription className='text-base md:text-lg text-fcu-secondary-300'>
+                    <CardDescription className='text-base md:text-lg text-fcu-secondary-300 tracking-tight'>
                       Welcome back,{' '}
                       {loanData?.loanApplication.applicant_name ||
                         'Valued Customer'}
@@ -526,15 +526,6 @@ function DashboardPageContent() {
                   </div>
                   <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-4'>
                     <Tooltip>
-                      <TooltipTrigger>
-                        <Badge
-                          variant='outline'
-                          className='text-sm px-4 py-2 border-fcu-primary-500 text-fcu-primary-500'
-                        >
-                          <Shield className='mr-2 h-4 w-4' />
-                          {formatTimeLeft(sessionTimeLeft)}
-                        </Badge>
-                      </TooltipTrigger>
                       <TooltipContent>
                         <p>
                           Session expires in {formatTimeLeft(sessionTimeLeft)}
@@ -545,10 +536,10 @@ function DashboardPageContent() {
                       variant='outline'
                       size='lg'
                       onClick={handleLogout}
-                      className='border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
+                      className='border-fcu-primary-500 text-white bg-fcu-primary-500 hover:bg-fcu-primary-600 rounded-full cursor-pointer hover:text-white'
                     >
-                      <LogOut className='mr-2 h-4 w-4' />
                       Logout
+                      <LogOut className='mr-2 h-4 w-4' />
                     </Button>
                   </div>
                 </div>
