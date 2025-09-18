@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { AnimatedShinyText, DotPattern } from '@/components/magic'
 import Image from 'next/image'
+import { Icon } from '@/components/Icon'
 // toast not used in landing page
 
 type LandingState =
@@ -172,17 +173,21 @@ function LandingPageContent() {
   // Initial state - no parameters
   if (state === 'initial') {
     return (
-      <div className='h-full flex items-center justify-center relative pt-20'>
+      <div className='h-full flex items-center justify-center relative pt-32'>
         {/* Dot pattern background */}
         <DotPattern
           className='text-fcu-primary-500'
-          opacity={0.05}
+          opacity={0.08}
           width={20}
           height={20}
         />
 
         <div className='w-full max-w-lg'>
-          <Card className='w-full border-0 shadow-2xl bg-white/95 backdrop-blur-sm'>
+          <div className='w-full border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8'>
+            <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
             <CardHeader className='text-center pb-8'>
               <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
                 <Image
@@ -247,7 +252,7 @@ function LandingPageContent() {
                 </p>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
       </div>
     )
