@@ -399,7 +399,7 @@ function LandingPageContent() {
 
   // Valid token state - ready for verification
   return (
-    <div className='min-h-screen flex items-center justify-center relative'>
+    <div className='h-full flex items-center justify-center relative pt-20'>
       <DotPattern
         className='text-fcu-primary-500'
         opacity={0.04}
@@ -408,7 +408,7 @@ function LandingPageContent() {
       />
 
       <div className='w-full max-w-md'>
-        <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
+        <Card className='w-full outline-2 outline-offset-4 outline-gray-400/10 shadow-xl bg-white/95 backdrop-blur-sm'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -454,7 +454,7 @@ function LandingPageContent() {
 
             <Button
               onClick={proceedToVerification}
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full'
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full cursor-pointer'
             >
               <Mail className='mr-2 h-4 w-4' />
               Send Verification Code
