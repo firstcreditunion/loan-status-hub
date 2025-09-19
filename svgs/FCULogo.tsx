@@ -8,6 +8,7 @@ export default function FCULogo() {
       height={'48'}
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 287.37 156.64'
+      className='drop-shadow-xs drop-shadow-fcu-primary-500/50'
     >
       <path
         d='M89.71,32.8h-16.84c-.02,.09-.05,.17-.06,.25-.42,3.09-3.68,18.73-25.94,21.78v11.18h20.62v52.84h22.23V32.8Z'

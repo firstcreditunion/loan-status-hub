@@ -15,15 +15,13 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Loader2,
-  CheckCircle,
   AlertTriangle,
   Mail,
-  FileText,
   Lock,
   Clock,
   ArrowRight,
 } from 'lucide-react'
-import { AnimatedShinyText, DotPattern } from '@/components/magic'
+import { DotPattern } from '@/components/magic'
 import Image from 'next/image'
 import { Icon } from '@/components/Icon'
 // toast not used in landing page
@@ -261,8 +259,19 @@ function LandingPageContent() {
   // Validating state
   if (state === 'validating') {
     return (
-      <div className='h-full flex items-center justify-center pt-20'>
-        <Card className='w-full max-w-md'>
+      <div className='h-full flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={24}
+          height={24}
+        />
+
+        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
             <Image
               src='/logo/android-chrome-192x192.png'
@@ -283,7 +292,7 @@ function LandingPageContent() {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -291,8 +300,19 @@ function LandingPageContent() {
   // Invalid token state
   if (state === 'invalid-token') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
-        <Card className='w-full max-w-md'>
+      <div className='min-h-screen flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={24}
+          height={24}
+        />
+
+        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -321,7 +341,7 @@ function LandingPageContent() {
               </Button>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -329,8 +349,19 @@ function LandingPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center '>
-        <Card className='w-full max-w-md'>
+      <div className='min-h-screen flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={24}
+          height={24}
+        />
+
+        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -343,7 +374,7 @@ function LandingPageContent() {
               Try Again
             </Button>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -353,14 +384,18 @@ function LandingPageContent() {
     return (
       <div className='h-full flex items-center justify-center relative'>
         <DotPattern
-          className='text-fcu-secondary-500'
-          opacity={0.03}
+          className='text-fcu-primary-500'
+          opacity={0.08}
           width={24}
           height={24}
         />
 
-        <div className='h-full flex items-center justify-center pt-20 w-full max-w-md'>
-          <Card className='w-full border-0 shadow-xl bg-white/95 backdrop-blur-sm'>
+        <div className='h-full flex items-center justify-center pt-32 w-full max-w-md'>
+          <div className='w-full max-w-lg relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
+            <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+            <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
             <CardHeader className='text-center'>
               <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
                 <Image
@@ -370,28 +405,31 @@ function LandingPageContent() {
                   height={80}
                 />
               </div>
-              <div className='text-2xl text-fcu-primary-500 mb-2 font-medium tracking-tight'>
+              <div className='text-2xl text-fcu-primary-500 mb-2 font-semibold tracking-tighter'>
                 Welcome Back!
               </div>
-              <CardDescription className='text-base tracking-tight'>
+              <CardDescription className='text-sm tracking-tight'>
                 You have an active session for your loan application.
               </CardDescription>
             </CardHeader>
-            <CardContent className='space-y-4 pt-4'>
-              <div className='space-y-3 p-4 bg-fcu-primary-500 rounded-lg text-white'>
+            <div className='space-y-4 pt-4'>
+              <div className='space-y-3 p-4 bg-fcu-primary-500 text-white'>
                 <div className='flex justify-between text-sm'>
                   <span>Email:</span>
                   <span className='font-medium'>{tokenData?.email}</span>
                 </div>
                 <div className='flex justify-between text-sm'>
-                  <span>Application #:</span>
+                  <span>Application Number:</span>
                   <span className='font-mono'>
                     {tokenData?.loanApplicationNumber}
                   </span>
                 </div>
                 <div className='flex justify-between text-sm'>
                   <span>Session expires:</span>
-                  <Badge variant='outline' className='text-xs text-white'>
+                  <Badge
+                    variant='outline'
+                    className='text-xs text-white border-none p-0 m-0'
+                  >
                     {getSessionTimeLeft()}
                   </Badge>
                 </div>
@@ -399,13 +437,13 @@ function LandingPageContent() {
 
               <Button
                 onClick={proceedToDashboard}
-                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
+                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-none cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
               >
                 View Loan Status
-                <ArrowRight className='mr-2 h-4 w-4' />
+                <ArrowRight className='h-4 w-4' />
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -413,17 +451,21 @@ function LandingPageContent() {
 
   // Valid token state - ready for verification
   return (
-    <div className='h-full flex items-center justify-center relative pt-20'>
+    <div className='h-full flex items-center justify-center relative pt-32'>
       <DotPattern
         className='text-fcu-primary-500'
-        opacity={0.04}
+        opacity={0.08}
         width={18}
         height={18}
       />
 
-      <div className='w-full max-w-md'>
-        <Card className='w-full shadow-xl bg-white/95 backdrop-blur-sm'>
-          <CardHeader className='text-center'>
+      <div className='w-full max-w-lg'>
+        <div className='relative w-full bg-gray-50 py-16 px-8 border border-gray-100 rounded-0'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <div className='text-center mb-4'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
                 src='/logo/android-chrome-192x192.png'
@@ -432,16 +474,16 @@ function LandingPageContent() {
                 height={80}
               />
             </div>
-            <div className='text-xl font-light tracking-tight text-fcu-primary-500 mb-2 uppercase'>
+            <div className='text-xl font-light tracking-tight text-fcu-primary-500 mb-2'>
               Secure Access Verified
             </div>
 
             <CardDescription className='text-base text-fcu-secondary-300 tracking-tight'>
               We&apos;ll send a verification code to confirm your identity.
             </CardDescription>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='space-y-3 p-4 bg-sky-50 rounded-lg'>
+          </div>
+          <div className='space-y-4'>
+            <div className='space-y-3 p-4 bg-gray-100 mt-4'>
               <div className='flex justify-between text-sm'>
                 <span className='text-gray-700'>Email:</span>
                 <span className='font-medium text-gray-700'>
@@ -458,7 +500,7 @@ function LandingPageContent() {
               </div>
             </div>
 
-            <Alert>
+            <Alert className='bg-gray-100 rounded-none border-none'>
               <Mail className='h-4 w-4' />
               <AlertDescription>
                 We&apos;ll send a 6-digit verification code to your email
@@ -468,13 +510,13 @@ function LandingPageContent() {
 
             <Button
               onClick={proceedToVerification}
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full cursor-pointer'
+              className='w-full bg-fcu-primary-600 mt-4 hover:bg-fcu-primary-700 cursor-pointer rounded-none'
             >
               <Mail className='mr-2 h-4 w-4' />
               Send Verification Code
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

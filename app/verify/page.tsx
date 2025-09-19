@@ -19,16 +19,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import {
-  Loader2,
-  Mail,
-  Shield,
-  CheckCircle,
-  AlertTriangle,
-  RefreshCw,
-} from 'lucide-react'
+import { Loader2, Mail, AlertTriangle, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import { Icon } from '@/components/Icon'
+import { DotPattern } from '@/components/magic'
 
 type VerificationStep =
   | 'loading'
@@ -273,8 +268,18 @@ function VerifyPageContent() {
   // Loading state
   if (state.step === 'loading') {
     return (
-      <div className='h-full flex items-center justify-center pt-20'>
-        <Card className='w-full max-w-md'>
+      <div className='h-full flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={20}
+          height={20}
+        />
+        <div className='w-full max-w-md bg-gray-50 relative py-16 px-8 border border-gray-100 rounded-0'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
               <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
@@ -287,7 +292,7 @@ function VerifyPageContent() {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -295,26 +300,36 @@ function VerifyPageContent() {
   // Error state
   if (state.step === 'error') {
     return (
-      <div className='h-full flex items-center justify-center pt-20'>
-        <Card className='w-full max-w-md'>
+      <div className='h-full flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={20}
+          height={20}
+        />
+        <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
             </div>
-            <CardTitle className='text-red-900'>Verification Failed</CardTitle>
+            <CardTitle className='text-red-700'>Verification Failed</CardTitle>
             <CardDescription>{state.error}</CardDescription>
           </CardHeader>
           <CardContent>
             <Button
               onClick={() => window.location.reload()}
-              className='w-full'
+              className='w-full rounded-none mt-4'
               variant='outline'
             >
               <RefreshCw className='mr-2 h-4 w-4' />
               Try Again
             </Button>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -322,8 +337,18 @@ function VerifyPageContent() {
   // Success state
   if (state.step === 'success') {
     return (
-      <div className='h-full flex items-center justify-center pt-20'>
-        <Card className='w-full max-w-md'>
+      <div className='h-full flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={20}
+          height={20}
+        />
+        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -336,18 +361,15 @@ function VerifyPageContent() {
             <div className='text-base tracking-tight font-medium text-fcu-primary-500 mb-2'>
               Email Verified Successfully!
             </div>
-            <CardDescription>
-              Your email has been verified and your account is now active.
-            </CardDescription>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='flex items-center space-x-3 p-4 bg-sky-50 rounded-lg border'>
+            <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-none border mt-4'>
               <Mail className='h-5 w-5 text-gray-700 flex-shrink-0' />
               <div className='text-sm'>
                 <p className='font-medium text-gray-700 mb-1'>
                   Check your inbox for access link
                 </p>
-                <p className='text-fcu-primary-700'>
+                <p className='text-fcu-primary-700 text-xs'>
                   We&apos;ve sent you an email with a secure link to access your
                   loan tracker dashboard.
                 </p>
@@ -360,7 +382,7 @@ function VerifyPageContent() {
               </p>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
@@ -368,8 +390,18 @@ function VerifyPageContent() {
   // Email sent state
   if (state.step === 'email-sent') {
     return (
-      <div className='h-full flex items-center justify-center pt-20'>
-        <Card className='w-full max-w-md'>
+      <div className='h-full flex items-center justify-center pt-32 relative'>
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.08}
+          width={20}
+          height={20}
+        />
+        <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8 py-16'>
+          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -379,8 +411,10 @@ function VerifyPageContent() {
                 height={80}
               />
             </div>
-            <CardTitle>Check Your Email</CardTitle>
-            <CardDescription>
+            <div className='text-xl font-light tracking-tight text-fcu-primary-500 mb-2'>
+              Check Your Email
+            </div>
+            <CardDescription className='mb-4'>
               We&apos;ve sent a 6-digit verification code to
               <br />
               <strong>{state.maskedEmail}</strong>
@@ -388,10 +422,13 @@ function VerifyPageContent() {
           </CardHeader>
           <CardContent className='space-y-4'>
             <div className='text-center space-y-2'>
-              <Badge variant='outline' className='text-xs'>
+              <Badge
+                variant='outline'
+                className='text-xs bg-gray-100 rounded-none'
+              >
                 Code expires in 10 minutes
               </Badge>
-              <p className='text-sm text-muted-foreground'>
+              <p className='text-sm text-gray-700 mt-4'>
                 Please check your email and enter the code below when ready
               </p>
             </div>
@@ -402,20 +439,30 @@ function VerifyPageContent() {
                   step: 'enter-code',
                 }))
               }
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full cursor-pointer'
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-none cursor-pointer mt-4'
             >
               I&apos;ve received the code
             </Button>
           </CardContent>
-        </Card>
+        </div>
       </div>
     )
   }
 
   // Code entry state
   return (
-    <div className='h-full flex items-center justify-center pt-20'>
-      <Card className='w-full max-w-md'>
+    <div className='h-full flex items-center justify-center pt-32 relative'>
+      <DotPattern
+        className='text-fcu-primary-500'
+        opacity={0.08}
+        width={20}
+        height={20}
+      />
+      <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8 py-16'>
+        <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
         <CardHeader className='text-center'>
           <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
             <Image
@@ -425,8 +472,10 @@ function VerifyPageContent() {
               height={80}
             />
           </div>
-          <CardTitle>Enter Verification Code</CardTitle>
-          <CardDescription>
+          <div className='text-xl font-light tracking-tight text-fcu-primary-500 mb-2'>
+            Enter Verification Code
+          </div>
+          <CardDescription className='mb-4'>
             Enter the 6-digit code sent to
             <br />
             <strong>{state.maskedEmail}</strong>
@@ -435,13 +484,13 @@ function VerifyPageContent() {
 
         <CardContent className='space-y-6'>
           {state.error && (
-            <Alert variant='destructive'>
+            <Alert className='bg-red-100 rounded-none border-none'>
               <AlertTriangle className='h-4 w-4' />
               <AlertDescription>{state.error}</AlertDescription>
             </Alert>
           )}
 
-          <div className='space-y-4'>
+          <div className='space-y-4 mb-4'>
             <div className='space-y-2'>
               <div className='flex justify-center'>
                 <InputOTP
@@ -454,39 +503,39 @@ function VerifyPageContent() {
                   <InputOTPGroup className='gap-2'>
                     <InputOTPSlot
                       index={0}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                     <InputOTPSlot
                       index={1}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                     <InputOTPSlot
                       index={2}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                   </InputOTPGroup>
                   <InputOTPGroup className='gap-2'>
                     <InputOTPSlot
                       index={3}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                     <InputOTPSlot
                       index={4}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                     <InputOTPSlot
                       index={5}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
                     />
                   </InputOTPGroup>
                 </InputOTP>
               </div>
               <div className='text-center'>
-                <p className='text-sm text-muted-foreground mb-2'>
+                <p className='text-xs text-muted-foreground mb-2'>
                   Enter the 6-digit code from your email or paste it here
                 </p>
               </div>
-              <div className='flex justify-between items-center text-xs text-muted-foreground'>
+              <div className='flex justify-between items-center text-xs text-gray-400 mt-4'>
                 <span>Code expires in 10 minutes</span>
                 <span>
                   {getRemainingAttempts()} attempt
@@ -497,7 +546,7 @@ function VerifyPageContent() {
 
             <Button
               onClick={() => verifyCodeWithValue()}
-              className='w-full bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer'
+              className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-none cursor-pointer'
               disabled={state.loading || !state.code || state.code.length !== 6}
             >
               {state.loading ? (
@@ -510,8 +559,6 @@ function VerifyPageContent() {
               )}
             </Button>
           </div>
-
-          <Separator />
 
           <div className='text-center space-y-2'>
             <p className='text-sm text-muted-foreground'>
@@ -538,7 +585,7 @@ function VerifyPageContent() {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   )
 }
@@ -546,8 +593,18 @@ function VerifyPageContent() {
 // Loading component for Suspense fallback
 function VerifyPageLoading() {
   return (
-    <div className='h-full flex items-center justify-center pt-20'>
-      <Card className='w-full max-w-md'>
+    <div className='h-full flex items-center justify-center pt-32 relative'>
+      <DotPattern
+        className='text-fcu-primary-500'
+        opacity={0.08}
+        width={20}
+        height={20}
+      />
+      <div className='w-full max-w-md relative py-16 px-8 border border-gray-100 rounded-0'>
+        <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
             <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
@@ -560,7 +617,7 @@ function VerifyPageLoading() {
             </p>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   )
 }
