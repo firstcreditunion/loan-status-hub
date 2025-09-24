@@ -95,6 +95,7 @@ export async function POST(request: NextRequest) {
     // Get comprehensive loan data for dashboard
     const comprehensiveLoanData =
       await getComprehensiveLoanData(loanNumberAsInt)
+
     if (!comprehensiveLoanData) {
       return NextResponse.json(
         { error: 'Loan application not found' },

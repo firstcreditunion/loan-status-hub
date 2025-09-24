@@ -9,7 +9,6 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp'
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -17,12 +16,11 @@ import {
 } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Loader2, Mail, AlertTriangle, RefreshCw } from 'lucide-react'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { Icon } from '@/components/Icon'
+
 import { DotPattern } from '@/components/magic'
 
 type VerificationStep =
@@ -275,11 +273,8 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full max-w-md bg-gray-50 relative py-16 px-8 border border-gray-100 rounded-0'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+          {' '}
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
               <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
@@ -307,11 +302,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -344,11 +335,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -397,11 +384,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8 py-16'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -458,11 +441,7 @@ function VerifyPageContent() {
         width={20}
         height={20}
       />
-      <div className='w-full max-w-md border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8 py-16'>
-        <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+      <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
             <Image
@@ -600,11 +579,7 @@ function VerifyPageLoading() {
         width={20}
         height={20}
       />
-      <div className='w-full max-w-md relative py-16 px-8 border border-gray-100 rounded-0'>
-        <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-        <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+      <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
             <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />

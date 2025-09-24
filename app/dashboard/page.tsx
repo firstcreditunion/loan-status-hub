@@ -12,14 +12,8 @@ import {
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Progress } from '@/components/ui/progress'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import {
   Dialog,
   DialogContent,
@@ -38,7 +32,6 @@ import {
   Shield,
   Info,
   Building2,
-  DollarSign,
   Percent,
   CreditCard,
   Mail,

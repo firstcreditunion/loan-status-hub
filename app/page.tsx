@@ -23,8 +23,6 @@ import {
 } from 'lucide-react'
 import { DotPattern } from '@/components/magic'
 import Image from 'next/image'
-import { Icon } from '@/components/Icon'
-// toast not used in landing page
 
 type LandingState =
   | 'initial'
@@ -171,7 +169,7 @@ function LandingPageContent() {
   // Initial state - no parameters
   if (state === 'initial') {
     return (
-      <div className='h-full flex items-center justify-center relative pt-32'>
+      <div className='h-full flex items-center justify-center relative pt-32 '>
         {/* Dot pattern background */}
         <DotPattern
           className='text-fcu-primary-500'
@@ -181,11 +179,7 @@ function LandingPageContent() {
         />
 
         <div className='w-full max-w-lg'>
-          <div className='w-full border border-gray-100 bg-gray-50 backdrop-blur-sm relative rounded-0 p-8'>
-            <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
             <CardHeader className='text-center pb-8'>
               <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
                 <Image
@@ -195,8 +189,8 @@ function LandingPageContent() {
                   height={80}
                 />
               </div>
-              <div className='text-3xl tracking-tight font-light uppercase text-fcu-primary-500 mb-2'>
-                Status Hub
+              <div className='text-3xl tracking-tight font-light text-fcu-primary-500 mb-2'>
+                First Status Hub
               </div>
               <CardDescription className='text-lg text-fcu-secondary-300'>
                 Secure access to your application status
@@ -204,7 +198,7 @@ function LandingPageContent() {
             </CardHeader>
             <CardContent className='space-y-6'>
               <div className='space-y-4'>
-                <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-lg'>
+                <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-xl'>
                   <Mail className='h-5 w-5 text-sky-700 mt-0.5 flex-shrink-0' />
                   <div>
                     <h3 className='font-medium text-gray-700'>
@@ -217,7 +211,7 @@ function LandingPageContent() {
                   </div>
                 </div>
 
-                <div className='flex items-start space-x-3 p-4 bg-green-50 rounded-lg'>
+                <div className='flex items-start space-x-3 p-4 bg-green-50 rounded-xl'>
                   <Lock className='h-5 w-5 text-green-700 mt-0.5 flex-shrink-0' />
                   <div>
                     <h3 className='font-medium text-gray-700'>
@@ -230,7 +224,7 @@ function LandingPageContent() {
                   </div>
                 </div>
 
-                <div className='flex items-start space-x-3 p-4 bg-gray-50 rounded-lg'>
+                <div className='flex items-start space-x-3 p-4 bg-gray-50 rounded-xl'>
                   <Clock className='h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0' />
                   <div>
                     <h3 className='font-medium text-gray-700'>
@@ -267,11 +261,7 @@ function LandingPageContent() {
           height={24}
         />
 
-        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
             <Image
               src='/logo/android-chrome-192x192.png'
@@ -308,11 +298,7 @@ function LandingPageContent() {
           height={24}
         />
 
-        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -357,11 +343,7 @@ function LandingPageContent() {
           height={24}
         />
 
-        <div className='w-full max-w-md relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -391,11 +373,7 @@ function LandingPageContent() {
         />
 
         <div className='h-full flex items-center justify-center pt-32 w-full max-w-md'>
-          <div className='w-full max-w-lg relative border border-gray-100 bg-gray-50 backdrop-blur-sm rounded-0 p-8 py-16'>
-            <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-            <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+          <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
             <CardHeader className='text-center'>
               <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
                 <Image
@@ -460,11 +438,7 @@ function LandingPageContent() {
       />
 
       <div className='w-full max-w-lg'>
-        <div className='relative w-full bg-gray-50 py-16 px-8 border border-gray-100 rounded-0'>
-          <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
-          <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <div className='text-center mb-4'>
             <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -550,3 +524,8 @@ export default function LandingPage() {
     </Suspense>
   )
 }
+
+// <Icon className='absolute h-6 w-6 -top-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+// <Icon className='absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-fcu-secondary-300/50' />
+// <Icon className='absolute h-6 w-6 -top-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
+// <Icon className='absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-fcu-secondary-300/50' />
