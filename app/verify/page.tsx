@@ -482,29 +482,29 @@ function VerifyPageContent() {
                   <InputOTPGroup className='gap-2'>
                     <InputOTPSlot
                       index={0}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                     <InputOTPSlot
                       index={1}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                     <InputOTPSlot
                       index={2}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                   </InputOTPGroup>
                   <InputOTPGroup className='gap-2'>
                     <InputOTPSlot
                       index={3}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                     <InputOTPSlot
                       index={4}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                     <InputOTPSlot
                       index={5}
-                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-none'
+                      className='w-12 h-12 text-lg border-2 border-fcu-secondary-300/50 rounded-md'
                     />
                   </InputOTPGroup>
                 </InputOTP>
