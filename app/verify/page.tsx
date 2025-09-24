@@ -313,7 +313,7 @@ function VerifyPageContent() {
           <CardContent>
             <Button
               onClick={() => window.location.reload()}
-              className='w-full rounded-none mt-4'
+              className='w-full rounded-full mt-4'
               variant='outline'
             >
               <RefreshCw className='mr-2 h-4 w-4' />
@@ -422,7 +422,7 @@ function VerifyPageContent() {
                   step: 'enter-code',
                 }))
               }
-              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-none cursor-pointer mt-4'
+              className='w-full bg-fcu-primary-600 hover:bg-fcu-primary-700 rounded-full cursor-pointer mt-4'
             >
               I&apos;ve received the code
             </Button>
@@ -525,7 +525,7 @@ function VerifyPageContent() {
 
             <Button
               onClick={() => verifyCodeWithValue()}
-              className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-none cursor-pointer'
+              className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer'
               disabled={state.loading || !state.code || state.code.length !== 6}
             >
               {state.loading ? (
@@ -548,7 +548,7 @@ function VerifyPageContent() {
               size='sm'
               onClick={resendCode}
               disabled={state.resendCooldown > 0}
-              className='text-fcu-primary-600 hover:text-fcu-primary-700'
+              className='text-fcu-primary-600 hover:text-fcu-primary-700 rounded-full'
             >
               {state.resendCooldown > 0 ? (
                 <>

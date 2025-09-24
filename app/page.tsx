@@ -320,7 +320,7 @@ function LandingPageContent() {
               </Alert>
               <Button
                 onClick={() => window.location.reload()}
-                className='w-full'
+                className='w-full rounded-full '
                 variant='outline'
               >
                 Try Again
@@ -352,7 +352,10 @@ function LandingPageContent() {
             <CardDescription>{error}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => window.location.reload()} className='w-full'>
+            <Button
+              onClick={() => window.location.reload()}
+              className='w-full rounded-full '
+            >
               Try Again
             </Button>
           </CardContent>
@@ -415,7 +418,7 @@ function LandingPageContent() {
 
               <Button
                 onClick={proceedToDashboard}
-                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-none cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
+                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
               >
                 View Loan Status
                 <ArrowRight className='h-4 w-4' />
@@ -484,7 +487,7 @@ function LandingPageContent() {
 
             <Button
               onClick={proceedToVerification}
-              className='w-full bg-fcu-primary-600 mt-4 hover:bg-fcu-primary-700 cursor-pointer rounded-none'
+              className='w-full bg-fcu-primary-600 mt-4 hover:bg-fcu-primary-700 cursor-pointer rounded-full'
             >
               <Mail className='mr-2 h-4 w-4' />
               Send Verification Code
