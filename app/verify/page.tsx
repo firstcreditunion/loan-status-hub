@@ -273,7 +273,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+        <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           {' '}
           <CardContent className='pt-6'>
             <div className='flex flex-col items-center space-y-4'>
@@ -302,7 +302,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+        <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100'>
               <AlertTriangle className='h-6 w-6 text-red-600' />
@@ -335,7 +335,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+        <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -384,7 +384,7 @@ function VerifyPageContent() {
           width={20}
           height={20}
         />
-        <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+        <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
           <CardHeader className='text-center'>
             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
               <Image
@@ -441,7 +441,7 @@ function VerifyPageContent() {
         width={20}
         height={20}
       />
-      <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+      <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
         <CardHeader className='text-center'>
           <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
             <Image
@@ -579,7 +579,7 @@ function VerifyPageLoading() {
         width={20}
         height={20}
       />
-      <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+      <div className='w-full max-w-lg outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
             <Loader2 className='h-8 w-8 animate-spin text-fcu-primary-600' />
