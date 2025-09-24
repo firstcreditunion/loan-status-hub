@@ -350,7 +350,7 @@ function VerifyPageContent() {
             </div>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-none border mt-4'>
+            <div className='flex items-start space-x-3 p-4 bg-sky-50 rounded-xl border mt-4'>
               <Mail className='h-5 w-5 text-gray-700 flex-shrink-0' />
               <div className='text-sm'>
                 <p className='font-medium text-gray-700 mb-1'>
@@ -407,7 +407,7 @@ function VerifyPageContent() {
             <div className='text-center space-y-2'>
               <Badge
                 variant='outline'
-                className='text-xs bg-gray-100 rounded-none'
+                className='text-xs bg-gray-100 rounded-xl'
               >
                 Code expires in 10 minutes
               </Badge>

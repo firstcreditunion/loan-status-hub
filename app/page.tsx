@@ -477,7 +477,7 @@ function LandingPageContent() {
               </div>
             </div>
 
-            <Alert className='bg-gray-100 rounded-none border-none'>
+            <Alert className='bg-gray-100 rounded-xl border-none'>
               <Mail className='h-4 w-4' />
               <AlertDescription>
                 We&apos;ll send a 6-digit verification code to your email
