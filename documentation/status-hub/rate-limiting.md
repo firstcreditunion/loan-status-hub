@@ -223,3 +223,5 @@ Input parameters passed by the helper:
 - Add enforcement to additional endpoints (e.g., session checks) if needed.
 - Adjust per‑action windows by changing `max_requests` and/or `window_duration_val`.
 - Consider a stricter fallback (deny on RPC failure) for sensitive actions.
+
+<!-- Commit Control 2 -->
