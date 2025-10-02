@@ -1,4 +1,5 @@
 import { Database } from '@/database.types'
+import { getSchemaToUse } from '@/utils/schemToUse'
 import { createClient } from '@/utils/supabase/server'
 import crypto from 'crypto'
 
@@ -146,9 +147,10 @@ export async function getLoanApplication(
   }
 
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const { data, error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('tblLoanApplication')
     .select('*')
     .eq('Lnd_application_number', loanNumber)
@@ -172,11 +174,12 @@ export async function getComprehensiveLoanData(
   }
 
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   try {
     // Get main loan application
     const { data: loanApplication, error: loanError } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblLoanApplication')
       .select('*')
       .eq('Lnd_application_number', loanNumber)
@@ -189,7 +192,7 @@ export async function getComprehensiveLoanData(
 
     // Get financial details
     const { data: financialDetails } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblLoanApplicationFinancialDetails')
       .select('*')
       .eq('Lnd_application_number', loanNumber)
@@ -197,7 +200,7 @@ export async function getComprehensiveLoanData(
 
     // Get status information
     const { data: statusInfo } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblLoanApplicationStatusMaster')
       .select('*')
       .eq('application_status_code', loanApplication.app_status)
@@ -205,7 +208,7 @@ export async function getComprehensiveLoanData(
 
     // Get branch information
     const { data: branchInfo } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblFCU_TradingBranches')
       .select('*')
       .eq('Organisation_Unit_id', loanApplication.trading_branch || '')
@@ -213,7 +216,7 @@ export async function getComprehensiveLoanData(
 
     // Get loan officer (app_owner)
     const { data: loanOfficer } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblSovereignUsers')
       .select('*')
       .eq('client_number', loanApplication.app_owner || '')
@@ -221,7 +224,7 @@ export async function getComprehensiveLoanData(
 
     // Get delegated user
     const { data: delegatedUser } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('tblSovereignUsers')
       .select('*')
       .eq('client_number', loanApplication.delegated_user || '')
@@ -263,6 +266,7 @@ export async function createVerificationSession(
   }
 
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   try {
     const hashedCode = hashVerificationCode(verificationCode)
@@ -286,7 +290,7 @@ export async function createVerificationSession(
 
     // Use upsert to handle existing sessions gracefully
     const { error } = await supabase
-      .schema('api')
+      .schema(schema)
       .from('user_verification_sessions')
       .upsert(sessionData, {
         onConflict: 'email,loan_application_number',
@@ -312,9 +316,10 @@ export async function getVerificationSession(
   loanApplicationNumber: number
 ): Promise<VerificationSession | null> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const { data, error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('user_verification_sessions')
     .select('*')
     .eq('email', email)
@@ -340,6 +345,7 @@ export async function verifyCode(
   session?: VerificationSession
 }> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   // Get the verification session
   const session = await getVerificationSession(email, loanApplicationNumber)
@@ -366,7 +372,7 @@ export async function verifyCode(
 
   // Update attempts count - safe null handling
   const { error: updateError } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('user_verification_sessions')
     .update({
       attempts_count: currentAttempts + 1,
@@ -394,6 +400,7 @@ export async function createVerifiedUser(
   supabaseUserId?: string
 ): Promise<{ success: boolean; error?: string; user?: VerifiedUser }> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const userData: VerifiedUserInsert = {
     email,
@@ -408,7 +415,7 @@ export async function createVerifiedUser(
 
   // Use upsert to handle existing users
   const { data, error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('verified_users')
     .upsert(userData, {
       onConflict: 'email,loan_application_number',
@@ -429,9 +436,10 @@ export async function getVerifiedUser(
   loanApplicationNumber: number
 ): Promise<VerifiedUser | null> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const { data, error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('verified_users')
     .select('*')
     .eq('email', email)
@@ -453,6 +461,7 @@ export async function updateUserSession(
   sessionId?: string
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   // First, get current user to increment login count properly
   const currentUser = await getVerifiedUser(email, loanApplicationNumber)
@@ -461,7 +470,7 @@ export async function updateUserSession(
   }
 
   const { error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('verified_users')
     .update({
       last_login_at: new Date().toISOString(),
@@ -493,6 +502,7 @@ export async function logUserAction(
   metadata?: MetadataRecord
 ): Promise<void> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const logData: AccessLog = {
     email,
@@ -506,7 +516,7 @@ export async function logUserAction(
   }
 
   const { error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('user_access_logs')
     .insert(logData)
 
@@ -528,15 +538,18 @@ export async function checkRateLimit(
   currentRequests: number
 }> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   // Call the database function we created earlier
-  const { data, error } = await supabase.schema('api').rpc('check_rate_limit', {
-    identifier_val: identifier,
-    identifier_type_val: identifierType,
-    action_type_val: actionType,
-    max_requests: maxRequests,
-    window_duration_val: '1 hour',
-  })
+  const { data, error } = await supabase
+    .schema(schema)
+    .rpc('check_rate_limit', {
+      identifier_val: identifier,
+      identifier_type_val: identifierType,
+      action_type_val: actionType,
+      max_requests: maxRequests,
+      window_duration_val: '1 hour',
+    })
 
   if (error || !data) {
     console.error('Error checking rate limit:', error)
@@ -574,9 +587,10 @@ export async function logSecurityEvent(
   eventData?: EventDataRecord
 ): Promise<void> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const { error } = await supabase
-    .schema('api')
+    .schema(schema)
     .from('security_events')
     .insert({
       event_type: eventType,
@@ -597,9 +611,10 @@ export async function logSecurityEvent(
 // Cleanup Services
 export async function cleanupExpiredSessions(): Promise<number> {
   const supabase = await createClient()
+  const schema = await getSchemaToUse()
 
   const { data, error } = await supabase
-    .schema('api')
+    .schema(schema)
     .rpc('cleanup_expired_sessions')
 
   if (error) {
