@@ -92,7 +92,7 @@ function LandingPageContent() {
             sessionExpiresAt: sessionData.user.sessionExpiresAt,
           })
           setState('existing-session')
-
+          proceedToDashboard()
           return
         }
       }
@@ -148,7 +148,7 @@ function LandingPageContent() {
       loan: tokenData.loanApplicationNumber!,
     })
 
-    router.push(`/dashboard?${params.toString()}`)
+    router.push(`/dashboard/loan-application?${params.toString()}`)
   }
 
   const getSessionTimeLeft = (): string => {
@@ -366,70 +366,70 @@ function LandingPageContent() {
   }
 
   // Existing session state
-  if (state === 'existing-session') {
-    return (
-      <div className='h-full flex items-center justify-center relative'>
-        <DotPattern
-          className='text-fcu-primary-500'
-          opacity={0.08}
-          width={24}
-          height={24}
-        />
+  // if (state === 'existing-session') {
+  //   return (
+  //     <div className='h-full flex items-center justify-center relative'>
+  //       <DotPattern
+  //         className='text-fcu-primary-500'
+  //         opacity={0.08}
+  //         width={24}
+  //         height={24}
+  //       />
 
-        <div className='h-full flex items-center justify-center pt-32 w-full max-w-md'>
-          <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
-            <CardHeader className='text-center'>
-              <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
-                <Image
-                  src='/logo/android-chrome-192x192.png'
-                  alt='FCU Logo'
-                  width={80}
-                  height={80}
-                />
-              </div>
-              <div className='text-2xl text-fcu-primary-500 mb-2 font-semibold tracking-tighter'>
-                Welcome Back!
-              </div>
-              <CardDescription className='text-sm tracking-tight'>
-                You have an active session for your loan application.
-              </CardDescription>
-            </CardHeader>
-            <div className='space-y-4 pt-4'>
-              <div className='space-y-3 p-4 bg-fcu-primary-500 text-white rounded-xl'>
-                <div className='flex justify-between text-sm'>
-                  <span>Email:</span>
-                  <span className='font-medium'>{tokenData?.email}</span>
-                </div>
-                <div className='flex justify-between text-sm'>
-                  <span>Application Number:</span>
-                  <span className='font-mono'>
-                    {tokenData?.loanApplicationNumber}
-                  </span>
-                </div>
-                <div className='flex justify-between text-sm'>
-                  <span>Session expires:</span>
-                  <Badge
-                    variant='outline'
-                    className='text-xs text-white border-none p-0 m-0'
-                  >
-                    {getSessionTimeLeft()}
-                  </Badge>
-                </div>
-              </div>
+  //       <div className='h-full flex items-center justify-center pt-32 w-full max-w-md'>
+  //         <div className='w-full outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+  //           <CardHeader className='text-center'>
+  //             <div className='mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full outline-3 outline-offset-2 outline-fcu-secondary-300/50 shadow-xl shadow-gray-300'>
+  //               <Image
+  //                 src='/logo/android-chrome-192x192.png'
+  //                 alt='FCU Logo'
+  //                 width={80}
+  //                 height={80}
+  //               />
+  //             </div>
+  //             <div className='text-2xl text-fcu-primary-500 mb-2 font-semibold tracking-tighter'>
+  //               Welcome Back!
+  //             </div>
+  //             <CardDescription className='text-sm tracking-tight'>
+  //               You have an active session for your loan application.
+  //             </CardDescription>
+  //           </CardHeader>
+  //           <div className='space-y-4 pt-4'>
+  //             <div className='space-y-3 p-4 bg-fcu-primary-500 text-white rounded-xl'>
+  //               <div className='flex justify-between text-sm'>
+  //                 <span>Email:</span>
+  //                 <span className='font-medium'>{tokenData?.email}</span>
+  //               </div>
+  //               <div className='flex justify-between text-sm'>
+  //                 <span>Application Number:</span>
+  //                 <span className='font-mono'>
+  //                   {tokenData?.loanApplicationNumber}
+  //                 </span>
+  //               </div>
+  //               <div className='flex justify-between text-sm'>
+  //                 <span>Session expires:</span>
+  //                 <Badge
+  //                   variant='outline'
+  //                   className='text-xs text-white border-none p-0 m-0'
+  //                 >
+  //                   {getSessionTimeLeft()}
+  //                 </Badge>
+  //               </div>
+  //             </div>
 
-              <Button
-                onClick={proceedToDashboard}
-                className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
-              >
-                View Loan Status
-                <ArrowRight className='h-4 w-4' />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  //             <Button
+  //               onClick={proceedToDashboard}
+  //               className='w-full mt-4 bg-fcu-secondary-300 hover:bg-fcu-secondary-400 rounded-full cursor-pointer shadow-lg shadow-fcu-secondary-300/20'
+  //             >
+  //               View Loan Status
+  //               <ArrowRight className='h-4 w-4' />
+  //             </Button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   // Valid token state - ready for verification
   return (
