@@ -96,8 +96,8 @@ export const VerificationCodeEmail: React.FC<
                 <Img
                   src='https://loanstatushub.firstcreditunion.co.nz/logo/android-chrome-192x192.png'
                   alt='FCU Logo'
-                  width='72'
-                  height='72'
+                  width='80'
+                  height='80'
                   style={{
                     margin: '0 auto',
                     display: 'block',
@@ -397,23 +397,6 @@ export const VerificationCodeEmail: React.FC<
                   gap: '12px',
                 }}
               >
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '999px',
-                    backgroundColor: brandColors.secondary,
-                    color: brandColors.primary,
-                    fontWeight: '700',
-                    fontSize: '16px',
-                    lineHeight: '34px',
-                    textAlign: 'center',
-                    letterSpacing: '0.5px',
-                  }}
-                >
-                  SEC
-                </span>
                 Security Notice
               </Text>
               <Text
