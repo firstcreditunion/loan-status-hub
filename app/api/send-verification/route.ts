@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 import { sendVerificationCodeEmail } from '@/lib/email-templates'
 import {
   getLoanApplication,
@@ -18,18 +19,35 @@ function validateEmail(email: string): boolean {
 
 // API route for sending verification codes
 export async function POST(request: NextRequest) {
+  const requestId = crypto.randomUUID().substring(0, 8)
+  const startTime = Date.now()
+
+  console.log(`[${requestId}] [Send-Verification] START`)
+
   const ipAddress =
     request.headers.get('x-forwarded-for') ||
     request.headers.get('x-real-ip') ||
     'unknown'
   const userAgent = request.headers.get('user-agent') || 'unknown'
 
+  console.log(
+    `[${requestId}] [Send-Verification] IP: ${ipAddress}, UA: ${userAgent.substring(0, 50)}...`
+  )
+
   try {
+    console.log(`[${requestId}] [Send-Verification] Parsing request body...`)
     const body = await request.json()
     const { email, loanApplicationNumber } = body
 
+    console.log(
+      `[${requestId}] [Send-Verification] Email: ${email}, Loan: ${loanApplicationNumber}`
+    )
+
     // Validate required fields
     if (!email || !loanApplicationNumber) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Missing required fields`
+      )
       await logSecurityEvent(
         'invalid_request',
         'medium',
@@ -47,7 +65,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
+    console.log(`[${requestId}] [Send-Verification] Validating email format...`)
     if (!validateEmail(email)) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Invalid email format`
+      )
       await logSecurityEvent(
         'invalid_email_format',
         'low',
@@ -65,6 +87,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check rate limiting
+    console.log(`[${requestId}] [Send-Verification] Checking rate limit...`)
     const rateLimitResult = await checkRateLimit(
       `${ipAddress}_${email}`,
       'ip_email',
@@ -72,7 +95,14 @@ export async function POST(request: NextRequest) {
       3 // Max 3 verification requests per hour per IP/email combo
     )
 
+    console.log(
+      `[${requestId}] [Send-Verification] Rate limit allowed: ${rateLimitResult.allowed}, Remaining: ${rateLimitResult.remainingRequests}`
+    )
+
     if (!rateLimitResult.allowed) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Rate limit exceeded`
+      )
       // Convert loan application number to validate it first
       const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
       const validLoanNumber =
@@ -104,8 +134,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert loan application number to number and validate
+    console.log(`[${requestId}] [Send-Verification] Validating loan number...`)
     const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
     if (isNaN(loanNumberAsInt) || loanNumberAsInt <= 0) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Invalid loan number format`
+      )
       await logSecurityEvent(
         'invalid_loan_number',
         'medium',
@@ -123,9 +157,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Get loan application details
+    console.log(
+      `[${requestId}] [Send-Verification] Fetching loan application from database...`
+    )
     const loanApplication = await getLoanApplication(loanNumberAsInt)
+    console.log(
+      `[${requestId}] [Send-Verification] Loan found: ${!!loanApplication}`
+    )
 
     if (!loanApplication) {
+      console.log(`[${requestId}] [Send-Verification] ERROR: Loan not found`)
       // Don't log with non-existent loan number - use security event instead
       await logSecurityEvent(
         'loan_not_found',
@@ -147,9 +188,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate verification code
+    console.log(
+      `[${requestId}] [Send-Verification] Generating verification code...`
+    )
     const verificationCode = generateVerificationCode()
+    console.log(
+      `[${requestId}] [Send-Verification] Code generated successfully`
+    )
 
     // Create verification session in database
+    console.log(
+      `[${requestId}] [Send-Verification] Creating verification session in database...`
+    )
     const sessionResult = await createVerificationSession(
       email,
       loanNumberAsInt,
@@ -157,8 +207,14 @@ export async function POST(request: NextRequest) {
       ipAddress,
       userAgent
     )
+    console.log(
+      `[${requestId}] [Send-Verification] Session created: ${sessionResult.success}`
+    )
 
     if (!sessionResult.success) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Failed to create session - ${sessionResult.error}`
+      )
       await logUserAction(
         email,
         loanNumberAsInt,
@@ -176,6 +232,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Send verification email
+    console.log(
+      `[${requestId}] [Send-Verification] Sending verification email...`
+    )
     const emailResult = await sendVerificationCodeEmail({
       recipientEmail: email,
       verificationCode: verificationCode,
@@ -187,8 +246,14 @@ export async function POST(request: NextRequest) {
     })
 
     // Debug logging removed for security - verification code should not be logged
+    console.log(
+      `[${requestId}] [Send-Verification] Email sent: ${emailResult.success}`
+    )
 
     if (!emailResult.success) {
+      console.log(
+        `[${requestId}] [Send-Verification] ERROR: Failed to send email`
+      )
       await logUserAction(
         email,
         loanNumberAsInt,
@@ -206,6 +271,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Log successful verification request
+    console.log(
+      `[${requestId}] [Send-Verification] Logging successful action...`
+    )
     await logUserAction(
       email,
       loanNumberAsInt,
@@ -220,6 +288,11 @@ export async function POST(request: NextRequest) {
       }
     )
 
+    const duration = Date.now() - startTime
+    console.log(
+      `[${requestId}] [Send-Verification] SUCCESS - Returning response (${duration}ms)`
+    )
+
     return NextResponse.json({
       success: true,
       message: 'Verification code sent successfully',
@@ -227,7 +300,11 @@ export async function POST(request: NextRequest) {
       remainingAttempts: rateLimitResult.remainingRequests,
     })
   } catch (error) {
-    console.error('Verification code sending failed:', error)
+    const duration = Date.now() - startTime
+    console.error(
+      `[${requestId}] [Send-Verification] ERROR (${duration}ms):`,
+      error
+    )
 
     // Log the error
     await logSecurityEvent(

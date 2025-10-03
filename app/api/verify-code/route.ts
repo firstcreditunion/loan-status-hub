@@ -21,20 +21,35 @@ function generateDashboardToken(email: string, loanNumber: string): string {
 
 // API route for verifying codes
 export async function POST(request: NextRequest) {
+  const requestId = crypto.randomUUID().substring(0, 8)
+  const startTime = Date.now()
+
+  console.log(`[${requestId}] [Verify-Code] START`)
+
   const ipAddress =
     request.headers.get('x-forwarded-for') ||
     request.headers.get('x-real-ip') ||
     'unknown'
   const userAgent = request.headers.get('user-agent') || 'unknown'
 
+  console.log(
+    `[${requestId}] [Verify-Code] IP: ${ipAddress}, UA: ${userAgent.substring(0, 50)}...`
+  )
+
   try {
+    console.log(`[${requestId}] [Verify-Code] Parsing request body...`)
     const body = await request.json()
     const { email, loanApplicationNumber, verificationCode } = body
+
+    console.log(
+      `[${requestId}] [Verify-Code] Email: ${email}, Loan: ${loanApplicationNumber}, Code: [REDACTED]`
+    )
 
     // Debug logging removed for security - verification code should not be logged
 
     // Validate required fields
     if (!email || !loanApplicationNumber || !verificationCode) {
+      console.log(`[${requestId}] [Verify-Code] ERROR: Missing required fields`)
       await logSecurityEvent(
         'invalid_request',
         'medium',
@@ -55,7 +70,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate code format (6 digits)
+    console.log(`[${requestId}] [Verify-Code] Validating code format...`)
     if (!/^\d{6}$/.test(verificationCode)) {
+      console.log(`[${requestId}] [Verify-Code] ERROR: Invalid code format`)
       await logSecurityEvent(
         'invalid_code_format',
         'medium',
@@ -73,6 +90,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check rate limiting for code attempts
+    console.log(`[${requestId}] [Verify-Code] Checking rate limit...`)
     const rateLimitResult = await checkRateLimit(
       `${ipAddress}_${email}`,
       'ip_email',
@@ -80,7 +98,12 @@ export async function POST(request: NextRequest) {
       5 // Max 5 code attempts per hour per IP/email combo
     )
 
+    console.log(
+      `[${requestId}] [Verify-Code] Rate limit allowed: ${rateLimitResult.allowed}, Remaining: ${rateLimitResult.remainingRequests}`
+    )
+
     if (!rateLimitResult.allowed) {
+      console.log(`[${requestId}] [Verify-Code] ERROR: Rate limit exceeded`)
       // Convert loan application number to validate it first
       const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
       const validLoanNumber =
@@ -112,8 +135,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert loan application number to number and validate
+    console.log(`[${requestId}] [Verify-Code] Validating loan number...`)
     const loanNumberAsInt = parseInt(loanApplicationNumber, 10)
     if (isNaN(loanNumberAsInt) || loanNumberAsInt <= 0) {
+      console.log(
+        `[${requestId}] [Verify-Code] ERROR: Invalid loan number format`
+      )
       await logSecurityEvent(
         'invalid_loan_number',
         'medium',
@@ -131,13 +158,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify the code
+    console.log(`[${requestId}] [Verify-Code] Verifying code...`)
     const verificationResult = await verifyCode(
       email,
       loanNumberAsInt,
       verificationCode
     )
+    console.log(
+      `[${requestId}] [Verify-Code] Verification result: ${verificationResult.success}`
+    )
 
     if (!verificationResult.success) {
+      console.log(
+        `[${requestId}] [Verify-Code] ERROR: Verification failed - ${verificationResult.error}`
+      )
       // Only log with loan number if we know it exists (check if verification session exists)
       if (verificationResult.session) {
         // Log failed verification attempt - we know loan exists if session exists
@@ -187,8 +221,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Get loan application details for user creation
+    console.log(`[${requestId}] [Verify-Code] Fetching loan application...`)
     const loanApplication = await getLoanApplication(loanNumberAsInt)
+    console.log(`[${requestId}] [Verify-Code] Loan found: ${!!loanApplication}`)
+
     if (!loanApplication) {
+      console.log(
+        `[${requestId}] [Verify-Code] ERROR: Loan application not found`
+      )
       return NextResponse.json(
         { error: 'Loan application not found' },
         { status: 404 }
@@ -196,9 +236,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Create or update verified user
+    console.log(
+      `[${requestId}] [Verify-Code] Creating/updating verified user...`
+    )
     const userResult = await createVerifiedUser(email, loanNumberAsInt)
+    console.log(
+      `[${requestId}] [Verify-Code] User created: ${userResult.success}`
+    )
 
     if (!userResult.success) {
+      console.log(
+        `[${requestId}] [Verify-Code] ERROR: Failed to create user - ${userResult.error}`
+      )
       await logUserAction(
         email,
         loanNumberAsInt,
@@ -216,6 +265,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate dashboard token
+    console.log(`[${requestId}] [Verify-Code] Generating dashboard token...`)
     const dashboardToken = generateDashboardToken(
       email,
       loanNumberAsInt.toString()
@@ -225,8 +275,10 @@ export async function POST(request: NextRequest) {
       email,
       dashboardToken
     )
+    console.log(`[${requestId}] [Verify-Code] Dashboard URL generated`)
 
     // Send welcome email
+    console.log(`[${requestId}] [Verify-Code] Sending welcome email...`)
     const emailResult = await sendWelcomeEmail({
       recipientEmail: email,
       applicantName: loanApplication.applicant_name || 'Applicant',
@@ -236,7 +288,14 @@ export async function POST(request: NextRequest) {
       userAgent,
     })
 
+    console.log(
+      `[${requestId}] [Verify-Code] Welcome email sent: ${emailResult.success}`
+    )
+
     // Log successful verification (even if welcome email fails)
+    console.log(
+      `[${requestId}] [Verify-Code] Logging successful verification...`
+    )
     await logUserAction(
       email,
       loanNumberAsInt,
@@ -255,6 +314,11 @@ export async function POST(request: NextRequest) {
     // Create Supabase auth session (optional - for additional security)
     // const supabase = await createClient()
 
+    const duration = Date.now() - startTime
+    console.log(
+      `[${requestId}] [Verify-Code] SUCCESS - Returning response (${duration}ms)`
+    )
+
     return NextResponse.json({
       success: true,
       message: 'Verification successful',
@@ -263,7 +327,8 @@ export async function POST(request: NextRequest) {
       sessionExpiresIn: 15, // minutes
     })
   } catch (error) {
-    console.error('Code verification failed:', error)
+    const duration = Date.now() - startTime
+    console.error(`[${requestId}] [Verify-Code] ERROR (${duration}ms):`, error)
 
     // Log the error
     await logSecurityEvent(
