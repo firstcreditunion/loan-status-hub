@@ -65,6 +65,8 @@ export const VerificationCodeEmail: React.FC<
       <Container
         style={{
           backgroundColor: brandColors.background.lighter,
+          backgroundImage:
+            'linear-gradient(135deg, rgba(0, 104, 127, 0.08) 0%, rgba(0, 104, 127, 0.02) 100%)',
           padding: '40px 20px',
           fontFamily: 'Inter, Arial, sans-serif',
         }}
@@ -84,8 +86,9 @@ export const VerificationCodeEmail: React.FC<
           <Section
             style={{
               backgroundColor: brandColors.primary,
-              padding: '40px 32px',
+              padding: '28px 32px 24px',
               textAlign: 'center',
+              borderBottom: `4px solid ${brandColors.secondary}`,
             }}
           >
             <Row>
@@ -93,26 +96,13 @@ export const VerificationCodeEmail: React.FC<
                 <Img
                   src='https://loanstatushub.firstcreditunion.co.nz/logo/android-chrome-192x192.png'
                   alt='FCU Logo'
-                  width='80'
-                  height='80'
+                  width='72'
+                  height='72'
                   style={{
-                    margin: '0 auto 20px',
+                    margin: '0 auto',
                     display: 'block',
                   }}
                 />
-                <Heading
-                  as='h1'
-                  style={{
-                    color: brandColors.background.white,
-                    fontSize: '26px',
-                    fontWeight: '700',
-                    margin: '0',
-                    lineHeight: '1.2',
-                    letterSpacing: '-0.5px',
-                  }}
-                >
-                  FCU Loan Status Portal
-                </Heading>
               </Column>
             </Row>
           </Section>
