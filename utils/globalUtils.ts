@@ -20,11 +20,17 @@ export async function getEnvironemnt() {
     return 'test'
   }
 
-  if (host && host === 'firstcreditunion-loans-test.vercel.app') {
+  if (host && host === 'loan-link-dev.vercel.app') {
     return 'test'
   }
 
-  if (host && host === 'www.statushub.firstcreditunion.co.nz') {
+  if (
+    host &&
+    (host === 'loan-status-hub.vercel.app' ||
+      host === 'www.loanstatushub.firstcreditunion.co.nz' ||
+      host === 'loanstatushub.firstcreditunion.co.nz' ||
+      host === 'https://loanstatushub.firstcreditunion.co.nz')
+  ) {
     return 'prod'
   }
 
@@ -42,11 +48,17 @@ export async function getCreditSenseStoreCode() {
     return process.env.CREDIT_SENSE_TEST_STORE!
   }
 
-  if (host && host === 'firstcreditunion-loans-test.vercel.app') {
+  if (host && host === 'loan-link-dev.vercel.app') {
     return process.env.CREDIT_SENSE_TEST_STORE!
   }
 
-  if (host && host === 'www.statushub.firstcreditunion.co.nz') {
+  if (
+    host &&
+    (host === 'loan-status-hub.vercel.app' ||
+      host === 'www.loanstatushub.firstcreditunion.co.nz' ||
+      host === 'loanstatushub.firstcreditunion.co.nz' ||
+      host === 'https://loanstatushub.firstcreditunion.co.nz')
+  ) {
     return process.env.CREDIT_SENSE_PROD_STORE!
   }
 
@@ -64,11 +76,17 @@ export async function getCreditSenseDebugBanks() {
     return true
   }
 
-  if (host && host === 'firstcreditunion-loans-test.vercel.app') {
+  if (host && host === 'loan-link-dev.vercel.app') {
     return true
   }
 
-  if (host && host === 'www.statushub.firstcreditunion.co.nz') {
+  if (
+    host &&
+    (host === 'loan-status-hub.vercel.app' ||
+      host === 'www.loanstatushub.firstcreditunion.co.nz' ||
+      host === 'loanstatushub.firstcreditunion.co.nz' ||
+      host === 'https://loanstatushub.firstcreditunion.co.nz')
+  ) {
     return false
   }
 

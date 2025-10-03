@@ -15,19 +15,21 @@ export async function getSchemaToUse(): Promise<Schema> {
 
   console.log('Host: ', host)
 
+  if (host && host.startsWith('localhost')) {
+    return 'api'
+  }
+
+  if (host && host === 'loan-link-dev.vercel.app') {
+    return 'api'
+  }
+
   if (
-    process.env.SCHEMEA_TO_USE === '' &&
     host &&
-    host.startsWith('localhost')
+    (host === 'loan-status-hub.vercel.app' ||
+      host === 'www.loanstatushub.firstcreditunion.co.nz' ||
+      host === 'loanstatushub.firstcreditunion.co.nz' ||
+      host === 'https://loanstatushub.firstcreditunion.co.nz')
   ) {
-    return 'api'
-  }
-
-  if (host && host === 'firstcreditunion-loans-test.vercel.app') {
-    return 'api'
-  }
-
-  if (host && host === 'www.statushub.firstcreditunion.co.nz') {
     return 'production'
   }
 
@@ -40,19 +42,21 @@ export async function getFCUApiToUse(): Promise<string> {
 
   // console.log('Host: ', host)
 
+  if (host && host.startsWith('localhost')) {
+    return process.env.FCU_API_BASE_URL_TEST!
+  }
+
+  if (host && host === 'loan-link-dev.vercel.app') {
+    return process.env.FCU_API_BASE_URL_TEST!
+  }
+
   if (
-    process.env.SCHEMEA_TO_USE === '' &&
     host &&
-    host.startsWith('localhost')
+    (host === 'loan-status-hub.vercel.app' ||
+      host === 'www.loanstatushub.firstcreditunion.co.nz' ||
+      host === 'loanstatushub.firstcreditunion.co.nz' ||
+      host === 'https://loanstatushub.firstcreditunion.co.nz')
   ) {
-    return process.env.FCU_API_BASE_URL_TEST!
-  }
-
-  if (host && host === 'firstcreditunion-loans-test.vercel.app') {
-    return process.env.FCU_API_BASE_URL_TEST!
-  }
-
-  if (host && host === 'www.statushub.firstcreditunion.co.nz') {
     return process.env.FCU_API_BASE_URL_PROD!
   }
 
