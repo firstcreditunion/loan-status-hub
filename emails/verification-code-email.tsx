@@ -119,10 +119,10 @@ export const VerificationCodeEmail: React.FC<
                   as='h2'
                   style={{
                     color: brandColors.text.primary,
-                    fontSize: '24px',
+                    fontSize: '26px',
                     fontWeight: '600',
                     margin: '0 0 20px 0',
-                    lineHeight: '1.3',
+                    lineHeight: '1.25',
                   }}
                 >
                   Hello {applicantName},
@@ -132,7 +132,7 @@ export const VerificationCodeEmail: React.FC<
                   style={{
                     color: brandColors.text.secondary,
                     fontSize: '16px',
-                    lineHeight: '1.7',
+                    lineHeight: '1.6',
                     margin: '0 0 16px 0',
                   }}
                 >
@@ -148,7 +148,7 @@ export const VerificationCodeEmail: React.FC<
                   style={{
                     color: brandColors.text.secondary,
                     fontSize: '16px',
-                    lineHeight: '1.7',
+                    lineHeight: '1.6',
                     margin: '0',
                   }}
                 >
@@ -165,6 +165,15 @@ export const VerificationCodeEmail: React.FC<
               padding: '40px 32px',
             }}
           >
+            <Section
+              style={{
+                width: '72px',
+                height: '4px',
+                backgroundColor: brandColors.primary,
+                margin: '0 auto 24px',
+                borderRadius: '999px',
+              }}
+            />
             <Section
               style={{
                 backgroundColor: brandColors.background.lighter,
@@ -193,7 +202,7 @@ export const VerificationCodeEmail: React.FC<
                   fontSize: '44px',
                   fontWeight: '700',
                   fontFamily: '"Courier New", Courier, monospace',
-                  letterSpacing: '12px',
+                  letterSpacing: '10px',
                   margin: '0 0 20px 0',
                   lineHeight: '1',
                   padding: '16px 0',
@@ -224,6 +233,15 @@ export const VerificationCodeEmail: React.FC<
               padding: '0 32px 32px',
             }}
           >
+            <Section
+              style={{
+                width: '56px',
+                height: '3px',
+                backgroundColor: brandColors.secondary,
+                margin: '0 0 20px',
+                borderRadius: '999px',
+              }}
+            />
             <Row>
               <Column>
                 <Text
@@ -373,10 +391,30 @@ export const VerificationCodeEmail: React.FC<
                   color: brandColors.text.primary,
                   fontSize: '14px',
                   fontWeight: '600',
-                  margin: '0 0 8px 0',
+                  margin: '0 0 12px 0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
                 }}
               >
-                🔒 Security Notice
+                <span
+                  style={{
+                    display: 'inline-block',
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '999px',
+                    backgroundColor: brandColors.secondary,
+                    color: brandColors.primary,
+                    fontWeight: '700',
+                    fontSize: '16px',
+                    lineHeight: '34px',
+                    textAlign: 'center',
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  SEC
+                </span>
+                Security Notice
               </Text>
               <Text
                 style={{
@@ -403,6 +441,38 @@ export const VerificationCodeEmail: React.FC<
           >
             <Row>
               <Column>
+                <table
+                  align='center'
+                  style={{
+                    margin: '0 auto 20px',
+                    borderCollapse: 'separate',
+                    borderSpacing: '12px',
+                  }}
+                >
+                  <tr>
+                    <td
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '999px',
+                        backgroundColor: brandColors.primary,
+                        textAlign: 'center',
+                        verticalAlign: 'middle',
+                      }}
+                    >
+                      <Img
+                        src='https://loanstatushub.firstcreditunion.co.nz/logo/favicon-32x32.png'
+                        alt='Support Icon'
+                        width='20'
+                        height='20'
+                        style={{
+                          display: 'inline-block',
+                          margin: '10px auto',
+                        }}
+                      />
+                    </td>
+                  </tr>
+                </table>
                 <Text
                   style={{
                     color: brandColors.text.secondary,
