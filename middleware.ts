@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse, userAgent } from 'next/server'
 import { updateSession } from '@/utils/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  // Generate a unique nonce per request for CSP
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+  // Generate a unique nonce per request for CSP (Edge Runtime compatible)
+  const nonce = crypto.randomUUID().replace(/-/g, '')
 
   const isDev = process.env.NODE_ENV === 'development'
 
@@ -55,6 +55,15 @@ export async function middleware(request: NextRequest) {
     'https://*.ssl.cf4.rackcdn.com',
     'https://creditsense.com.au',
     'https://*.creditsense.com.au',
+    // Intercom chat widget
+    'https://widget.intercom.io',
+    'https://js.intercomcdn.com',
+    'https://api-iam.intercom.io',
+    'https://app.intercom.com',
+    'https://*.intercom.io',
+    'https://*.intercomcdn.com',
+    'wss://nexus-websocket-a.intercom.io',
+    'wss://nexus-websocket-b.intercom.io',
   ]
 
   // Tracking/ads
