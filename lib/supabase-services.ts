@@ -156,6 +156,8 @@ export async function getLoanApplication(
     .eq('Lnd_application_number', loanNumber)
     .single()
 
+  console.log('GET LOAN APPLICATION DATA: ', data, error)
+
   if (error) {
     console.error('Error fetching loan application:', error)
     return null
@@ -184,6 +186,8 @@ export async function getComprehensiveLoanData(
       .select('*')
       .eq('Lnd_application_number', loanNumber)
       .single()
+
+    console.log('GET COMPREHENSIVE LOAN DATA: ', loanApplication, loanError)
 
     if (loanError || !loanApplication) {
       console.error('Error fetching loan application:', loanError)

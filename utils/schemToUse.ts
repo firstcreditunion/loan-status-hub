@@ -13,7 +13,7 @@ export async function getSchemaToUse(): Promise<Schema> {
   //   const origin = await getOrigin()
   const host = await getHost()
 
-  // console.log('Host: ', host)
+  console.log('Host: ', host)
 
   if (
     process.env.SCHEMEA_TO_USE === '' &&
