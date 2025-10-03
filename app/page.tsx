@@ -191,7 +191,7 @@ function LandingPageContent() {
                 />
               </div>
               <div className='text-3xl tracking-tight font-light text-fcu-primary-500 mb-2'>
-                First Status Hub
+                Loan Status Hub
               </div>
               <CardDescription className='text-lg text-fcu-secondary-300'>
                 Secure access to your application status
