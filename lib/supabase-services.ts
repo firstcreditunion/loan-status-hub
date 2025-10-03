@@ -141,6 +141,8 @@ interface ComprehensiveLoanData {
 export async function getLoanApplication(
   loanNumber: number
 ): Promise<LoanApplication | null> {
+  console.log('SERACHING FOR LOAN APPLICATION: ', loanNumber)
+
   if (!validateLoanNumber(loanNumber)) {
     console.error('Invalid loan number provided:', loanNumber)
     return null
@@ -148,6 +150,8 @@ export async function getLoanApplication(
 
   const supabase = await createClient()
   const schema = await getSchemaToUse()
+
+  console.log('SCHEMA: ', schema)
 
   const { data, error } = await supabase
     .schema(schema)
