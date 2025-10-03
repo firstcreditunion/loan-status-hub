@@ -65,16 +65,16 @@ export default function IntercomProvider({
 
       try {
         Intercom(intercomConfig)
-        console.log(
-          'Intercom initialized successfully',
-          isAuthenticated ? 'with user data' : 'anonymously'
-        )
+        // console.log(
+        //   'Intercom initialized successfully',
+        //   isAuthenticated ? 'with user data' : 'anonymously'
+        // )
 
         // Show the homepage by default
         setTimeout(() => {
           if (window.Intercom) {
             window.Intercom('showSpace', 'home')
-            console.log('Intercom homepage displayed')
+            // console.log('Intercom homepage displayed')
           }
         }, 1000) // Small delay to ensure Intercom is fully loaded
 
@@ -93,9 +93,9 @@ export default function IntercomProvider({
     return () => {
       try {
         // Intercom SDK handles cleanup automatically
-        console.log('Intercom cleanup completed')
+        // console.log('Intercom cleanup completed')
       } catch (error) {
-        console.error('Error during Intercom cleanup:', error)
+        // console.error('Error during Intercom cleanup:', error)
       }
     }
   }, [

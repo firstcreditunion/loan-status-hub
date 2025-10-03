@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const pathname = usePathname()
-  console.log('Path name', pathname)
+  // console.log('Path name', pathname)
 
   if (pathname === '/dashboard') {
     return null
