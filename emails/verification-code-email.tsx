@@ -91,7 +91,7 @@ export const VerificationCodeEmail: React.FC<
             <Row>
               <Column>
                 <Img
-                  src='https://your-domain.com/logo/android-chrome-192x192.png'
+                  src='https://loanstatushub.firstcreditunion.co.nz/logo/android-chrome-192x192.png'
                   alt='FCU Logo'
                   width='80'
                   height='80'
