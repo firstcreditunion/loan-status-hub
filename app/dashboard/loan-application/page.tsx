@@ -502,7 +502,7 @@ function DashboardPageContent() {
   // Active dashboard
   return (
     <TooltipProvider>
-      <div className='min-h-screen bg-white tracking-tight'>
+      <div className='min-h-screen bg-white tracking-tight pt-20'>
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header */}
