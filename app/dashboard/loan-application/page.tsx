@@ -386,7 +386,7 @@ function DashboardPageContent() {
   // Loading state
   if (state === 'loading') {
     return (
-      <div className='min-h-screen bg-white pt-20'>
+      <div className='min-h-screen bg-white pt-20 px-4 sm:px-0'>
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header skeleton */}
@@ -502,7 +502,7 @@ function DashboardPageContent() {
   // Active dashboard
   return (
     <TooltipProvider>
-      <div className='min-h-screen bg-white tracking-tight pt-20'>
+      <div className='min-h-screen bg-white tracking-tight pt-20 px-4 sm:px-0'>
         <div className='container mx-auto px-4 py-8'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header */}

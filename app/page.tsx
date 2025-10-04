@@ -170,7 +170,7 @@ function LandingPageContent() {
   // Initial state - no parameters
   if (state === 'initial') {
     return (
-      <div className='h-full flex items-center justify-center relative pt-32 '>
+      <div className='h-full flex items-center justify-center relative pt-32 px-4 sm:px-0'>
         {/* Dot pattern background */}
         <DotPattern
           className='text-fcu-primary-500'
@@ -254,7 +254,7 @@ function LandingPageContent() {
   // Validating state
   if (state === 'validating') {
     return (
-      <div className='h-full flex items-center justify-center pt-32 relative'>
+      <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -291,7 +291,7 @@ function LandingPageContent() {
   // Invalid token state
   if (state === 'invalid-token') {
     return (
-      <div className='min-h-screen flex items-center justify-center pt-32 relative'>
+      <div className='min-h-screen flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -336,7 +336,7 @@ function LandingPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center pt-32 relative'>
+      <div className='min-h-screen flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -368,7 +368,7 @@ function LandingPageContent() {
   // Existing session state
   if (state === 'existing-session') {
     return (
-      <div className='h-full flex items-center justify-center relative'>
+      <div className='h-full flex items-center justify-center relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -433,7 +433,7 @@ function LandingPageContent() {
 
   // Valid token state - ready for verification
   return (
-    <div className='h-full flex items-center justify-center relative pt-32'>
+    <div className='h-full flex items-center justify-center relative pt-32 px-4 sm:px-0'>
       <DotPattern
         className='text-fcu-primary-500'
         opacity={0.08}
@@ -503,7 +503,7 @@ function LandingPageContent() {
 // Loading component for Suspense fallback
 function LandingPageLoading() {
   return (
-    <div className='min-h-screen flex items-center justify-center'>
+    <div className='min-h-screen flex items-center justify-center px-4 sm:px-0'>
       <Card className='w-full max-w-lg'>
         <CardContent className='pt-6'>
           <div className='flex flex-col items-center space-y-4'>
