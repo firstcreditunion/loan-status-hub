@@ -67,7 +67,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
       <Container
         style={{
           backgroundColor: brandColors.background.lighter,
-          padding: '40px 20px',
+          padding: '32px 12px',
           fontFamily: 'Inter, Arial, sans-serif',
         }}
       >
@@ -143,7 +143,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 backgroundColor: brandColors.background.white,
                 borderRadius: '16px',
                 border: `2px solid ${brandColors.border.light}`,
-                padding: '32px',
+                padding: '24px 20px',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
             >
@@ -197,7 +197,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           {/* CTA Section */}
           <Section
             style={{
-              padding: '36px 32px 0',
+              padding: '32px 32px 0',
             }}
           >
             <Section
@@ -205,7 +205,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 backgroundColor: `${brandColors.primary}08`,
                 borderRadius: '16px',
                 border: `2px solid ${brandColors.primary}40`,
-                padding: '32px',
+                padding: '24px 20px',
                 textAlign: 'center',
                 boxShadow: '0 2px 6px rgba(0, 104, 127, 0.08)',
               }}
@@ -255,7 +255,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           {/* Features Section */}
           <Section
             style={{
-              padding: '36px 32px 0',
+              padding: '32px 32px 0',
             }}
           >
             <Section
@@ -263,7 +263,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 backgroundColor: brandColors.background.white,
                 borderRadius: '16px',
                 border: `2px solid ${brandColors.border.light}`,
-                padding: '32px',
+                padding: '24px 20px',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
             >
@@ -291,7 +291,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 <tr>
                   <td
                     style={{
-                      padding: '18px 20px',
+                      padding: '16px',
                       borderRadius: '14px',
                       border: `2px solid ${brandColors.border.light}`,
                       backgroundColor: brandColors.background.lighter,
@@ -342,7 +342,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 <tr>
                   <td
                     style={{
-                      padding: '18px 20px',
+                      padding: '16px',
                       borderRadius: '14px',
                       border: `2px solid ${brandColors.border.light}`,
                       backgroundColor: brandColors.background.lighter,
@@ -394,12 +394,12 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
             </Section>
           </Section>
 
-          <Section style={{ padding: '36px 32px 0' }}>
+          <Section style={{ padding: '32px 32px 0' }}>
             <Hr
               style={{
                 border: 'none',
                 borderTop: `1px solid ${brandColors.border.light}`,
-                margin: '0 0 36px 0',
+                margin: '0 0 32px 0',
               }}
             />
           </Section>
@@ -407,7 +407,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           {/* Security Info */}
           <Section
             style={{
-              padding: '0 32px 36px',
+              padding: '0 32px 32px',
             }}
           >
             <Section
@@ -415,7 +415,7 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 backgroundColor: `${brandColors.secondary}15`,
                 border: `2px solid ${brandColors.secondary}`,
                 borderRadius: '14px',
-                padding: '24px',
+                padding: '20px 16px',
                 boxShadow: '0 2px 4px rgba(187, 187, 20, 0.1)',
               }}
             >
@@ -451,46 +451,12 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           <Section
             style={{
               backgroundColor: brandColors.background.light,
-              padding: '36px 32px',
+              padding: '32px 24px',
               borderTop: `1px solid ${brandColors.border.light}`,
             }}
           >
             <Row>
               <Column>
-                <table
-                  role='presentation'
-                  align='center'
-                  style={{
-                    margin: '0 auto 20px',
-                    borderCollapse: 'separate',
-                    borderSpacing: '12px',
-                  }}
-                >
-                  <tr>
-                    <td
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '999px',
-                        backgroundColor: brandColors.primary,
-                        textAlign: 'center',
-                        verticalAlign: 'middle',
-                        boxShadow: '0 2px 4px rgba(0, 104, 127, 0.2)',
-                      }}
-                    >
-                      <Img
-                        src='https://loanstatushub.firstcreditunion.co.nz/logo/favicon-32x32.png'
-                        alt='FCU Support'
-                        width='20'
-                        height='20'
-                        style={{
-                          display: 'inline-block',
-                          margin: '10px auto',
-                        }}
-                      />
-                    </td>
-                  </tr>
-                </table>
                 <Text
                   style={{
                     color: brandColors.text.secondary,

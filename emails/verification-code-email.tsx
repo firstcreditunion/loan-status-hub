@@ -67,7 +67,7 @@ export const VerificationCodeEmail: React.FC<
       <Container
         style={{
           backgroundColor: brandColors.background.lighter,
-          padding: '40px 20px',
+          padding: '32px 12px',
           fontFamily: 'Inter, Arial, sans-serif',
         }}
       >
@@ -111,7 +111,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Greeting Section */}
           <Section
             style={{
-              padding: '40px 32px 0',
+              padding: '32px 32px 0',
             }}
           >
             <Section
@@ -119,7 +119,7 @@ export const VerificationCodeEmail: React.FC<
                 backgroundColor: brandColors.background.white,
                 borderRadius: '16px',
                 border: `2px solid ${brandColors.border.light}`,
-                padding: '32px',
+                padding: '24px 20px',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
             >
@@ -173,7 +173,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Hero Verification Code Section */}
           <Section
             style={{
-              padding: '36px 32px',
+              padding: '32px 32px',
             }}
           >
             <Section
@@ -190,7 +190,7 @@ export const VerificationCodeEmail: React.FC<
                 backgroundColor: brandColors.background.white,
                 border: `3px solid ${brandColors.primary}`,
                 borderRadius: '16px',
-                padding: '40px 24px',
+                padding: '32px 20px',
                 textAlign: 'center',
                 boxShadow: '0 4px 12px rgba(0, 104, 127, 0.15)',
               }}
@@ -268,7 +268,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Instructions Section */}
           <Section
             style={{
-              padding: '0 32px 36px',
+              padding: '0 32px 32px',
             }}
           >
             <Section
@@ -276,7 +276,7 @@ export const VerificationCodeEmail: React.FC<
                 backgroundColor: brandColors.background.white,
                 borderRadius: '16px',
                 border: `2px solid ${brandColors.border.light}`,
-                padding: '32px',
+                padding: '24px 20px',
                 boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
             >
@@ -312,7 +312,7 @@ export const VerificationCodeEmail: React.FC<
                     <tr>
                       <td
                         style={{
-                          padding: '16px 18px',
+                          padding: '14px 16px',
                           verticalAlign: 'top',
                           backgroundColor: brandColors.background.lighter,
                           borderRadius: '12px',
@@ -351,7 +351,7 @@ export const VerificationCodeEmail: React.FC<
                     <tr>
                       <td
                         style={{
-                          padding: '16px 18px',
+                          padding: '14px 16px',
                           verticalAlign: 'top',
                           backgroundColor: brandColors.background.lighter,
                           borderRadius: '12px',
@@ -390,7 +390,7 @@ export const VerificationCodeEmail: React.FC<
                     <tr>
                       <td
                         style={{
-                          padding: '16px 18px',
+                          padding: '14px 16px',
                           verticalAlign: 'top',
                           backgroundColor: brandColors.background.lighter,
                           borderRadius: '12px',
@@ -434,7 +434,7 @@ export const VerificationCodeEmail: React.FC<
               style={{
                 border: 'none',
                 borderTop: `1px solid ${brandColors.border.light}`,
-                margin: '0 0 36px 0',
+                margin: '0 0 32px 0',
               }}
             />
           </Section>
@@ -442,7 +442,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Security Notice with Secondary Color */}
           <Section
             style={{
-              padding: '0 32px 36px',
+              padding: '0 32px 32px',
             }}
           >
             <Section
@@ -450,7 +450,7 @@ export const VerificationCodeEmail: React.FC<
                 backgroundColor: `${brandColors.secondary}15`,
                 border: `2px solid ${brandColors.secondary}`,
                 borderRadius: '14px',
-                padding: '24px',
+                padding: '20px 16px',
                 boxShadow: '0 2px 4px rgba(187, 187, 20, 0.1)',
               }}
             >
@@ -483,7 +483,7 @@ export const VerificationCodeEmail: React.FC<
           <Section
             style={{
               backgroundColor: brandColors.background.light,
-              padding: '36px 32px',
+              padding: '32px 24px',
               borderTop: `1px solid ${brandColors.border.light}`,
             }}
           >
@@ -573,11 +573,8 @@ export const VerificationCodeEmail: React.FC<
                     lineHeight: '1.6',
                   }}
                 >
-                  <strong style={{ color: brandColors.primary }}>
-                    First Credit Union
-                  </strong>{' '}
-                  • Your trusted financial partner since 1951
-                  <br />© {new Date().getFullYear()} FCU. All rights reserved.
+                  © {new Date().getFullYear()} First Credit Union. All rights
+                  reserved.
                 </Text>
               </Column>
             </Row>
