@@ -47,6 +47,8 @@ export const VerificationCodeEmail: React.FC<
   return (
     <Html lang='en' dir='ltr'>
       <Head>
+        <meta name='color-scheme' content='light dark' />
+        <meta name='supported-color-schemes' content='light dark' />
         <Font
           fontFamily='Inter'
           fallbackFontFamily='Arial'
@@ -58,7 +60,7 @@ export const VerificationCodeEmail: React.FC<
           fontStyle='normal'
         />
         <Preview>
-          {`Your verification code: ${verificationCode} - Expires in ${expiresInMinutes} minutes`}
+          {`🔐 Your FCU verification code is ${verificationCode} for loan #${loanApplicationNumber}. Valid for ${expiresInMinutes} minutes. Enter this code to securely access your loan status dashboard.`}
         </Preview>
       </Head>
 
@@ -84,18 +86,19 @@ export const VerificationCodeEmail: React.FC<
           <Section
             style={{
               backgroundColor: brandColors.primary,
-              padding: '28px 32px 24px',
+              padding: '32px 32px 28px',
               textAlign: 'center',
               borderBottom: `4px solid ${brandColors.secondary}`,
+              position: 'relative',
             }}
           >
             <Row>
               <Column>
                 <Img
                   src='https://loanstatushub.firstcreditunion.co.nz/logo/android-chrome-192x192.png'
-                  alt='FCU Logo'
-                  width='80'
-                  height='80'
+                  alt='First Credit Union - Your trusted financial partner'
+                  width='96'
+                  height='96'
                   style={{
                     margin: '0 auto',
                     display: 'block',
@@ -108,7 +111,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Greeting Section */}
           <Section
             style={{
-              padding: '40px 32px 0',
+              padding: '36px 32px 0',
             }}
           >
             <Row>
@@ -160,7 +163,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Hero Verification Code Section */}
           <Section
             style={{
-              padding: '40px 32px',
+              padding: '36px 32px',
             }}
           >
             <Section
@@ -179,6 +182,7 @@ export const VerificationCodeEmail: React.FC<
                 borderRadius: '12px',
                 padding: '40px 24px',
                 textAlign: 'center',
+                boxShadow: '0 2px 8px rgba(0, 104, 127, 0.12)',
               }}
             >
               <Text
@@ -189,46 +193,70 @@ export const VerificationCodeEmail: React.FC<
                   textTransform: 'uppercase',
                   letterSpacing: '1.5px',
                   margin: '0 0 20px 0',
+                  lineHeight: '1.4',
                 }}
               >
                 Your Verification Code
               </Text>
 
-              <Text
+              <Section
                 style={{
-                  color: brandColors.primary,
-                  fontSize: '44px',
-                  fontWeight: '700',
-                  fontFamily: '"Courier New", Courier, monospace',
-                  letterSpacing: '10px',
-                  margin: '0 0 20px 0',
-                  lineHeight: '1',
-                  padding: '16px 0',
+                  backgroundColor: brandColors.background.white,
+                  borderRadius: '8px',
+                  padding: '20px 16px',
+                  margin: '0 auto 20px',
+                  maxWidth: '320px',
+                  border: `1px solid ${brandColors.border.light}`,
                 }}
               >
-                {verificationCode}
-              </Text>
+                <Text
+                  style={{
+                    color: brandColors.primary,
+                    fontSize: '44px',
+                    fontWeight: '700',
+                    fontFamily: '"Courier New", Courier, monospace',
+                    letterSpacing: '10px',
+                    margin: '0',
+                    lineHeight: '1.2',
+                  }}
+                >
+                  {verificationCode}
+                </Text>
+              </Section>
 
-              <Text
+              <Section
                 style={{
-                  color: brandColors.text.secondary,
-                  fontSize: '14px',
-                  margin: '0',
-                  fontWeight: '500',
+                  backgroundColor: `${brandColors.secondary}20`,
+                  borderRadius: '8px',
+                  padding: '12px 20px',
+                  display: 'inline-block',
+                  border: `1px solid ${brandColors.secondary}`,
                 }}
               >
-                Expires in{' '}
-                <strong style={{ color: brandColors.text.primary }}>
-                  {expiresInMinutes} minutes
-                </strong>
-              </Text>
+                <Text
+                  style={{
+                    color: brandColors.text.primary,
+                    fontSize: '14px',
+                    margin: '0',
+                    fontWeight: '600',
+                    lineHeight: '1.4',
+                  }}
+                >
+                  ⏱️ Expires in{' '}
+                  <span
+                    style={{ color: brandColors.primary, fontSize: '15px' }}
+                  >
+                    {expiresInMinutes} minutes
+                  </span>
+                </Text>
+              </Section>
             </Section>
           </Section>
 
           {/* Instructions Section */}
           <Section
             style={{
-              padding: '0 32px 32px',
+              padding: '0 32px 36px',
             }}
           >
             <Section
@@ -254,6 +282,7 @@ export const VerificationCodeEmail: React.FC<
                 </Text>
 
                 <table
+                  role='presentation'
                   style={{
                     width: '100%',
                     borderCollapse: 'collapse',
@@ -262,8 +291,11 @@ export const VerificationCodeEmail: React.FC<
                   <tr>
                     <td
                       style={{
-                        padding: '12px 0',
+                        padding: '14px 16px',
                         verticalAlign: 'top',
+                        backgroundColor: brandColors.background.lighter,
+                        borderRadius: '8px',
+                        border: `1px solid ${brandColors.border.light}`,
                       }}
                     >
                       <Text
@@ -292,10 +324,16 @@ export const VerificationCodeEmail: React.FC<
                     </td>
                   </tr>
                   <tr>
+                    <td style={{ padding: '8px 0' }} />
+                  </tr>
+                  <tr>
                     <td
                       style={{
-                        padding: '12px 0',
+                        padding: '14px 16px',
                         verticalAlign: 'top',
+                        backgroundColor: brandColors.background.lighter,
+                        borderRadius: '8px',
+                        border: `1px solid ${brandColors.border.light}`,
                       }}
                     >
                       <Text
@@ -324,10 +362,16 @@ export const VerificationCodeEmail: React.FC<
                     </td>
                   </tr>
                   <tr>
+                    <td style={{ padding: '8px 0' }} />
+                  </tr>
+                  <tr>
                     <td
                       style={{
-                        padding: '12px 0',
+                        padding: '14px 16px',
                         verticalAlign: 'top',
+                        backgroundColor: brandColors.background.lighter,
+                        borderRadius: '8px',
+                        border: `1px solid ${brandColors.border.light}`,
                       }}
                     >
                       <Text
@@ -365,7 +409,7 @@ export const VerificationCodeEmail: React.FC<
               style={{
                 border: 'none',
                 borderTop: `1px solid ${brandColors.border.light}`,
-                margin: '0 0 32px 0',
+                margin: '0 0 36px 0',
               }}
             />
           </Section>
@@ -373,7 +417,7 @@ export const VerificationCodeEmail: React.FC<
           {/* Security Notice with Secondary Color */}
           <Section
             style={{
-              padding: '0 32px 40px',
+              padding: '0 32px 36px',
             }}
           >
             <Section
@@ -390,9 +434,6 @@ export const VerificationCodeEmail: React.FC<
                   fontSize: '14px',
                   fontWeight: '600',
                   margin: '0 0 12px 0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
                 }}
               >
                 🔐 Security Notice
@@ -416,13 +457,14 @@ export const VerificationCodeEmail: React.FC<
           <Section
             style={{
               backgroundColor: brandColors.background.light,
-              padding: '32px',
+              padding: '36px 32px',
               borderTop: `1px solid ${brandColors.border.light}`,
             }}
           >
             <Row>
               <Column>
                 <table
+                  role='presentation'
                   align='center'
                   style={{
                     margin: '0 auto 20px',
@@ -439,11 +481,12 @@ export const VerificationCodeEmail: React.FC<
                         backgroundColor: brandColors.primary,
                         textAlign: 'center',
                         verticalAlign: 'middle',
+                        boxShadow: '0 2px 4px rgba(0, 104, 127, 0.2)',
                       }}
                     >
                       <Img
                         src='https://loanstatushub.firstcreditunion.co.nz/logo/favicon-32x32.png'
-                        alt='Support Icon'
+                        alt='FCU Support'
                         width='20'
                         height='20'
                         style={{
@@ -481,8 +524,8 @@ export const VerificationCodeEmail: React.FC<
                     color: brandColors.text.secondary,
                     fontSize: '12px',
                     textAlign: 'center',
-                    margin: '0',
-                    lineHeight: '1.5',
+                    margin: '0 0 12px 0',
+                    lineHeight: '1.6',
                   }}
                 >
                   This email was sent to{' '}
@@ -495,24 +538,25 @@ export const VerificationCodeEmail: React.FC<
                   </strong>
                   .
                 </Text>
+                <Text
+                  style={{
+                    color: brandColors.text.secondary,
+                    fontSize: '11px',
+                    textAlign: 'center',
+                    margin: '0',
+                    lineHeight: '1.6',
+                  }}
+                >
+                  <strong style={{ color: brandColors.primary }}>
+                    First Credit Union
+                  </strong>{' '}
+                  • Your trusted financial partner since 1951
+                  <br />© {new Date().getFullYear()} FCU. All rights reserved.
+                </Text>
               </Column>
             </Row>
           </Section>
         </Container>
-
-        {/* Bottom Spacer */}
-        <Section style={{ padding: '20px 0 0' }}>
-          <Text
-            style={{
-              color: brandColors.text.secondary,
-              fontSize: '11px',
-              textAlign: 'center',
-              margin: '0',
-            }}
-          >
-            © {new Date().getFullYear()} FCU. All rights reserved.
-          </Text>
-        </Section>
       </Container>
     </Html>
   )
