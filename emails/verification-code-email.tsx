@@ -111,53 +111,63 @@ export const VerificationCodeEmail: React.FC<
           {/* Greeting Section */}
           <Section
             style={{
-              padding: '36px 32px 0',
+              padding: '40px 32px 0',
             }}
           >
-            <Row>
-              <Column>
-                <Heading
-                  as='h2'
-                  style={{
-                    color: brandColors.text.primary,
-                    fontSize: '26px',
-                    fontWeight: '600',
-                    margin: '0 0 20px 0',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Hello {applicantName},
-                </Heading>
+            <Section
+              style={{
+                backgroundColor: brandColors.background.white,
+                borderRadius: '16px',
+                border: `2px solid ${brandColors.border.light}`,
+                padding: '32px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
+              }}
+            >
+              <Row>
+                <Column>
+                  <Heading
+                    as='h2'
+                    style={{
+                      color: brandColors.text.primary,
+                      fontSize: '26px',
+                      fontWeight: '600',
+                      margin: '0 0 20px 0',
+                      lineHeight: '1.25',
+                    }}
+                  >
+                    Hello {applicantName},
+                  </Heading>
 
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0 0 16px 0',
-                  }}
-                >
-                  You&apos;re receiving this email because you&apos;ve requested
-                  access to view the status of your loan application{' '}
-                  <strong style={{ color: brandColors.text.primary }}>
-                    #{loanApplicationNumber}
-                  </strong>
-                  .
-                </Text>
+                  <Text
+                    style={{
+                      color: brandColors.text.secondary,
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      margin: '0 0 16px 0',
+                    }}
+                  >
+                    You&apos;re receiving this email because you&apos;ve
+                    requested access to view the status of your loan application{' '}
+                    <strong style={{ color: brandColors.text.primary }}>
+                      #{loanApplicationNumber}
+                    </strong>
+                    .
+                  </Text>
 
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0',
-                  }}
-                >
-                  To verify your identity and access your account, please use
-                  the verification code below:
-                </Text>
-              </Column>
-            </Row>
+                  <Text
+                    style={{
+                      color: brandColors.text.secondary,
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      margin: '0',
+                    }}
+                  >
+                    To verify your identity and access your account, please use
+                    the verification code below:
+                  </Text>
+                </Column>
+              </Row>
+            </Section>
           </Section>
 
           {/* Hero Verification Code Section */}
@@ -177,12 +187,12 @@ export const VerificationCodeEmail: React.FC<
             />
             <Section
               style={{
-                backgroundColor: brandColors.background.lighter,
+                backgroundColor: brandColors.background.white,
                 border: `3px solid ${brandColors.primary}`,
-                borderRadius: '12px',
+                borderRadius: '16px',
                 padding: '40px 24px',
                 textAlign: 'center',
-                boxShadow: '0 2px 8px rgba(0, 104, 127, 0.12)',
+                boxShadow: '0 4px 12px rgba(0, 104, 127, 0.15)',
               }}
             >
               <Text
@@ -201,12 +211,13 @@ export const VerificationCodeEmail: React.FC<
 
               <Section
                 style={{
-                  backgroundColor: brandColors.background.white,
-                  borderRadius: '8px',
+                  backgroundColor: brandColors.background.lighter,
+                  borderRadius: '12px',
                   padding: '20px 16px',
                   margin: '0 auto 20px',
                   maxWidth: '320px',
-                  border: `1px solid ${brandColors.border.light}`,
+                  border: `2px solid ${brandColors.border.light}`,
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
                 }}
               >
                 <Text
@@ -227,10 +238,11 @@ export const VerificationCodeEmail: React.FC<
               <Section
                 style={{
                   backgroundColor: `${brandColors.secondary}20`,
-                  borderRadius: '8px',
-                  padding: '12px 20px',
+                  borderRadius: '999px',
+                  padding: '12px 24px',
                   display: 'inline-block',
-                  border: `1px solid ${brandColors.secondary}`,
+                  border: `2px solid ${brandColors.secondary}`,
+                  boxShadow: '0 2px 4px rgba(187, 187, 20, 0.15)',
                 }}
               >
                 <Text
@@ -261,147 +273,160 @@ export const VerificationCodeEmail: React.FC<
           >
             <Section
               style={{
-                width: '56px',
-                height: '3px',
-                backgroundColor: brandColors.secondary,
-                margin: '0 0 20px',
-                borderRadius: '999px',
+                backgroundColor: brandColors.background.white,
+                borderRadius: '16px',
+                border: `2px solid ${brandColors.border.light}`,
+                padding: '32px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
-            />
-            <Row>
-              <Column>
-                <Text
-                  style={{
-                    color: brandColors.text.primary,
-                    fontSize: '16px',
-                    fontWeight: '600',
-                    margin: '0 0 20px 0',
-                  }}
-                >
-                  Next steps:
-                </Text>
+            >
+              <Section
+                style={{
+                  width: '56px',
+                  height: '3px',
+                  backgroundColor: brandColors.secondary,
+                  margin: '0 0 20px',
+                  borderRadius: '999px',
+                }}
+              />
+              <Row>
+                <Column>
+                  <Text
+                    style={{
+                      color: brandColors.text.primary,
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      margin: '0 0 20px 0',
+                    }}
+                  >
+                    Next steps:
+                  </Text>
 
-                <table
-                  role='presentation'
-                  style={{
-                    width: '100%',
-                    borderCollapse: 'collapse',
-                  }}
-                >
-                  <tr>
-                    <td
-                      style={{
-                        padding: '14px 16px',
-                        verticalAlign: 'top',
-                        backgroundColor: brandColors.background.lighter,
-                        borderRadius: '8px',
-                        border: `1px solid ${brandColors.border.light}`,
-                      }}
-                    >
-                      <Text
+                  <table
+                    role='presentation'
+                    style={{
+                      width: '100%',
+                      borderCollapse: 'collapse',
+                    }}
+                  >
+                    <tr>
+                      <td
                         style={{
-                          color: brandColors.primary,
-                          fontSize: '18px',
-                          fontWeight: '700',
-                          margin: '0',
-                          width: '32px',
-                          display: 'inline-block',
+                          padding: '16px 18px',
+                          verticalAlign: 'top',
+                          backgroundColor: brandColors.background.lighter,
+                          borderRadius: '12px',
+                          border: `2px solid ${brandColors.border.light}`,
+                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        1.
-                      </Text>
-                      <Text
+                        <Text
+                          style={{
+                            color: brandColors.primary,
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            margin: '0',
+                            width: '32px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          1.
+                        </Text>
+                        <Text
+                          style={{
+                            color: brandColors.text.secondary,
+                            fontSize: '15px',
+                            lineHeight: '1.6',
+                            margin: '0',
+                            display: 'inline',
+                          }}
+                        >
+                          Return to the loan status portal
+                        </Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '8px 0' }} />
+                    </tr>
+                    <tr>
+                      <td
                         style={{
-                          color: brandColors.text.secondary,
-                          fontSize: '15px',
-                          lineHeight: '1.6',
-                          margin: '0',
-                          display: 'inline',
+                          padding: '16px 18px',
+                          verticalAlign: 'top',
+                          backgroundColor: brandColors.background.lighter,
+                          borderRadius: '12px',
+                          border: `2px solid ${brandColors.border.light}`,
+                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        Return to the loan status portal
-                      </Text>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '8px 0' }} />
-                  </tr>
-                  <tr>
-                    <td
-                      style={{
-                        padding: '14px 16px',
-                        verticalAlign: 'top',
-                        backgroundColor: brandColors.background.lighter,
-                        borderRadius: '8px',
-                        border: `1px solid ${brandColors.border.light}`,
-                      }}
-                    >
-                      <Text
+                        <Text
+                          style={{
+                            color: brandColors.primary,
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            margin: '0',
+                            width: '32px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          2.
+                        </Text>
+                        <Text
+                          style={{
+                            color: brandColors.text.secondary,
+                            fontSize: '15px',
+                            lineHeight: '1.6',
+                            margin: '0',
+                            display: 'inline',
+                          }}
+                        >
+                          Enter the 6-digit code above
+                        </Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ padding: '8px 0' }} />
+                    </tr>
+                    <tr>
+                      <td
                         style={{
-                          color: brandColors.primary,
-                          fontSize: '18px',
-                          fontWeight: '700',
-                          margin: '0',
-                          width: '32px',
-                          display: 'inline-block',
+                          padding: '16px 18px',
+                          verticalAlign: 'top',
+                          backgroundColor: brandColors.background.lighter,
+                          borderRadius: '12px',
+                          border: `2px solid ${brandColors.border.light}`,
+                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
                         }}
                       >
-                        2.
-                      </Text>
-                      <Text
-                        style={{
-                          color: brandColors.text.secondary,
-                          fontSize: '15px',
-                          lineHeight: '1.6',
-                          margin: '0',
-                          display: 'inline',
-                        }}
-                      >
-                        Enter the 6-digit code above
-                      </Text>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '8px 0' }} />
-                  </tr>
-                  <tr>
-                    <td
-                      style={{
-                        padding: '14px 16px',
-                        verticalAlign: 'top',
-                        backgroundColor: brandColors.background.lighter,
-                        borderRadius: '8px',
-                        border: `1px solid ${brandColors.border.light}`,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: brandColors.primary,
-                          fontSize: '18px',
-                          fontWeight: '700',
-                          margin: '0',
-                          width: '32px',
-                          display: 'inline-block',
-                        }}
-                      >
-                        3.
-                      </Text>
-                      <Text
-                        style={{
-                          color: brandColors.text.secondary,
-                          fontSize: '15px',
-                          lineHeight: '1.6',
-                          margin: '0',
-                          display: 'inline',
-                        }}
-                      >
-                        Access your loan application status dashboard
-                      </Text>
-                    </td>
-                  </tr>
-                </table>
-              </Column>
-            </Row>
+                        <Text
+                          style={{
+                            color: brandColors.primary,
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            margin: '0',
+                            width: '32px',
+                            display: 'inline-block',
+                          }}
+                        >
+                          3.
+                        </Text>
+                        <Text
+                          style={{
+                            color: brandColors.text.secondary,
+                            fontSize: '15px',
+                            lineHeight: '1.6',
+                            margin: '0',
+                            display: 'inline',
+                          }}
+                        >
+                          Access your loan application status dashboard
+                        </Text>
+                      </td>
+                    </tr>
+                  </table>
+                </Column>
+              </Row>
+            </Section>
           </Section>
 
           <Section style={{ padding: '0 32px' }}>
@@ -424,8 +449,9 @@ export const VerificationCodeEmail: React.FC<
               style={{
                 backgroundColor: `${brandColors.secondary}15`,
                 border: `2px solid ${brandColors.secondary}`,
-                borderRadius: '10px',
+                borderRadius: '14px',
                 padding: '24px',
+                boxShadow: '0 2px 4px rgba(187, 187, 20, 0.1)',
               }}
             >
               <Text

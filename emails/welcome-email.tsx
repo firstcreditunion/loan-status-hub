@@ -104,17 +104,6 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                     display: 'block',
                   }}
                 />
-                <Text
-                  style={{
-                    color: brandColors.background.white,
-                    fontSize: '48px',
-                    textAlign: 'center',
-                    margin: '0 0 12px 0',
-                    lineHeight: '1',
-                  }}
-                >
-                  ✅
-                </Text>
                 <Heading
                   as='h1'
                   style={{
@@ -149,51 +138,60 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
               padding: '40px 32px 0',
             }}
           >
-            <Row>
-              <Column>
-                <Heading
-                  as='h2'
-                  style={{
-                    color: brandColors.text.primary,
-                    fontSize: '26px',
-                    fontWeight: '600',
-                    margin: '0 0 20px 0',
-                    lineHeight: '1.25',
-                  }}
-                >
-                  Hello {applicantName},
-                </Heading>
+            <Section
+              style={{
+                backgroundColor: brandColors.background.white,
+                borderRadius: '16px',
+                border: `2px solid ${brandColors.border.light}`,
+                padding: '32px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
+              }}
+            >
+              <Row>
+                <Column>
+                  <Heading
+                    as='h2'
+                    style={{
+                      color: brandColors.text.primary,
+                      fontSize: '26px',
+                      fontWeight: '600',
+                      margin: '0 0 20px 0',
+                      lineHeight: '1.25',
+                    }}
+                  >
+                    Hi {applicantName},
+                  </Heading>
 
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0 0 24px 0',
-                  }}
-                >
-                  Congratulations! Your email has been successfully verified and
-                  your account is now active. You can now access your loan
-                  application status dashboard anytime.
-                </Text>
+                  <Text
+                    style={{
+                      color: brandColors.text.secondary,
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      margin: '0 0 24px 0',
+                    }}
+                  >
+                    Your email has been successfully verified. You can now
+                    access your loan application status dashboard anytime.
+                  </Text>
 
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '16px',
-                    lineHeight: '1.6',
-                    margin: '0',
-                  }}
-                >
-                  Your loan application{' '}
-                  <strong style={{ color: brandColors.text.primary }}>
-                    #{loanApplicationNumber}
-                  </strong>{' '}
-                  is being processed, and you&apos;ll be able to track its
-                  progress in real-time through your personalized dashboard.
-                </Text>
-              </Column>
-            </Row>
+                  <Text
+                    style={{
+                      color: brandColors.text.secondary,
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      margin: '0',
+                    }}
+                  >
+                    Your loan application{' '}
+                    <strong style={{ color: brandColors.text.primary }}>
+                      #{loanApplicationNumber}
+                    </strong>{' '}
+                    is being processed, and you&apos;ll be able to track its
+                    progress in real-time through your personalised dashboard.
+                  </Text>
+                </Column>
+              </Row>
+            </Section>
           </Section>
 
           {/* CTA Section */}
@@ -204,14 +202,35 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           >
             <Section
               style={{
-                width: '72px',
-                height: '4px',
-                backgroundColor: brandColors.secondary,
-                margin: '0 auto 28px',
-                borderRadius: '999px',
+                backgroundColor: `${brandColors.primary}08`,
+                borderRadius: '16px',
+                border: `2px solid ${brandColors.primary}40`,
+                padding: '32px',
+                textAlign: 'center',
+                boxShadow: '0 2px 6px rgba(0, 104, 127, 0.08)',
               }}
-            />
-            <Section style={{ textAlign: 'center' }}>
+            >
+              <Section
+                style={{
+                  width: '72px',
+                  height: '4px',
+                  backgroundColor: brandColors.secondary,
+                  margin: '0 auto 24px',
+                  borderRadius: '999px',
+                }}
+              />
+              <Text
+                style={{
+                  color: brandColors.text.primary,
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  margin: '0 0 20px 0',
+                  textAlign: 'center',
+                  lineHeight: '1.4',
+                }}
+              >
+                Ready to view your application?
+              </Text>
               <Button
                 href={dashboardUrl}
                 style={{
@@ -241,10 +260,11 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
           >
             <Section
               style={{
-                backgroundColor: brandColors.background.lighter,
-                borderRadius: '12px',
-                border: `1px solid ${brandColors.border.light}`,
+                backgroundColor: brandColors.background.white,
+                borderRadius: '16px',
+                border: `2px solid ${brandColors.border.light}`,
                 padding: '32px',
+                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
               }}
             >
               <Heading
@@ -271,11 +291,11 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 <tr>
                   <td
                     style={{
-                      padding: '16px 20px',
-                      borderRadius: '10px',
-                      border: `1px solid ${brandColors.border.light}`,
-                      backgroundColor: brandColors.background.white,
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+                      padding: '18px 20px',
+                      borderRadius: '14px',
+                      border: `2px solid ${brandColors.border.light}`,
+                      backgroundColor: brandColors.background.lighter,
+                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.06)',
                     }}
                   >
                     <table width='100%' role='presentation'>
@@ -322,11 +342,11 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                 <tr>
                   <td
                     style={{
-                      padding: '16px 20px',
-                      borderRadius: '10px',
-                      border: `1px solid ${brandColors.border.light}`,
-                      backgroundColor: brandColors.background.white,
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+                      padding: '18px 20px',
+                      borderRadius: '14px',
+                      border: `2px solid ${brandColors.border.light}`,
+                      backgroundColor: brandColors.background.lighter,
+                      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.06)',
                     }}
                   >
                     <table width='100%' role='presentation'>
@@ -370,57 +390,6 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
                     </table>
                   </td>
                 </tr>
-                <tr>
-                  <td
-                    style={{
-                      padding: '16px 20px',
-                      borderRadius: '10px',
-                      border: `1px solid ${brandColors.border.light}`,
-                      backgroundColor: brandColors.background.white,
-                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-                    }}
-                  >
-                    <table width='100%' role='presentation'>
-                      <tr>
-                        <td style={{ width: '36px', verticalAlign: 'top' }}>
-                          <Text
-                            style={{
-                              fontSize: '22px',
-                              margin: '0',
-                            }}
-                            role='img'
-                            aria-label='Communication'
-                          >
-                            💬
-                          </Text>
-                        </td>
-                        <td style={{ verticalAlign: 'top' }}>
-                          <Text
-                            style={{
-                              color: brandColors.text.primary,
-                              fontSize: '16px',
-                              fontWeight: '600',
-                              margin: '0 0 4px 0',
-                              lineHeight: '1.4',
-                            }}
-                          >
-                            Direct Communication
-                          </Text>
-                          <Text
-                            style={{
-                              color: brandColors.text.secondary,
-                              fontSize: '14px',
-                              lineHeight: '1.5',
-                              margin: '0',
-                            }}
-                          >
-                            Communicate directly with your loan officer
-                          </Text>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
               </table>
             </Section>
           </Section>
@@ -445,8 +414,9 @@ export const WelcomeEmail: React.FC<Readonly<WelcomeEmailProps>> = ({
               style={{
                 backgroundColor: `${brandColors.secondary}15`,
                 border: `2px solid ${brandColors.secondary}`,
-                borderRadius: '10px',
+                borderRadius: '14px',
                 padding: '24px',
+                boxShadow: '0 2px 4px rgba(187, 187, 20, 0.1)',
               }}
             >
               <Text
