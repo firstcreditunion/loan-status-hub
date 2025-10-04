@@ -65,8 +65,6 @@ export const VerificationCodeEmail: React.FC<
       <Container
         style={{
           backgroundColor: brandColors.background.lighter,
-          backgroundImage:
-            'linear-gradient(135deg, rgba(0, 104, 127, 0.08) 0%, rgba(0, 104, 127, 0.02) 100%)',
           padding: '40px 20px',
           fontFamily: 'Inter, Arial, sans-serif',
         }}
@@ -397,7 +395,7 @@ export const VerificationCodeEmail: React.FC<
                   gap: '12px',
                 }}
               >
-                Security Notice
+                🔐 Security Notice
               </Text>
               <Text
                 style={{
