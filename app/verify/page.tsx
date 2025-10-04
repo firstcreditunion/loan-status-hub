@@ -266,7 +266,7 @@ function VerifyPageContent() {
   // Loading state
   if (state.step === 'loading') {
     return (
-      <div className='h-full flex items-center justify-center pt-32 relative'>
+      <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -295,7 +295,7 @@ function VerifyPageContent() {
   // Error state
   if (state.step === 'error') {
     return (
-      <div className='h-full flex items-center justify-center pt-32 relative'>
+      <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -328,7 +328,7 @@ function VerifyPageContent() {
   // Success state
   if (state.step === 'success') {
     return (
-      <div className='h-full flex items-center justify-center pt-32 relative'>
+      <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -377,7 +377,7 @@ function VerifyPageContent() {
   // Email sent state
   if (state.step === 'email-sent') {
     return (
-      <div className='h-full flex items-center justify-center pt-32 relative'>
+      <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
         <DotPattern
           className='text-fcu-primary-500'
           opacity={0.08}
@@ -434,7 +434,7 @@ function VerifyPageContent() {
 
   // Code entry state
   return (
-    <div className='h-full flex items-center justify-center pt-32 relative'>
+    <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
       <DotPattern
         className='text-fcu-primary-500'
         opacity={0.08}
@@ -572,7 +572,7 @@ function VerifyPageContent() {
 // Loading component for Suspense fallback
 function VerifyPageLoading() {
   return (
-    <div className='h-full flex items-center justify-center pt-32 relative'>
+    <div className='h-full flex items-center justify-center pt-32 relative px-4 sm:px-0'>
       <DotPattern
         className='text-fcu-primary-500'
         opacity={0.08}
