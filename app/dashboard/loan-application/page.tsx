@@ -737,13 +737,13 @@ function DashboardPageContent() {
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
                     <User className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Your Loan Team
+                    Your Loan Officer
                   </CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-6'>
                   {/* Loan Officer */}
                   {loanData?.loanOfficer ? (
-                    <div className='p-4 bg-fcu-primary-50 rounded-lg'>
+                    <div className='p-4 rounded-lg'>
                       <div className='flex items-start space-x-4'>
                         <Avatar className='h-12 w-12'>
                           <AvatarFallback className='bg-fcu-primary-500 text-white font-bold'>
@@ -805,7 +805,7 @@ function DashboardPageContent() {
 
                   <div className='text-center'>
                     <p className='text-xs text-muted-foreground'>
-                      Feel free to contact your loan team if you have any
+                      Feel free to contact your loan officer using the above email if you have any
                       questions about your application.
                     </p>
                   </div>
