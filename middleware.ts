@@ -91,10 +91,14 @@ export async function middleware(request: NextRequest) {
   // Get the response from Supabase middleware
   const response = await updateSession(request)
 
+  // Clone the request headers and add pathname
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', request.nextUrl.pathname)
+
   // Clone the response to add CSP headers
   const responseWithCSP = NextResponse.next({
     request: {
-      headers: request.headers,
+      headers: requestHeaders,
     },
   })
 

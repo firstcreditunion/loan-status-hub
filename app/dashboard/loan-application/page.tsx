@@ -850,9 +850,9 @@ function DashboardPageContent() {
                 <CardContent className='space-y-4'>
                   {fullBranchInfo ? (
                     <div className='space-y-4'>
-                      <div className='p-4 bg-fcu-primary-50 rounded-lg'>
+                      <div className='p-4 rounded-lg'>
                         <h4 className='font-semibold text-fcu-primary-500 mb-3'>
-                          {fullBranchInfo.Organisation_Unit_Name}
+                          Branch: {fullBranchInfo.Organisation_Unit_Name}
                         </h4>
 
                         {/* Contact Phone */}

@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/Header'
+import { headers } from 'next/headers'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -13,15 +14,19 @@ export const metadata: Metadata = {
   description: 'Secure access to your loan application status and updates',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const headersList = await headers()
+  const pathname = headersList.get('x-pathname') || ''
+  const isDashboardRoute = pathname === '/dashboard/loan-application'
+
   return (
     <html lang='en'>
       <body className={`${poppins.className} antialiased`}>
-        <Header />
+        {!isDashboardRoute && <Header />}
         {children}
         <Toaster />
       </body>
