@@ -1,8 +1,8 @@
 import {
   Html,
   Head,
-  Font,
   Preview,
+  Body,
   Container,
   Section,
   Row,
@@ -11,28 +11,12 @@ import {
   Text,
   Hr,
   Img,
+  Link,
 } from '@react-email/components'
 import type * as React from 'react'
 import type { VerificationCodeEmailProps } from '../lib/email-types'
 
-// FCU Brand Colors - Modern, Clean Palette
-const brandColors = {
-  primary: '#00687f', // Teal - Main brand color
-  secondary: '#bbbb14', // Olive/Gold - Accent color
-  text: {
-    primary: '#1a1a1a', // Dark text
-    secondary: '#666666', // Medium gray
-  },
-  background: {
-    white: '#ffffff',
-    light: '#f5f5f5',
-    lighter: '#fafafa',
-  },
-  border: {
-    light: '#e5e5e5',
-    medium: '#d4d4d4',
-  },
-}
+const toCurrentYear = new Date().getFullYear()
 
 export const VerificationCodeEmail: React.FC<
   Readonly<VerificationCodeEmailProps>
@@ -45,53 +29,25 @@ export const VerificationCodeEmail: React.FC<
   supportEmail,
 }) => {
   return (
-    <Html lang='en' dir='ltr'>
+    <Html>
       <Head>
-        <meta name='color-scheme' content='light dark' />
-        <meta name='supported-color-schemes' content='light dark' />
-        <Font
-          fontFamily='Inter'
-          fallbackFontFamily='Arial'
-          webFont={{
-            url: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-            format: 'woff2',
-          }}
-          fontWeight={400}
-          fontStyle='normal'
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='anonymous'
         />
-        <Preview>
-          {`🔐 Your FCU verification code is ${verificationCode} for loan #${loanApplicationNumber}. Valid for ${expiresInMinutes} minutes. Enter this code to securely access your loan status dashboard.`}
-        </Preview>
+        <link
+          href='https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap'
+          rel='stylesheet'
+        />
       </Head>
-
-      <Container
-        style={{
-          backgroundColor: brandColors.background.lighter,
-          padding: '32px 12px',
-          fontFamily: 'Inter, Arial, sans-serif',
-        }}
-      >
-        {/* Main Card Container */}
-        <Container
-          style={{
-            maxWidth: '600px',
-            margin: '0 auto',
-            backgroundColor: brandColors.background.white,
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07)',
-          }}
-        >
-          {/* Header Section with Logo */}
-          <Section
-            style={{
-              backgroundColor: brandColors.primary,
-              padding: '32px 32px 28px',
-              textAlign: 'center',
-              borderBottom: `4px solid ${brandColors.secondary}`,
-              position: 'relative',
-            }}
-          >
+      <Preview>
+        {`🔐 Your FCU verification code is ${verificationCode} for loan #${loanApplicationNumber}. Valid for ${expiresInMinutes} minutes. Enter this code to securely access your loan status dashboard.`}
+      </Preview>
+      <Body style={bodyStyle}>
+        <Container style={containerStyle}>
+          <Section style={headerSectionStyle}>
             <Row>
               <Column>
                 <Img
@@ -99,490 +55,280 @@ export const VerificationCodeEmail: React.FC<
                   alt='First Credit Union - Your trusted financial partner'
                   width='96'
                   height='96'
-                  style={{
-                    margin: '0 auto',
-                    display: 'block',
-                  }}
+                  style={logoStyle}
                 />
               </Column>
             </Row>
+            <Text style={confirmationLabelStyle}>Email Verification</Text>
+            <Heading style={mainHeadingStyle}>
+              Verify Your Identity to Access Loan Status
+            </Heading>
+            <Text style={greetingStyle}>Hello {applicantName},</Text>
+            <Text style={introTextStyle}>
+              You&apos;re receiving this email because you&apos;ve requested
+              access to view the status of your loan application{' '}
+              <strong>#{loanApplicationNumber}</strong>. To verify your identity
+              and access your account, please use the verification code below:
+            </Text>
           </Section>
 
-          {/* Greeting Section */}
-          <Section
-            style={{
-              padding: '32px 32px 0',
-            }}
-          >
-            <Section
-              style={{
-                backgroundColor: brandColors.background.white,
-                borderRadius: '16px',
-                border: `2px solid ${brandColors.border.light}`,
-                padding: '24px 20px',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
-              }}
-            >
-              <Row>
-                <Column>
-                  <Heading
-                    as='h2'
-                    style={{
-                      color: brandColors.text.primary,
-                      fontSize: '26px',
-                      fontWeight: '600',
-                      margin: '0 0 20px 0',
-                      lineHeight: '1.25',
-                    }}
-                  >
-                    Hello {applicantName},
-                  </Heading>
+          <Section style={verificationCodeBoxStyle}>
+            <Heading style={verificationCodeHeadingStyle}>
+              Your Verification Code
+            </Heading>
+            <Text style={verificationCodeValueStyle}>{verificationCode}</Text>
 
-                  <Text
-                    style={{
-                      color: brandColors.text.secondary,
-                      fontSize: '16px',
-                      lineHeight: '1.6',
-                      margin: '0 0 16px 0',
-                    }}
-                  >
-                    You&apos;re receiving this email because you&apos;ve
-                    requested access to view the status of your loan application{' '}
-                    <strong style={{ color: brandColors.text.primary }}>
-                      #{loanApplicationNumber}
-                    </strong>
-                    .
-                  </Text>
-
-                  <Text
-                    style={{
-                      color: brandColors.text.secondary,
-                      fontSize: '16px',
-                      lineHeight: '1.6',
-                      margin: '0',
-                    }}
-                  >
-                    To verify your identity and access your account, please use
-                    the verification code below:
-                  </Text>
-                </Column>
-              </Row>
-            </Section>
+            <Text style={expiryLabelStyle}>
+              ⏱️ Expires in {expiresInMinutes} minutes
+            </Text>
           </Section>
 
-          {/* Hero Verification Code Section */}
-          <Section
-            style={{
-              padding: '32px 32px',
-            }}
-          >
-            <Section
-              style={{
-                width: '72px',
-                height: '4px',
-                backgroundColor: brandColors.primary,
-                margin: '0 auto 24px',
-                borderRadius: '999px',
-              }}
-            />
-            <Section
-              style={{
-                backgroundColor: brandColors.background.white,
-                border: `3px solid ${brandColors.primary}`,
-                borderRadius: '16px',
-                padding: '32px 20px',
-                textAlign: 'center',
-                boxShadow: '0 4px 12px rgba(0, 104, 127, 0.15)',
-              }}
-            >
-              <Text
-                style={{
-                  color: brandColors.text.secondary,
-                  fontSize: '13px',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1.5px',
-                  margin: '0 0 20px 0',
-                  lineHeight: '1.4',
-                }}
-              >
-                Your Verification Code
-              </Text>
-
-              <Section
-                style={{
-                  backgroundColor: brandColors.background.lighter,
-                  borderRadius: '12px',
-                  padding: '20px 16px',
-                  margin: '0 auto 20px',
-                  maxWidth: '320px',
-                  border: `2px solid ${brandColors.border.light}`,
-                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.08)',
-                }}
-              >
-                <Text
-                  style={{
-                    color: brandColors.primary,
-                    fontSize: '44px',
-                    fontWeight: '700',
-                    fontFamily: '"Courier New", Courier, monospace',
-                    letterSpacing: '10px',
-                    margin: '0',
-                    lineHeight: '1.2',
-                  }}
-                >
-                  {verificationCode}
-                </Text>
-              </Section>
-
-              <Section
-                style={{
-                  backgroundColor: `${brandColors.secondary}20`,
-                  borderRadius: '999px',
-                  padding: '12px 24px',
-                  display: 'inline-block',
-                  border: `2px solid ${brandColors.secondary}`,
-                  boxShadow: '0 2px 4px rgba(187, 187, 20, 0.15)',
-                }}
-              >
-                <Text
-                  style={{
-                    color: brandColors.text.primary,
-                    fontSize: '14px',
-                    margin: '0',
-                    fontWeight: '600',
-                    lineHeight: '1.4',
-                  }}
-                >
-                  ⏱️ Expires in{' '}
-                  <span
-                    style={{ color: brandColors.primary, fontSize: '15px' }}
-                  >
-                    {expiresInMinutes} minutes
-                  </span>
-                </Text>
-              </Section>
-            </Section>
-          </Section>
-
-          {/* Instructions Section */}
-          <Section
-            style={{
-              padding: '0 32px 32px',
-            }}
-          >
-            <Section
-              style={{
-                backgroundColor: brandColors.background.white,
-                borderRadius: '16px',
-                border: `2px solid ${brandColors.border.light}`,
-                padding: '24px 20px',
-                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)',
-              }}
-            >
-              <Section
-                style={{
-                  width: '56px',
-                  height: '3px',
-                  backgroundColor: brandColors.secondary,
-                  margin: '0 0 20px',
-                  borderRadius: '999px',
-                }}
-              />
-              <Row>
-                <Column>
-                  <Text
-                    style={{
-                      color: brandColors.text.primary,
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      margin: '0 0 20px 0',
-                    }}
-                  >
-                    Next steps:
-                  </Text>
-
-                  <table
-                    role='presentation'
-                    style={{
-                      width: '100%',
-                      borderCollapse: 'collapse',
-                    }}
-                  >
-                    <tr>
-                      <td
-                        style={{
-                          padding: '14px 16px',
-                          verticalAlign: 'top',
-                          backgroundColor: brandColors.background.lighter,
-                          borderRadius: '12px',
-                          border: `2px solid ${brandColors.border.light}`,
-                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: brandColors.primary,
-                            fontSize: '18px',
-                            fontWeight: '700',
-                            margin: '0',
-                            width: '32px',
-                            display: 'inline-block',
-                          }}
-                        >
-                          1.
-                        </Text>
-                        <Text
-                          style={{
-                            color: brandColors.text.secondary,
-                            fontSize: '15px',
-                            lineHeight: '1.6',
-                            margin: '0',
-                            display: 'inline',
-                          }}
-                        >
-                          Return to the loan status portal
-                        </Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '8px 0' }} />
-                    </tr>
-                    <tr>
-                      <td
-                        style={{
-                          padding: '14px 16px',
-                          verticalAlign: 'top',
-                          backgroundColor: brandColors.background.lighter,
-                          borderRadius: '12px',
-                          border: `2px solid ${brandColors.border.light}`,
-                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: brandColors.primary,
-                            fontSize: '18px',
-                            fontWeight: '700',
-                            margin: '0',
-                            width: '32px',
-                            display: 'inline-block',
-                          }}
-                        >
-                          2.
-                        </Text>
-                        <Text
-                          style={{
-                            color: brandColors.text.secondary,
-                            fontSize: '15px',
-                            lineHeight: '1.6',
-                            margin: '0',
-                            display: 'inline',
-                          }}
-                        >
-                          Enter the 6-digit code above
-                        </Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={{ padding: '8px 0' }} />
-                    </tr>
-                    <tr>
-                      <td
-                        style={{
-                          padding: '14px 16px',
-                          verticalAlign: 'top',
-                          backgroundColor: brandColors.background.lighter,
-                          borderRadius: '12px',
-                          border: `2px solid ${brandColors.border.light}`,
-                          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-                        }}
-                      >
-                        <Text
-                          style={{
-                            color: brandColors.primary,
-                            fontSize: '18px',
-                            fontWeight: '700',
-                            margin: '0',
-                            width: '32px',
-                            display: 'inline-block',
-                          }}
-                        >
-                          3.
-                        </Text>
-                        <Text
-                          style={{
-                            color: brandColors.text.secondary,
-                            fontSize: '15px',
-                            lineHeight: '1.6',
-                            margin: '0',
-                            display: 'inline',
-                          }}
-                        >
-                          Access your loan application status dashboard
-                        </Text>
-                      </td>
-                    </tr>
-                  </table>
-                </Column>
-              </Row>
-            </Section>
-          </Section>
-
-          <Section style={{ padding: '0 32px' }}>
-            <Hr
-              style={{
-                border: 'none',
-                borderTop: `1px solid ${brandColors.border.light}`,
-                margin: '0 0 32px 0',
-              }}
-            />
-          </Section>
-
-          {/* Security Notice with Secondary Color */}
-          <Section
-            style={{
-              padding: '0 32px 32px',
-            }}
-          >
-            <Section
-              style={{
-                backgroundColor: `${brandColors.secondary}15`,
-                border: `2px solid ${brandColors.secondary}`,
-                borderRadius: '14px',
-                padding: '20px 16px',
-                boxShadow: '0 2px 4px rgba(187, 187, 20, 0.1)',
-              }}
-            >
-              <Text
-                style={{
-                  color: brandColors.text.primary,
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  margin: '0 0 12px 0',
-                }}
-              >
-                🔐 Security Notice
-              </Text>
-              <Text
-                style={{
-                  color: brandColors.text.secondary,
-                  fontSize: '14px',
-                  lineHeight: '1.6',
-                  margin: '0',
-                }}
-              >
-                Never share this verification code with anyone. FCU staff will
-                never ask for your verification code via phone or email. If you
-                did not request this code, please contact us immediately.
-              </Text>
-            </Section>
-          </Section>
-
-          {/* Footer Section */}
-          <Section
-            style={{
-              backgroundColor: brandColors.background.light,
-              padding: '32px 24px',
-              borderTop: `1px solid ${brandColors.border.light}`,
-            }}
-          >
+          <Section style={instructionsSectionStyle}>
             <Row>
-              <Column>
-                <table
-                  role='presentation'
-                  align='center'
-                  style={{
-                    margin: '0 auto 20px',
-                    borderCollapse: 'separate',
-                    borderSpacing: '12px',
-                  }}
-                >
-                  <tr>
-                    <td
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '999px',
-                        backgroundColor: brandColors.primary,
-                        textAlign: 'center',
-                        verticalAlign: 'middle',
-                        boxShadow: '0 2px 4px rgba(0, 104, 127, 0.2)',
-                      }}
-                    >
-                      <Img
-                        src='https://loanstatushub.firstcreditunion.co.nz/logo/favicon-32x32.png'
-                        alt='FCU Support'
-                        width='20'
-                        height='20'
-                        style={{
-                          display: 'inline-block',
-                          margin: '10px auto',
-                        }}
-                      />
-                    </td>
-                  </tr>
-                </table>
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '14px',
-                    textAlign: 'center',
-                    margin: '0 0 16px 0',
-                    lineHeight: '1.6',
-                  }}
-                >
-                  Need help? Contact our support team at{' '}
-                  <a
-                    href={`mailto:${supportEmail}`}
-                    style={{
-                      color: brandColors.primary,
-                      textDecoration: 'none',
-                      fontWeight: '500',
-                    }}
-                  >
-                    {supportEmail}
-                  </a>
+              <Column style={instructionsColumnStyle}>
+                <Text style={instructionsHeadingStyle}>
+                  <strong>Next steps:</strong>
                 </Text>
-
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '12px',
-                    textAlign: 'center',
-                    margin: '0 0 12px 0',
-                    lineHeight: '1.6',
-                  }}
-                >
-                  This email was sent to{' '}
-                  <strong style={{ color: brandColors.text.primary }}>
-                    {recipientEmail}
-                  </strong>{' '}
-                  for loan application{' '}
-                  <strong style={{ color: brandColors.text.primary }}>
-                    #{loanApplicationNumber}
-                  </strong>
-                  .
+                <Text style={instructionTextStyle}>
+                  <strong>1.</strong> Return to the loan status portal
                 </Text>
-                <Text
-                  style={{
-                    color: brandColors.text.secondary,
-                    fontSize: '11px',
-                    textAlign: 'center',
-                    margin: '0',
-                    lineHeight: '1.6',
-                  }}
-                >
-                  © {new Date().getFullYear()} First Credit Union. All rights
-                  reserved.
+                <Text style={instructionTextStyle}>
+                  <strong>2.</strong> Enter the 6-digit code above
+                </Text>
+                <Text style={instructionTextStyle}>
+                  <strong>3.</strong> Access your loan application status
+                  dashboard
                 </Text>
               </Column>
             </Row>
           </Section>
+
+          <Hr style={hr} />
+
+          <Section style={securityNoticeSectionStyle}>
+            <Row>
+              <Column style={securityNoticeColumnStyle}>
+                <Text style={securityNoticeHeadingStyle}>
+                  <strong>🔐 Security Notice</strong>
+                </Text>
+                <Text style={securityNoticeTextStyle}>
+                  Never share this verification code with anyone. FCU staff will
+                  never ask for your verification code via phone or email. If
+                  you did not request this code, please contact us immediately.
+                </Text>
+              </Column>
+            </Row>
+          </Section>
+
+          <Hr style={hr} />
+
+          <Text style={bodyTextStyle}>
+            Need help? Contact our support team at{' '}
+            <Link style={anchor} href={`mailto:${supportEmail}`}>
+              {supportEmail}
+            </Link>
+            .
+          </Text>
+          <Text style={bodyTextStyle}>
+            This email was sent to <strong>{recipientEmail}</strong> for loan
+            application <strong>#{loanApplicationNumber}</strong>.
+          </Text>
+
+          <Hr style={hr} />
+          <Section style={footer}>
+            <Row>
+              <Text style={footerTextStyle}>
+                ©{toCurrentYear} First Credit Union, All Rights Reserved <br />
+                111 Collingwood Street, Hamilton Central, Hamilton 3204
+              </Text>
+            </Row>
+          </Section>
         </Container>
-      </Container>
+      </Body>
     </Html>
   )
 }
 
 export default VerificationCodeEmail
+
+// Inline styles for Outlook compatibility
+const bodyStyle = {
+  backgroundColor: '#f9fafb',
+  fontFamily:
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  margin: 0,
+  padding: 0,
+}
+
+const containerStyle = {
+  margin: '0 auto',
+  width: '100%',
+  maxWidth: '600px',
+  padding: 0,
+  backgroundColor: '#ffffff',
+}
+
+const headerSectionStyle = {
+  padding: '48px 40px 32px 40px',
+  textAlign: 'center' as const,
+}
+
+const logoStyle = {
+  margin: '0 auto 24px auto',
+  display: 'block',
+}
+
+const confirmationLabelStyle = {
+  fontSize: '12px',
+  fontWeight: '600' as const,
+  textTransform: 'uppercase' as const,
+  textAlign: 'center' as const,
+  letterSpacing: '0.1em',
+  color: '#6b7280',
+  margin: '0 0 8px 0',
+}
+
+const mainHeadingStyle = {
+  margin: '0 0 32px 0',
+  fontSize: '24px',
+  fontWeight: '600' as const,
+  lineHeight: '1.3',
+  textAlign: 'center' as const,
+  color: '#111827',
+}
+
+const greetingStyle = {
+  fontSize: '16px',
+  marginTop: '0',
+  marginBottom: '16px',
+  fontWeight: '600' as const,
+  lineHeight: '1.5',
+  letterSpacing: '-0.01em',
+  color: '#111827',
+  textAlign: 'left' as const,
+}
+
+const introTextStyle = {
+  marginBottom: '32px',
+  fontSize: '16px',
+  lineHeight: '1.6',
+  letterSpacing: '-0.01em',
+  color: '#374151',
+  textAlign: 'left' as const,
+}
+
+const verificationCodeBoxStyle = {
+  margin: '24px 0',
+  backgroundColor: '#29819a',
+  borderRadius: '16px',
+  padding: '32px 40px',
+  textAlign: 'center' as const,
+}
+
+const verificationCodeHeadingStyle = {
+  margin: 0,
+  fontSize: '12px',
+  fontWeight: '500' as const,
+  color: '#bbbb14',
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.1em',
+}
+
+const verificationCodeValueStyle = {
+  marginTop: '16px',
+  marginBottom: '24px',
+  fontSize: '48px',
+  fontWeight: 'bold' as const,
+  color: '#ffffff',
+  lineHeight: '1',
+  letterSpacing: '10px',
+  fontFamily: '"Courier New", Courier, monospace',
+}
+
+const expiryLabelStyle = {
+  margin: 0,
+  fontSize: '14px',
+  fontWeight: '300' as const,
+  color: '#ffffff',
+  letterSpacing: '-0.01em',
+}
+
+const instructionsSectionStyle = {
+  margin: '40px 0 24px 0',
+}
+
+const instructionsColumnStyle = {
+  width: '100%',
+  padding: '0 40px',
+}
+
+const instructionsHeadingStyle = {
+  margin: '0 0 12px 0',
+  fontSize: '18px',
+  fontWeight: '600' as const,
+  lineHeight: '1.4',
+  color: '#111827',
+}
+
+const instructionTextStyle = {
+  margin: '0 0 12px 0',
+  fontSize: '15px',
+  lineHeight: '1.6',
+  color: '#374151',
+}
+
+const securityNoticeSectionStyle = {
+  margin: '24px 0',
+}
+
+const securityNoticeColumnStyle = {
+  width: '100%',
+  padding: '0 40px',
+}
+
+const securityNoticeHeadingStyle = {
+  margin: '0 0 12px 0',
+  fontSize: '16px',
+  fontWeight: '600' as const,
+  lineHeight: '1.4',
+  color: '#111827',
+}
+
+const securityNoticeTextStyle = {
+  margin: '0',
+  fontSize: '15px',
+  lineHeight: '1.6',
+  color: '#374151',
+}
+
+const bodyTextStyle = {
+  fontSize: '15px',
+  lineHeight: '1.6',
+  color: '#374151',
+  margin: '0 40px 16px 40px',
+}
+
+const hr = {
+  borderColor: '#e5e7eb',
+  margin: '32px 40px',
+  width: 'auto',
+  border: 'none',
+  borderTop: '1px solid #e5e7eb',
+}
+
+const footer = {
+  padding: '32px 40px 40px 40px',
+}
+
+const footerTextStyle = {
+  textAlign: 'center' as const,
+  color: '#6b7280',
+  fontSize: '13px',
+  lineHeight: '1.6',
+  margin: 0,
+}
+
+const anchor = {
+  color: '#00687f',
+  textDecoration: 'underline',
+}
