@@ -101,7 +101,7 @@ export async function sendVerificationCodeEmail(props: {
         },
         Subject: {
           Charset: 'UTF-8',
-          Data: `FCU Loan Status - Verification Code (${props.verificationCode})`,
+          Data: `Verification Code - Loan Status Hub`,
         },
       },
       // Optional: Add configuration set for tracking
@@ -213,7 +213,7 @@ export async function sendWelcomeEmail(props: {
         },
         Subject: {
           Charset: 'UTF-8',
-          Data: `Welcome to FCU Loan Status Portal - Account Verified`,
+          Data: `Loan Status Hub - Dashboard Access Granted`,
         },
       },
       ConfigurationSetName: process.env.AWS_SES_CONFIGURATION_SET,
