@@ -805,8 +805,8 @@ function DashboardPageContent() {
 
                   <div className='text-center'>
                     <p className='text-xs text-muted-foreground'>
-                      Feel free to contact your loan officer using the above email if you have any
-                      questions about your application.
+                      Feel free to contact your loan officer using the above
+                      email if you have any questions about your application.
                     </p>
                   </div>
                 </CardContent>
@@ -848,51 +848,6 @@ function DashboardPageContent() {
                       <p>Branch information not available</p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
-
-              {/* Session Information Card */}
-              <Card className='shadow-none border rounded-xl lg:col-span-2'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
-                    <Shield className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Session & Account Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className='grid md:grid-cols-3 gap-6'>
-                    <div className='text-center p-4 bg-sky-50 rounded-xl'>
-                      <Mail className='h-6 w-6 text-fcu-primary-500 mx-auto mb-2' />
-                      <div className='text-sm text-muted-foreground mb-1'>
-                        Email Address
-                      </div>
-                      <div className='font-medium text-fcu-primary-500 break-all'>
-                        {sessionInfo?.email}
-                      </div>
-                    </div>
-                    <div className='text-center p-4 bg-green-50 rounded-lg'>
-                      <TrendingUp className='h-6 w-6 text-green-600 mx-auto mb-2' />
-                      <div className='text-sm text-muted-foreground mb-1'>
-                        Total Logins
-                      </div>
-                      <div className='text-2xl font-bold text-green-800'>
-                        {sessionInfo?.totalLogins || 0}
-                      </div>
-                    </div>
-                    <div className='text-center p-4 bg-blue-50 rounded-lg'>
-                      <Clock className='h-6 w-6 text-blue-600 mx-auto mb-2' />
-                      <div className='text-sm text-muted-foreground mb-1'>
-                        Last Login
-                      </div>
-                      <div className='font-medium text-blue-800'>
-                        {sessionInfo?.lastLoginAt
-                          ? new Date(sessionInfo.lastLoginAt).toLocaleString(
-                              'en-NZ'
-                            )
-                          : 'N/A'}
-                      </div>
-                    </div>
-                  </div>
                 </CardContent>
               </Card>
             </div>
