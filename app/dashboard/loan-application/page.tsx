@@ -44,6 +44,8 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import { getTradingBranches } from '@/lib/lookup-values'
+import { Phone } from 'lucide-react'
 
 // Enhanced interfaces for comprehensive loan data
 interface LoanApplication {
@@ -105,6 +107,11 @@ interface TradingBranch {
   Organisation_Unit_Type_id: string | null
   Org_Unit_Client_Number: string | null
   Hidden: boolean
+  addressline_1: string | null
+  addressline_2: string | null
+  addressline_3: string | null
+  contact_phone: string | null
+  map_link: string | null
 }
 
 interface SovereignUser {
@@ -154,6 +161,9 @@ function DashboardPageContent() {
   const [error, setError] = useState('')
   const [sessionTimeLeft, setSessionTimeLeft] = useState<number>(0)
   const [showSessionDialog, setShowSessionDialog] = useState(false)
+  const [fullBranchInfo, setFullBranchInfo] = useState<TradingBranch | null>(
+    null
+  )
 
   // Session countdown timer
   useEffect(() => {
@@ -218,6 +228,23 @@ function DashboardPageContent() {
 
       // Set comprehensive loan data
       setLoanData(sessionData.comprehensiveLoanData)
+
+      // Fetch full trading branch information
+      const tradingBranches = await getTradingBranches()
+      if (
+        tradingBranches &&
+        sessionData.comprehensiveLoanData?.loanApplication?.trading_branch
+      ) {
+        const matchingBranch = tradingBranches.find(
+          (branch) =>
+            branch.Organisation_Unit_id ===
+            sessionData.comprehensiveLoanData.loanApplication.trading_branch
+        )
+        if (matchingBranch) {
+          setFullBranchInfo(matchingBranch)
+        }
+      }
+
       setState('active')
 
       toast.success('Dashboard loaded successfully')
@@ -821,19 +848,68 @@ function DashboardPageContent() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-4'>
-                  {loanData?.branchInfo ? (
+                  {fullBranchInfo ? (
                     <div className='space-y-4'>
-                      <div className='p-4  rounded-lg'>
-                        <h4 className='font-semibold text-fcu-primary-500 mb-2'>
-                          {loanData.branchInfo.Organisation_Unit_Name}
+                      <div className='p-4 bg-fcu-primary-50 rounded-lg'>
+                        <h4 className='font-semibold text-fcu-primary-500 mb-3'>
+                          {fullBranchInfo.Organisation_Unit_Name}
                         </h4>
-                        <div className='space-y-2 text-sm'>
-                          <div className='flex items-center text-fcu-secondary-300'>
-                            <MapPin className='h-4 w-4 mr-2' />
-                            Address:{' '}
-                            {loanData.branchInfo.Organisation_Unit_Name}
+
+                        {/* Contact Phone */}
+                        {fullBranchInfo.contact_phone && (
+                          <div className='flex items-center text-sm text-fcu-secondary-300 mb-3'>
+                            <Phone className='h-4 w-4 mr-2 flex-shrink-0' />
+                            <a
+                              href={`tel:${fullBranchInfo.contact_phone}`}
+                              className='hover:underline text-fcu-primary-500 font-medium'
+                            >
+                              {fullBranchInfo.contact_phone}
+                            </a>
                           </div>
-                        </div>
+                        )}
+
+                        {/* Address with Map Link */}
+                        {(fullBranchInfo.addressline_1 ||
+                          fullBranchInfo.addressline_2 ||
+                          fullBranchInfo.addressline_3) && (
+                          <div className='space-y-1 text-sm'>
+                            <div className='flex items-start text-fcu-secondary-300'>
+                              <MapPin className='h-4 w-4 mr-2 flex-shrink-0 mt-0.5' />
+                              <div className='flex-1'>
+                                {fullBranchInfo.map_link ? (
+                                  <a
+                                    href={fullBranchInfo.map_link}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='hover:underline text-fcu-primary-500'
+                                  >
+                                    {fullBranchInfo.addressline_1 && (
+                                      <div>{fullBranchInfo.addressline_1}</div>
+                                    )}
+                                    {fullBranchInfo.addressline_2 && (
+                                      <div>{fullBranchInfo.addressline_2}</div>
+                                    )}
+                                    {fullBranchInfo.addressline_3 && (
+                                      <div>{fullBranchInfo.addressline_3}</div>
+                                    )}
+                                  </a>
+                                ) : (
+                                  <div className='text-fcu-secondary-300'>
+                                    {fullBranchInfo.addressline_1 && (
+                                      <div>{fullBranchInfo.addressline_1}</div>
+                                    )}
+                                    {fullBranchInfo.addressline_2 && (
+                                      <div>{fullBranchInfo.addressline_2}</div>
+                                    )}
+                                    {fullBranchInfo.addressline_3 && (
+                                      <div>{fullBranchInfo.addressline_3}</div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <div className='text-center'>
                         <p className='text-xs text-muted-foreground'>
