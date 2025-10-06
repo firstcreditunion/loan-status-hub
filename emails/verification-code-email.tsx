@@ -48,17 +48,6 @@ export const VerificationCodeEmail: React.FC<
       <Body style={bodyStyle}>
         <Container style={containerStyle}>
           <Section style={headerSectionStyle}>
-            <Row>
-              <Column>
-                <Img
-                  src='https://loanstatushub.firstcreditunion.co.nz/logo/android-chrome-192x192.png'
-                  alt='First Credit Union - Your trusted financial partner'
-                  width='96'
-                  height='96'
-                  style={logoStyle}
-                />
-              </Column>
-            </Row>
             <Text style={confirmationLabelStyle}>Email Verification</Text>
             <Heading style={mainHeadingStyle}>
               Verify Your Identity to Access Loan Status
