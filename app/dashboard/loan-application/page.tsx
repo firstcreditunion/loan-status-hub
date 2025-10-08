@@ -545,7 +545,7 @@ function DashboardPageContent() {
   // Active dashboard
   return (
     <TooltipProvider>
-      <div className='min-h-screen bg-white tracking-tight pt-20 px-4 sm:px-0 relative'>
+      <div className='min-h-screen bg-white tracking-tight px-4 sm:px-0 relative'>
         {/* Dot pattern background */}
         <DotPattern
           className='text-fcu-primary-500'
@@ -605,8 +605,8 @@ function DashboardPageContent() {
               <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
                 <div className='p-6'>
                   <div className='flex items-center gap-3 mb-6'>
-                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-primary-50'>
-                      <FileText className='h-5 w-5 text-fcu-primary-500' />
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-primary-500'>
+                      <FileText className='h-5 w-5 text-white' />
                     </div>
                     <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
                       Loan Overview
@@ -809,8 +809,8 @@ function DashboardPageContent() {
               <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
                 <div className='p-6'>
                   <div className='flex items-center gap-3 mb-6'>
-                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-secondary-50'>
-                      <User className='h-5 w-5 text-fcu-secondary-400' />
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-secondary-300'>
+                      <User className='h-5 w-5 text-white' />
                     </div>
                     <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
                       Your Lending Consultant
