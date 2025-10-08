@@ -2,6 +2,7 @@ import { Database } from '@/database.types'
 import { getSchemaToUse } from '@/utils/schemToUse'
 import { createClient } from '@/utils/supabase/server'
 import crypto from 'crypto'
+import { fetchMediumApplicationData } from '@/lib/occ-data'
 
 // Types for our services
 type Tables = Database['api']['Tables']
@@ -198,6 +199,40 @@ export async function getComprehensiveLoanData(
       return null
     }
 
+    // Initialize variables for OCC data
+    let occCurrentTaskWith: string | null = null
+    let occOwner: string | null = null
+
+    // Check if G3_app_number exists and fetch OCC data
+    if (
+      loanApplication.G3_app_number &&
+      loanApplication.G3_app_number.trim() !== ''
+    ) {
+      try {
+        console.log(
+          'Fetching OCC data for G3_app_number:',
+          loanApplication.G3_app_number
+        )
+        const occData = await fetchMediumApplicationData(
+          loanApplication.G3_app_number
+        )
+
+        // Extract currentTaskWith and owner from OCC response
+        occCurrentTaskWith = occData.attributes.currentTaskWith || null
+        occOwner = occData.attributes.owner || null
+
+        console.log(
+          'OCC Data - currentTaskWith:',
+          occCurrentTaskWith,
+          'owner:',
+          occOwner
+        )
+      } catch (error) {
+        console.error('Error fetching OCC data:', error)
+        // Continue with normal flow if OCC data fetch fails
+      }
+    }
+
     // Get financial details
     const { data: financialDetails } = await supabase
       .schema(schema)
@@ -222,12 +257,22 @@ export async function getComprehensiveLoanData(
       .eq('Organisation_Unit_id', loanApplication.trading_branch || '')
       .maybeSingle()
 
-    // Get loan officer (app_owner)
+    // Determine which client_number to use for loan officer
+    // Priority: 1. currentTaskWith from OCC, 2. owner from OCC, 3. app_owner from loan application
+    const loanOfficerClientNumber =
+      occCurrentTaskWith || occOwner || loanApplication.app_owner || ''
+
+    console.log(
+      'Fetching loan officer with client_number:',
+      loanOfficerClientNumber
+    )
+
+    // Get loan officer (using OCC data if available, otherwise app_owner)
     const { data: loanOfficer } = await supabase
       .schema(schema)
       .from('tblSovereignUsers')
       .select('*')
-      .eq('client_number', loanApplication.app_owner || '')
+      .eq('client_number', loanOfficerClientNumber)
       .maybeSingle()
 
     // Get delegated user
