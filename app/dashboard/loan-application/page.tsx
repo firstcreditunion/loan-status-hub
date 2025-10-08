@@ -99,6 +99,7 @@ interface LoanApplicationStatusMaster {
   has_checklists: boolean
   has_standalone_checklist: boolean
   is_portal_status: boolean
+  blurb: string | null
 }
 
 interface TradingBranch {
@@ -583,19 +584,29 @@ function DashboardPageContent() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-6'>
-                  <div className='flex items-center justify-between p-4 bg-sky-50 rounded-xl'>
-                    <span className='text-sm font-medium text-fcu-primary-500'>
-                      Current Status
-                    </span>
-                    <Badge
-                      className={`${getStatusColor(loanData?.loanApplication.app_status || '')} flex items-center gap-2 px-3 py-1`}
-                    >
-                      {getStatusIcon(
-                        loanData?.loanApplication.app_status || ''
-                      )}
-                      {loanData?.statusInfo?.application_status_desc ||
-                        loanData?.loanApplication.app_status}
-                    </Badge>
+                  <div
+                    id='application-status'
+                    className='p-4 bg-sky-50 rounded-xl space-y-3'
+                  >
+                    <div className='flex items-center justify-between'>
+                      <span className='text-sm font-medium text-fcu-primary-500'>
+                        Current Status
+                      </span>
+                      <Badge
+                        className={`${getStatusColor(loanData?.loanApplication.app_status || '')} flex items-center gap-2 px-3 py-1`}
+                      >
+                        {getStatusIcon(
+                          loanData?.loanApplication.app_status || ''
+                        )}
+                        {loanData?.statusInfo?.application_status_desc ||
+                          loanData?.loanApplication.app_status}
+                      </Badge>
+                    </div>
+                    {loanData?.statusInfo?.blurb && (
+                      <p className='text-xs text-fcu-secondary-300 leading-relaxed'>
+                        {loanData.statusInfo.blurb}
+                      </p>
+                    )}
                   </div>
 
                   <div className='space-y-4'>
@@ -764,7 +775,7 @@ function DashboardPageContent() {
                 <CardHeader>
                   <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
                     <User className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Your Loan Officer
+                    Your Lending Consultant
                   </CardTitle>
                 </CardHeader>
                 <CardContent className='space-y-6'>
