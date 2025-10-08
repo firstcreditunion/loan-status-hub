@@ -202,6 +202,7 @@ export async function getComprehensiveLoanData(
     // Initialize variables for OCC data
     let occCurrentTaskWith: string | null = null
     let occOwner: string | null = null
+    let occAppStatusCode: string | null = null
 
     // Check if G3_app_number exists and fetch OCC data
     if (
@@ -217,15 +218,18 @@ export async function getComprehensiveLoanData(
           loanApplication.G3_app_number
         )
 
-        // Extract currentTaskWith and owner from OCC response
+        // Extract currentTaskWith, owner, and appStatusCode from OCC response
         occCurrentTaskWith = occData.attributes.currentTaskWith || null
         occOwner = occData.attributes.owner || null
+        occAppStatusCode = occData.attributes.appStatusCode || null
 
         console.log(
           'OCC Data - currentTaskWith:',
           occCurrentTaskWith,
           'owner:',
-          occOwner
+          occOwner,
+          'appStatusCode:',
+          occAppStatusCode
         )
       } catch (error) {
         console.error('Error fetching OCC data:', error)
@@ -241,12 +245,24 @@ export async function getComprehensiveLoanData(
       .eq('Lnd_application_number', loanNumber)
       .maybeSingle()
 
+    // Determine which status code to use
+    // Priority: 1. appStatusCode from OCC, 2. app_status from loan application
+    const statusCodeToUse = occAppStatusCode || loanApplication.app_status
+
+    console.log(
+      'Using status code:',
+      statusCodeToUse,
+      '(from:',
+      occAppStatusCode ? 'OCC' : 'Database',
+      ')'
+    )
+
     // Get status information
     const { data: statusInfo } = await supabase
       .schema(schema)
       .from('tblLoanApplicationStatusMaster')
       .select('*')
-      .eq('application_status_code', loanApplication.app_status)
+      .eq('application_status_code', statusCodeToUse)
       .maybeSingle()
 
     // Get branch information
