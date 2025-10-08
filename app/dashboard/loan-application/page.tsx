@@ -3,13 +3,6 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -41,11 +34,12 @@ import {
   CheckCircle2,
   Timer,
   CircleDollarSignIcon,
+  Phone,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import Image from 'next/image'
 import { getTradingBranches } from '@/lib/lookup-values'
-import { Phone } from 'lucide-react'
+import { DotPattern } from '@/components/magic'
 
 // Enhanced interfaces for comprehensive loan data
 interface LoanApplication {
@@ -414,46 +408,53 @@ function DashboardPageContent() {
   // Loading state
   if (state === 'loading') {
     return (
-      <div className='min-h-screen bg-white pt-20 px-4 sm:px-0'>
-        <div className='container mx-auto px-4 py-8'>
+      <div className='min-h-screen bg-white pt-20 px-4 sm:px-0 relative'>
+        {/* Dot pattern background */}
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.04}
+          width={20}
+          height={20}
+        />
+
+        <div className='container mx-auto px-4 py-8 relative'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header skeleton */}
-            <Card className='shadow-md'>
-              <CardHeader>
+            <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden'>
+              <div className='p-6 md:p-8'>
                 <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
-                  <div className='space-y-3'>
-                    <Skeleton className='h-10 w-80' />
-                    <Skeleton className='h-6 w-64' />
+                  <div className='flex items-start gap-4'>
+                    <Skeleton className='h-14 w-14 rounded-full' />
+                    <div className='space-y-3'>
+                      <Skeleton className='h-8 w-80' />
+                      <Skeleton className='h-4 w-64' />
+                    </div>
                   </div>
-                  <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3'>
-                    <Skeleton className='h-8 w-32' />
-                    <Skeleton className='h-10 w-24' />
-                  </div>
+                  <Skeleton className='h-11 w-32 rounded-full' />
                 </div>
-              </CardHeader>
-            </Card>
-
-            {/* Progress skeleton */}
-            <Card className='shadow-md'>
-              <CardHeader>
-                <Skeleton className='h-6 w-48' />
-                <Skeleton className='h-4 w-full' />
-              </CardHeader>
-            </Card>
+              </div>
+            </div>
 
             {/* Content grid skeleton */}
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8'>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className='shadow-md'>
-                  <CardHeader>
-                    <Skeleton className='h-6 w-32' />
-                  </CardHeader>
-                  <CardContent className='space-y-4'>
-                    <Skeleton className='h-4 w-full' />
-                    <Skeleton className='h-4 w-3/4' />
-                    <Skeleton className='h-4 w-1/2' />
-                  </CardContent>
-                </Card>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-5 md:gap-6'>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden'
+                >
+                  <div className='p-6'>
+                    <div className='flex items-center gap-3 mb-6'>
+                      <Skeleton className='h-10 w-10 rounded-full' />
+                      <Skeleton className='h-6 w-40' />
+                    </div>
+                    <div className='space-y-4'>
+                      <Skeleton className='h-20 w-full rounded-xl' />
+                      <Skeleton className='h-4 w-full' />
+                      <Skeleton className='h-4 w-3/4' />
+                      <Skeleton className='h-4 w-1/2' />
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -465,29 +466,35 @@ function DashboardPageContent() {
   // Session expired state
   if (state === 'session-expired') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-white'>
-        <Card className='w-full max-w-md shadow-lg'>
-          <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-100'>
+      <div className='min-h-screen flex items-center justify-center bg-white relative pt-32 px-4 sm:px-0'>
+        {/* Dot pattern background */}
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.04}
+          width={20}
+          height={20}
+        />
+
+        <div className='w-full max-w-md outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+          <div className='text-center'>
+            <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 border border-orange-100'>
               <Timer className='h-8 w-8 text-orange-600' />
             </div>
-            <CardTitle className='text-2xl text-fcu-primary-500'>
+            <h2 className='text-2xl font-light tracking-tight text-fcu-primary-500 mb-3'>
               Session Expired
-            </CardTitle>
-            <CardDescription className='text-base'>
+            </h2>
+            <p className='text-sm text-fcu-secondary-300 mb-6'>
               Your session has expired for security reasons. Please verify your
               email again to continue.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
             <Button
               onClick={() => router.push('/')}
-              className='w-full h-12 text-base bg-fcu-primary-500 hover:bg-fcu-primary-600 text-white'
+              className='w-full h-12 text-base bg-fcu-primary-600 hover:bg-fcu-primary-700 text-white rounded-full transition-all duration-200'
             >
               Return to Verification
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     )
   }
@@ -495,34 +502,42 @@ function DashboardPageContent() {
   // Error state
   if (state === 'error') {
     return (
-      <div className='min-h-screen flex items-center justify-center bg-white'>
-        <Card className='w-full max-w-md shadow-lg'>
-          <CardHeader className='text-center'>
-            <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100'>
+      <div className='min-h-screen flex items-center justify-center bg-white relative pt-32 px-4 sm:px-0'>
+        {/* Dot pattern background */}
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.04}
+          width={20}
+          height={20}
+        />
+
+        <div className='w-full max-w-md outline-2 outline-offset-4 outline-fcu-secondary-300/5 bg-gray-100 backdrop-blur-sm relative rounded-xl shadow-fcu-secondary-500/15 shadow-2xl p-8'>
+          <div className='text-center'>
+            <div className='mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50 border border-red-100'>
               <AlertCircle className='h-8 w-8 text-red-600' />
             </div>
-            <CardTitle className='text-2xl text-fcu-primary-500'>
+            <h2 className='text-2xl font-light tracking-tight text-fcu-primary-500 mb-3'>
               Error
-            </CardTitle>
-            <CardDescription className='text-base'>{error}</CardDescription>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <Button
-              onClick={loadDashboardData}
-              className='w-full h-12 border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
-              variant='outline'
-            >
-              <RefreshCw className='mr-2 h-4 w-4' />
-              Try Again
-            </Button>
-            <Button
-              onClick={() => router.push('/')}
-              className='w-full h-12 bg-fcu-primary-500 hover:bg-fcu-primary-600 text-white'
-            >
-              Return to Verification
-            </Button>
-          </CardContent>
-        </Card>
+            </h2>
+            <p className='text-sm text-fcu-secondary-300 mb-6'>{error}</p>
+            <div className='space-y-3'>
+              <Button
+                onClick={loadDashboardData}
+                className='w-full h-12 border-fcu-primary-500/20 text-fcu-primary-500 bg-fcu-primary-50 hover:bg-fcu-primary-100 rounded-full transition-all duration-200'
+                variant='outline'
+              >
+                <RefreshCw className='mr-2 h-4 w-4' />
+                Try Again
+              </Button>
+              <Button
+                onClick={() => router.push('/')}
+                className='w-full h-12 bg-fcu-primary-600 hover:bg-fcu-primary-700 text-white rounded-full transition-all duration-200'
+              >
+                Return to Verification
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -530,31 +545,42 @@ function DashboardPageContent() {
   // Active dashboard
   return (
     <TooltipProvider>
-      <div className='min-h-screen bg-white tracking-tight pt-20 px-4 sm:px-0'>
-        <div className='container mx-auto px-4 py-8'>
+      <div className='min-h-screen bg-white tracking-tight pt-20 px-4 sm:px-0 relative'>
+        {/* Dot pattern background */}
+        <DotPattern
+          className='text-fcu-primary-500'
+          opacity={0.04}
+          width={20}
+          height={20}
+        />
+
+        <div className='container mx-auto px-4 py-8 relative'>
           <div className='max-w-7xl mx-auto space-y-8'>
             {/* Header */}
-            <Card className='shadow-none rounded-xl'>
-              <CardHeader>
-                <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
+            <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden'>
+              <div className='p-6 md:p-8'>
+                <div className='flex flex-col space-y-6 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
                   <div className='flex-1'>
                     <div className='flex flex-row justify-start items-start gap-4'>
-                      <Image
-                        src='/logo/android-chrome-192x192.png'
-                        alt='FCU Logo'
-                        width={52}
-                        height={52}
-                        className='mt-1'
-                      />
+                      <div className='flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-fcu-primary-50 to-fcu-secondary-50 shadow-sm'>
+                        <Image
+                          src='/logo/android-chrome-192x192.png'
+                          alt='FCU Logo'
+                          width={56}
+                          height={56}
+                        />
+                      </div>
                       <div className='flex flex-col justify-start items-start'>
-                        <CardTitle className='text-2xl tracking-tight text-fcu-primary-500'>
+                        <h1 className='text-2xl md:text-3xl font-light tracking-tight text-fcu-primary-500 mb-1'>
                           Loan Status Dashboard
-                        </CardTitle>
-                        <CardDescription className='text-base md:text-lg text-fcu-secondary-300 tracking-tight'>
+                        </h1>
+                        <p className='text-sm md:text-base text-fcu-secondary-300 tracking-tight'>
                           Welcome back,{' '}
-                          {loanData?.loanApplication.applicant_name ||
-                            'Valued Customer'}
-                        </CardDescription>
+                          <span className='font-medium'>
+                            {loanData?.loanApplication.applicant_name ||
+                              'Valued Customer'}
+                          </span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -563,389 +589,427 @@ function DashboardPageContent() {
                       variant='outline'
                       size='lg'
                       onClick={handleLogout}
-                      className='border-fcu-primary-500 text-white bg-fcu-primary-500 hover:bg-fcu-primary-600 rounded-full cursor-pointer hover:text-white'
+                      className='border-fcu-primary-500/20 text-fcu-primary-500 bg-fcu-primary-50 hover:bg-fcu-primary-100 hover:border-fcu-primary-500/30 rounded-full transition-all duration-200'
                     >
-                      Logout
                       <LogOut className='mr-2 h-4 w-4' />
+                      Logout
                     </Button>
                   </div>
                 </div>
-              </CardHeader>
-            </Card>
+              </div>
+            </div>
 
             {/* Main Content Grid */}
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-5 md:gap-6'>
               {/* Loan Overview Card */}
-              <Card className='shadow-none border rounded-xl  lg:col-span-1'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
-                    <FileText className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Loan Overview
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='space-y-6'>
-                  <div
-                    id='application-status'
-                    className='p-4 bg-sky-50 rounded-xl space-y-3'
-                  >
-                    <div className='flex items-center justify-between'>
-                      <span className='text-sm font-medium text-fcu-primary-500'>
-                        Current Status
-                      </span>
-                      <Badge
-                        className={`${getStatusColor(loanData?.loanApplication.app_status || '')} flex items-center gap-2 px-3 py-1`}
-                      >
-                        {getStatusIcon(
-                          loanData?.loanApplication.app_status || ''
-                        )}
-                        {loanData?.statusInfo?.application_status_desc ||
-                          loanData?.loanApplication.app_status}
-                      </Badge>
+              <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
+                <div className='p-6'>
+                  <div className='flex items-center gap-3 mb-6'>
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-primary-50'>
+                      <FileText className='h-5 w-5 text-fcu-primary-500' />
                     </div>
-                    {loanData?.statusInfo?.blurb && (
-                      <p className='text-xs text-fcu-secondary-300 leading-relaxed'>
-                        {loanData.statusInfo.blurb}
-                      </p>
-                    )}
+                    <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
+                      Loan Overview
+                    </h2>
                   </div>
-
-                  <div className='space-y-4'>
-                    <div className='flex justify-between items-center'>
-                      <span className='text-sm text-muted-foreground'>
-                        Application Number:
-                      </span>
-                      <span className='text-sm font-mono font-bold text-fcu-primary-500'>
-                        {loanData?.loanApplication.Lnd_application_number}
-                      </span>
+                  <div className='space-y-6'>
+                    <div
+                      id='application-status'
+                      className='p-4 bg-gradient-to-br from-sky-50/50 to-blue-50/30 rounded-xl space-y-3 border border-sky-100/50'
+                    >
+                      <div className='flex items-center justify-between'>
+                        <span className='text-sm font-medium text-fcu-primary-500'>
+                          Current Status
+                        </span>
+                        <Badge
+                          className={`${getStatusColor(loanData?.loanApplication.app_status || '')} flex items-center gap-2 px-3 py-1`}
+                        >
+                          {getStatusIcon(
+                            loanData?.loanApplication.app_status || ''
+                          )}
+                          {loanData?.statusInfo?.application_status_desc ||
+                            loanData?.loanApplication.app_status}
+                        </Badge>
+                      </div>
+                      {loanData?.statusInfo?.blurb && (
+                        <p className='text-xs text-fcu-secondary-300 leading-relaxed'>
+                          {loanData.statusInfo.blurb}
+                        </p>
+                      )}
                     </div>
 
-                    <div className='flex justify-between items-center'>
-                      <span className='text-sm text-muted-foreground'>
-                        Product Type:
-                      </span>
-                      <span className='text-sm font-medium'>
-                        {loanData?.financialDetails?.product ||
-                          loanData?.loanApplication.product_type ||
-                          'N/A'}
-                      </span>
-                    </div>
-
-                    <div className='flex justify-between items-center'>
-                      <span className='text-sm text-muted-foreground'>
-                        Application Date:
-                      </span>
-                      <span className='text-sm'>
-                        {loanData?.loanApplication.created_at
-                          ? new Date(
-                              loanData.loanApplication.created_at
-                            ).toLocaleDateString('en-NZ')
-                          : 'N/A'}
-                      </span>
-                    </div>
-
-                    <div className='flex justify-between items-center'>
-                      <span className='text-sm text-muted-foreground'>
-                        Last Updated:
-                      </span>
-                      <span className='text-sm'>
-                        {loanData?.loanApplication.app_last_amend_date
-                          ? new Date(
-                              loanData.loanApplication.app_last_amend_date
-                            ).toLocaleDateString('en-NZ')
-                          : 'N/A'}
-                      </span>
-                    </div>
-
-                    {loanData?.loanApplication.is_joint_application && (
+                    <div className='space-y-4'>
                       <div className='flex justify-between items-center'>
                         <span className='text-sm text-muted-foreground'>
-                          Application Type:
+                          Application Number:
                         </span>
-                        <Badge variant='secondary'>Joint Application</Badge>
+                        <span className='text-sm font-mono font-bold text-fcu-primary-500'>
+                          {loanData?.loanApplication.Lnd_application_number}
+                        </span>
+                      </div>
+
+                      <div className='flex justify-between items-center'>
+                        <span className='text-sm text-muted-foreground'>
+                          Product Type:
+                        </span>
+                        <span className='text-sm font-medium'>
+                          {loanData?.financialDetails?.product ||
+                            loanData?.loanApplication.product_type ||
+                            'N/A'}
+                        </span>
+                      </div>
+
+                      <div className='flex justify-between items-center'>
+                        <span className='text-sm text-muted-foreground'>
+                          Application Date:
+                        </span>
+                        <span className='text-sm'>
+                          {loanData?.loanApplication.created_at
+                            ? new Date(
+                                loanData.loanApplication.created_at
+                              ).toLocaleDateString('en-NZ')
+                            : 'N/A'}
+                        </span>
+                      </div>
+
+                      <div className='flex justify-between items-center'>
+                        <span className='text-sm text-muted-foreground'>
+                          Last Updated:
+                        </span>
+                        <span className='text-sm'>
+                          {loanData?.loanApplication.app_last_amend_date
+                            ? new Date(
+                                loanData.loanApplication.app_last_amend_date
+                              ).toLocaleDateString('en-NZ')
+                            : 'N/A'}
+                        </span>
+                      </div>
+
+                      {loanData?.loanApplication.is_joint_application && (
+                        <div className='flex justify-between items-center'>
+                          <span className='text-sm text-muted-foreground'>
+                            Application Type:
+                          </span>
+                          <Badge variant='secondary'>Joint Application</Badge>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Financial Details Card */}
+              <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
+                <div className='p-6'>
+                  <div className='flex items-center gap-3 mb-6'>
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-green-50'>
+                      <CircleDollarSignIcon className='h-5 w-5 text-green-600' />
+                    </div>
+                    <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
+                      Financial Details
+                    </h2>
+                  </div>
+                  <div className='space-y-6'>
+                    {loanData?.financialDetails ? (
+                      <>
+                        <div className='p-4 bg-green-50 rounded-lg'>
+                          <div className='flex items-center justify-between'>
+                            <span className='text-sm font-medium text-green-700'>
+                              Loan Amount
+                            </span>
+                            <span className='text-2xl font-bold text-green-800'>
+                              {formatCurrency(
+                                loanData.financialDetails.costOfGoods
+                              )}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className='grid grid-cols-2 gap-4'>
+                          <div className='text-center p-3 bg-blue-50 rounded-lg'>
+                            <Percent className='h-5 w-5 text-blue-600 mx-auto mb-1' />
+                            <div className='text-lg font-bold text-blue-800'>
+                              {loanData.financialDetails.interest_rate || 'N/A'}
+                              %
+                            </div>
+                            <div className='text-xs text-blue-600'>
+                              Interest Rate
+                            </div>
+                          </div>
+                          <div className='text-center p-3 bg-purple-50 rounded-lg'>
+                            <Calendar className='h-5 w-5 text-purple-600 mx-auto mb-1' />
+                            <div className='text-lg font-bold text-purple-800'>
+                              {loanData.financialDetails.loan_term_1 || 'N/A'}
+                            </div>
+                            <div className='text-xs text-purple-600'>
+                              {loanData.financialDetails.loan_term_2 === 'M'
+                                ? 'Months'
+                                : 'Period'}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className='space-y-3'>
+                          <div className='flex justify-between items-center'>
+                            <span className='text-sm text-muted-foreground'>
+                              Payment Frequency:
+                            </span>
+                            <span className='text-sm font-medium'>
+                              {formatPaymentFrequency(
+                                loanData.financialDetails.payment_frequency
+                              )}
+                            </span>
+                          </div>
+
+                          <div className='flex justify-between items-center'>
+                            <span className='text-sm text-muted-foreground'>
+                              Default Fees:
+                            </span>
+                            <span className='text-sm font-medium'>
+                              {formatCurrency(
+                                loanData.financialDetails.defaultFees
+                              )}
+                            </span>
+                          </div>
+
+                          {loanData.financialDetails.need_insurance && (
+                            <div className='flex justify-between items-center'>
+                              <span className='text-sm text-muted-foreground'>
+                                Insurance:
+                              </span>
+                              <Badge variant='secondary'>Required</Badge>
+                            </div>
+                          )}
+
+                          {loanData.financialDetails.start_date && (
+                            <div className='flex justify-between items-center'>
+                              <span className='text-sm text-muted-foreground'>
+                                Start Date:
+                              </span>
+                              <span className='text-sm'>
+                                {new Date(
+                                  loanData.financialDetails.start_date
+                                ).toLocaleDateString('en-NZ')}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <div className='text-center py-8 text-muted-foreground'>
+                        <CreditCard className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                        <p>Financial details not yet available</p>
                       </div>
                     )}
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Financial Details Card */}
-              <Card className='shadow-none border rounded-xl lg:col-span-1'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
-                    <CircleDollarSignIcon className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Financial Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='space-y-6'>
-                  {loanData?.financialDetails ? (
-                    <>
-                      <div className='p-4 bg-green-50 rounded-lg'>
-                        <div className='flex items-center justify-between'>
-                          <span className='text-sm font-medium text-green-700'>
-                            Loan Amount
-                          </span>
-                          <span className='text-2xl font-bold text-green-800'>
-                            {formatCurrency(
-                              loanData.financialDetails.costOfGoods
-                            )}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className='grid grid-cols-2 gap-4'>
-                        <div className='text-center p-3 bg-blue-50 rounded-lg'>
-                          <Percent className='h-5 w-5 text-blue-600 mx-auto mb-1' />
-                          <div className='text-lg font-bold text-blue-800'>
-                            {loanData.financialDetails.interest_rate || 'N/A'}%
-                          </div>
-                          <div className='text-xs text-blue-600'>
-                            Interest Rate
-                          </div>
-                        </div>
-                        <div className='text-center p-3 bg-purple-50 rounded-lg'>
-                          <Calendar className='h-5 w-5 text-purple-600 mx-auto mb-1' />
-                          <div className='text-lg font-bold text-purple-800'>
-                            {loanData.financialDetails.loan_term_1 || 'N/A'}
-                          </div>
-                          <div className='text-xs text-purple-600'>
-                            {loanData.financialDetails.loan_term_2 === 'M'
-                              ? 'Months'
-                              : 'Period'}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className='space-y-3'>
-                        <div className='flex justify-between items-center'>
-                          <span className='text-sm text-muted-foreground'>
-                            Payment Frequency:
-                          </span>
-                          <span className='text-sm font-medium'>
-                            {formatPaymentFrequency(
-                              loanData.financialDetails.payment_frequency
-                            )}
-                          </span>
-                        </div>
-
-                        <div className='flex justify-between items-center'>
-                          <span className='text-sm text-muted-foreground'>
-                            Default Fees:
-                          </span>
-                          <span className='text-sm font-medium'>
-                            {formatCurrency(
-                              loanData.financialDetails.defaultFees
-                            )}
-                          </span>
-                        </div>
-
-                        {loanData.financialDetails.need_insurance && (
-                          <div className='flex justify-between items-center'>
-                            <span className='text-sm text-muted-foreground'>
-                              Insurance:
-                            </span>
-                            <Badge variant='secondary'>Required</Badge>
-                          </div>
-                        )}
-
-                        {loanData.financialDetails.start_date && (
-                          <div className='flex justify-between items-center'>
-                            <span className='text-sm text-muted-foreground'>
-                              Start Date:
-                            </span>
-                            <span className='text-sm'>
-                              {new Date(
-                                loanData.financialDetails.start_date
-                              ).toLocaleDateString('en-NZ')}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  ) : (
-                    <div className='text-center py-8 text-muted-foreground'>
-                      <CreditCard className='h-12 w-12 mx-auto mb-3 opacity-50' />
-                      <p>Financial details not yet available</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Loan Officer Card */}
-              <Card className='shadow-none border rounded-xl lg:col-span-1'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
-                    <User className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Your Lending Consultant
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='space-y-6'>
-                  {/* Loan Officer */}
-                  {loanData?.loanOfficer ? (
-                    <div className='p-4 rounded-lg'>
-                      <div className='flex items-start space-x-4'>
-                        <Avatar className='h-12 w-12'>
-                          <AvatarFallback className='bg-fcu-primary-500 text-white font-bold'>
-                            {getUserInitials(loanData.loanOfficer)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className='flex-1'>
-                          <h4 className='font-semibold text-fcu-primary-500'>
-                            {getUserFullName(loanData.loanOfficer)}
-                          </h4>
-                          <p className='text-sm text-fcu-secondary-300 mb-2'>
-                            {loanData.loanOfficer.job_title || 'Loan Officer'}
-                          </p>
-                          <div className='flex items-center text-sm text-fcu-primary-500'>
-                            <Mail className='h-4 w-4 mr-2' />
-                            <a
-                              href={`mailto:${loanData.loanOfficer.work_email}`}
-                              className='hover:underline'
-                            >
-                              {loanData.loanOfficer.work_email}
-                            </a>
-                          </div>
-                        </div>
+              <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
+                <div className='p-6'>
+                  <div className='flex items-center gap-3 mb-6'>
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-fcu-secondary-50'>
+                      <User className='h-5 w-5 text-fcu-secondary-400' />
+                    </div>
+                    <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
+                      Your Lending Consultant
+                    </h2>
+                  </div>
+                  <div className='space-y-6'>
+                    {/* Loan Officer */}
+                    {!loanData?.loanOfficer ||
+                    loanData?.loanApplication.app_status === 'DRAFT' ||
+                    loanData?.loanApplication.app_status === 'INIT' ? (
+                      <div className='text-center py-6 text-muted-foreground'>
+                        <User className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                        <p>Loan officer will be assigned soon</p>
                       </div>
-                    </div>
-                  ) : (
-                    <div className='text-center py-6 text-muted-foreground'>
-                      <User className='h-12 w-12 mx-auto mb-3 opacity-50' />
-                      <p>Loan officer will be assigned soon</p>
-                    </div>
-                  )}
-
-                  {/* Delegated User */}
-                  {loanData?.delegatedUser &&
-                    loanData.delegatedUser.client_number !==
-                      loanData?.loanOfficer?.client_number && (
-                      <div className='p-4 bg-blue-50 rounded-lg'>
+                    ) : (
+                      <div className='p-4 rounded-lg'>
                         <div className='flex items-start space-x-4'>
-                          <Avatar className='h-10 w-10'>
-                            <AvatarFallback className='bg-blue-600 text-white font-bold text-sm'>
-                              {getUserInitials(loanData.delegatedUser)}
+                          <Avatar className='h-12 w-12'>
+                            <AvatarFallback className='bg-fcu-primary-500 text-white font-bold'>
+                              {getUserInitials(loanData.loanOfficer)}
                             </AvatarFallback>
                           </Avatar>
                           <div className='flex-1'>
-                            <h5 className='font-medium text-blue-900'>
-                              {getUserFullName(loanData.delegatedUser)}
-                            </h5>
-                            <p className='text-sm text-blue-700'>
-                              {loanData.delegatedUser.job_title ||
-                                'Support Staff'}
+                            <h4 className='font-semibold text-fcu-primary-500'>
+                              {getUserFullName(loanData.loanOfficer)}
+                            </h4>
+                            <p className='text-sm text-fcu-secondary-300 mb-2'>
+                              {loanData.loanOfficer.job_title || 'Loan Officer'}
                             </p>
-                            <p className='text-xs text-blue-600 mt-1'>
-                              Currently handling your application
-                            </p>
+                            <div className='flex items-center text-sm text-fcu-primary-500'>
+                              <Mail className='h-4 w-4 mr-2' />
+                              <a
+                                href={`mailto:${loanData.loanOfficer.work_email}`}
+                                className='hover:underline'
+                              >
+                                {loanData.loanOfficer.work_email}
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
                     )}
 
-                  <div className='text-center'>
-                    <p className='text-xs text-muted-foreground'>
-                      Feel free to contact your loan officer using the above
-                      email if you have any questions about your application.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Branch Information Card */}
-              <Card className='shadow-none border rounded-xl lg:col-span-1'>
-                <CardHeader>
-                  <CardTitle className='flex items-center text-xl text-fcu-primary-500 font-light'>
-                    <Building2 className='mr-3 h-4 w-4 text-fcu-secondary-300' />
-                    Branch Information
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='space-y-4'>
-                  {fullBranchInfo ? (
-                    <div className='space-y-4'>
-                      <div className='p-4 rounded-lg'>
-                        <h4 className='font-semibold text-fcu-primary-500 mb-3'>
-                          Branch: {fullBranchInfo.Organisation_Unit_Name}
-                        </h4>
-
-                        {/* Contact Phone */}
-                        {fullBranchInfo.contact_phone && (
-                          <div className='flex items-center text-sm text-fcu-secondary-300 mb-3'>
-                            <Phone className='h-4 w-4 mr-2 flex-shrink-0' />
-                            <a
-                              href={`tel:${fullBranchInfo.contact_phone}`}
-                              className='hover:underline text-fcu-primary-500 font-medium'
-                            >
-                              {fullBranchInfo.contact_phone}
-                            </a>
-                          </div>
-                        )}
-
-                        {/* Address with Map Link */}
-                        {(fullBranchInfo.addressline_1 ||
-                          fullBranchInfo.addressline_2 ||
-                          fullBranchInfo.addressline_3) && (
-                          <div className='space-y-1 text-sm'>
-                            <div className='flex items-start text-fcu-secondary-300'>
-                              <MapPin className='h-4 w-4 mr-2 flex-shrink-0 mt-0.5' />
-                              <div className='flex-1'>
-                                {fullBranchInfo.map_link ? (
-                                  <a
-                                    href={fullBranchInfo.map_link}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    className='hover:underline text-fcu-primary-500'
-                                  >
-                                    {fullBranchInfo.addressline_1 && (
-                                      <div>{fullBranchInfo.addressline_1}</div>
-                                    )}
-                                    {fullBranchInfo.addressline_2 && (
-                                      <div>{fullBranchInfo.addressline_2}</div>
-                                    )}
-                                    {fullBranchInfo.addressline_3 && (
-                                      <div>{fullBranchInfo.addressline_3}</div>
-                                    )}
-                                  </a>
-                                ) : (
-                                  <div className='text-fcu-secondary-300'>
-                                    {fullBranchInfo.addressline_1 && (
-                                      <div>{fullBranchInfo.addressline_1}</div>
-                                    )}
-                                    {fullBranchInfo.addressline_2 && (
-                                      <div>{fullBranchInfo.addressline_2}</div>
-                                    )}
-                                    {fullBranchInfo.addressline_3 && (
-                                      <div>{fullBranchInfo.addressline_3}</div>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
+                    {/* Delegated User */}
+                    {loanData?.delegatedUser &&
+                      loanData.delegatedUser.client_number !==
+                        loanData?.loanOfficer?.client_number &&
+                      loanData?.loanApplication.app_status !== 'DRAFT' &&
+                      loanData?.loanApplication.app_status !== 'INIT' && (
+                        <div className='p-4 bg-blue-50 rounded-lg'>
+                          <div className='flex items-start space-x-4'>
+                            <Avatar className='h-10 w-10'>
+                              <AvatarFallback className='bg-blue-600 text-white font-bold text-sm'>
+                                {getUserInitials(loanData.delegatedUser)}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className='flex-1'>
+                              <h5 className='font-medium text-blue-900'>
+                                {getUserFullName(loanData.delegatedUser)}
+                              </h5>
+                              <p className='text-sm text-blue-700'>
+                                {loanData.delegatedUser.job_title ||
+                                  'Support Staff'}
+                              </p>
+                              <p className='text-xs text-blue-600 mt-1'>
+                                Currently handling your application
+                              </p>
                             </div>
                           </div>
-                        )}
-                      </div>
-                      <div className='text-center'>
-                        <p className='text-xs text-muted-foreground'>
-                          This is your designated branch for this loan
-                          application.
-                        </p>
-                      </div>
+                        </div>
+                      )}
+
+                    {!loanData?.loanOfficer ||
+                      loanData?.loanApplication.app_status === 'DRAFT' ||
+                      (loanData?.loanApplication.app_status === 'INIT' && (
+                        <div className='text-center'>
+                          <p className='text-xs text-muted-foreground'>
+                            Feel free to contact your lending consultant using
+                            the above email if you have any questions about your
+                            application.
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Branch Information Card */}
+              <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden lg:col-span-1 hover:shadow-md hover:shadow-gray-100/50 transition-shadow duration-300'>
+                <div className='p-6'>
+                  <div className='flex items-center gap-3 mb-6'>
+                    <div className='flex h-10 w-10 items-center justify-center rounded-full bg-blue-50'>
+                      <Building2 className='h-5 w-5 text-blue-600' />
                     </div>
-                  ) : (
-                    <div className='text-center py-8 text-muted-foreground'>
-                      <Building2 className='h-12 w-12 mx-auto mb-3 opacity-50' />
-                      <p>Branch information not available</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                    <h2 className='text-xl font-light tracking-tight text-fcu-primary-500'>
+                      Branch Information
+                    </h2>
+                  </div>
+                  <div className='space-y-4'>
+                    {fullBranchInfo ? (
+                      <div className='space-y-4'>
+                        <div className='p-4 rounded-lg'>
+                          <h4 className='font-semibold text-fcu-primary-500 mb-3'>
+                            Branch: {fullBranchInfo.Organisation_Unit_Name}
+                          </h4>
+
+                          {/* Contact Phone */}
+                          {fullBranchInfo.contact_phone && (
+                            <div className='flex items-center text-sm text-fcu-secondary-300 mb-3'>
+                              <Phone className='h-4 w-4 mr-2 flex-shrink-0' />
+                              <a
+                                href={`tel:${fullBranchInfo.contact_phone}`}
+                                className='hover:underline text-fcu-primary-500 font-medium'
+                              >
+                                {fullBranchInfo.contact_phone}
+                              </a>
+                            </div>
+                          )}
+
+                          {/* Address with Map Link */}
+                          {(fullBranchInfo.addressline_1 ||
+                            fullBranchInfo.addressline_2 ||
+                            fullBranchInfo.addressline_3) && (
+                            <div className='space-y-1 text-sm'>
+                              <div className='flex items-start text-fcu-secondary-300'>
+                                <MapPin className='h-4 w-4 mr-2 flex-shrink-0 mt-0.5' />
+                                <div className='flex-1'>
+                                  {fullBranchInfo.map_link ? (
+                                    <a
+                                      href={fullBranchInfo.map_link}
+                                      target='_blank'
+                                      rel='noopener noreferrer'
+                                      className='hover:underline text-fcu-primary-500'
+                                    >
+                                      {fullBranchInfo.addressline_1 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_1}
+                                        </div>
+                                      )}
+                                      {fullBranchInfo.addressline_2 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_2}
+                                        </div>
+                                      )}
+                                      {fullBranchInfo.addressline_3 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_3}
+                                        </div>
+                                      )}
+                                    </a>
+                                  ) : (
+                                    <div className='text-fcu-secondary-300'>
+                                      {fullBranchInfo.addressline_1 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_1}
+                                        </div>
+                                      )}
+                                      {fullBranchInfo.addressline_2 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_2}
+                                        </div>
+                                      )}
+                                      {fullBranchInfo.addressline_3 && (
+                                        <div>
+                                          {fullBranchInfo.addressline_3}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <div className='text-center'>
+                          <p className='text-xs text-muted-foreground'>
+                            This is your designated branch for this loan
+                            application.
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='text-center py-8 text-muted-foreground'>
+                        <Building2 className='h-12 w-12 mx-auto mb-3 opacity-50' />
+                        <p>Branch information not available</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Action Bar */}
-            <div className='text-center'>
+            <div className='text-center pb-4'>
               <Button
                 onClick={loadDashboardData}
                 variant='outline'
                 size='lg'
-                className='border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50 font-medium px-8'
+                className='border-fcu-primary-500/20 text-fcu-primary-500 bg-fcu-primary-50/50 hover:bg-fcu-primary-100 hover:border-fcu-primary-500/30 font-medium px-8 rounded-full transition-all duration-200 shadow-sm hover:shadow-md'
               >
                 <RefreshCw className='mr-2 h-5 w-5' />
                 Refresh Dashboard
@@ -994,38 +1058,53 @@ function DashboardPageContent() {
 // Loading component for Suspense fallback
 function DashboardPageLoading() {
   return (
-    <div className='min-h-screen bg-white'>
-      <div className='container mx-auto px-4 py-8'>
+    <div className='min-h-screen bg-white pt-20 px-4 sm:px-0 relative'>
+      {/* Dot pattern background */}
+      <DotPattern
+        className='text-fcu-primary-500'
+        opacity={0.04}
+        width={20}
+        height={20}
+      />
+
+      <div className='container mx-auto px-4 py-8 relative'>
         <div className='max-w-7xl mx-auto space-y-8'>
           {/* Header skeleton */}
-          <Card className='shadow-md'>
-            <CardHeader>
+          <div className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden'>
+            <div className='p-6 md:p-8'>
               <div className='flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0'>
-                <div className='space-y-3'>
-                  <Skeleton className='h-10 w-80' />
-                  <Skeleton className='h-6 w-64' />
+                <div className='flex items-start gap-4'>
+                  <Skeleton className='h-14 w-14 rounded-full' />
+                  <div className='space-y-3'>
+                    <Skeleton className='h-8 w-80' />
+                    <Skeleton className='h-4 w-64' />
+                  </div>
                 </div>
-                <div className='flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3'>
-                  <Skeleton className='h-8 w-32' />
-                  <Skeleton className='h-10 w-24' />
-                </div>
+                <Skeleton className='h-11 w-32 rounded-full' />
               </div>
-            </CardHeader>
-          </Card>
+            </div>
+          </div>
 
           {/* Content grid skeleton */}
-          <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6 md:gap-8'>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={i} className='shadow-md'>
-                <CardHeader>
-                  <Skeleton className='h-6 w-32' />
-                </CardHeader>
-                <CardContent className='space-y-4'>
-                  <Skeleton className='h-4 w-full' />
-                  <Skeleton className='h-4 w-3/4' />
-                  <Skeleton className='h-4 w-1/2' />
-                </CardContent>
-              </Card>
+          <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-5 md:gap-6'>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className='bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 shadow-sm shadow-gray-100/50 overflow-hidden'
+              >
+                <div className='p-6'>
+                  <div className='flex items-center gap-3 mb-6'>
+                    <Skeleton className='h-10 w-10 rounded-full' />
+                    <Skeleton className='h-6 w-40' />
+                  </div>
+                  <div className='space-y-4'>
+                    <Skeleton className='h-20 w-full rounded-xl' />
+                    <Skeleton className='h-4 w-full' />
+                    <Skeleton className='h-4 w-3/4' />
+                    <Skeleton className='h-4 w-1/2' />
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
