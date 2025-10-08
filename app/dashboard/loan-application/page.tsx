@@ -589,7 +589,7 @@ function DashboardPageContent() {
                       variant='outline'
                       size='lg'
                       onClick={handleLogout}
-                      className='border-fcu-primary-500/20 text-fcu-primary-500 bg-fcu-primary-50 hover:bg-fcu-primary-100 hover:border-fcu-primary-500/30 rounded-full transition-all duration-200'
+                      className='text-white bg-fcu-primary-500 shadow-lg rounded-full transition-all duration-200'
                     >
                       <LogOut className='mr-2 h-4 w-4' />
                       Logout
@@ -1042,7 +1042,7 @@ function DashboardPageContent() {
               <Button
                 onClick={handleLogout}
                 variant='outline'
-                className='flex-1 h-12 border-fcu-primary-500 text-fcu-primary-500 hover:bg-fcu-primary-50'
+                className='flex-1 h-12 border-fcu-primary-500 text-white hover:bg-fcu-primary-50'
               >
                 <LogOut className='mr-2 h-4 w-4' />
                 Logout Now
