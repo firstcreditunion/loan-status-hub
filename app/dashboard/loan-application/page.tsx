@@ -124,6 +124,8 @@ interface SovereignUser {
   date_of_birth: string | null
   wished_birthday_for_the_day: boolean | null
   default_org_unit_id: string | null
+  fallback_email: string | null
+  is_on_leave: boolean | null
 }
 
 interface ComprehensiveLoanData {
@@ -392,6 +394,7 @@ function DashboardPageContent() {
 
   const getUserInitials = (user: SovereignUser | null): string => {
     if (!user) return '?'
+    if (user.is_on_leave) return '?'
     const first = user.first_name?.charAt(0) || ''
     const last = user.last_name?.charAt(0) || ''
     return `${first}${last}`.toUpperCase()
@@ -399,10 +402,21 @@ function DashboardPageContent() {
 
   const getUserFullName = (user: SovereignUser | null): string => {
     if (!user) return 'Not assigned'
+    if (user.is_on_leave) {
+      return user.fallback_email || 'Staff Member (On Leave)'
+    }
     const title = user.title ? `${user.title} ` : ''
     const first = user.first_name || ''
     const last = user.last_name || ''
     return `${title}${first} ${last}`.trim()
+  }
+
+  const getUserEmail = (user: SovereignUser | null): string => {
+    if (!user) return ''
+    if (user.is_on_leave && user.fallback_email) {
+      return user.fallback_email
+    }
+    return user.work_email
   }
 
   // Loading state
@@ -843,10 +857,10 @@ function DashboardPageContent() {
                             <div className='flex items-center text-sm text-fcu-primary-500'>
                               <Mail className='h-4 w-4 mr-2' />
                               <a
-                                href={`mailto:${loanData.loanOfficer.work_email}`}
+                                href={`mailto:${getUserEmail(loanData.loanOfficer)}`}
                                 className='hover:underline'
                               >
-                                {loanData.loanOfficer.work_email}
+                                {getUserEmail(loanData.loanOfficer)}
                               </a>
                             </div>
                           </div>

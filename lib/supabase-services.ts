@@ -127,6 +127,8 @@ interface SovereignUser {
   date_of_birth: string | null
   wished_birthday_for_the_day: boolean | null
   default_org_unit_id: string | null
+  fallback_email: string | null
+  is_on_leave: boolean | null
 }
 
 interface ComprehensiveLoanData {
@@ -284,7 +286,7 @@ export async function getComprehensiveLoanData(
     )
 
     // Get loan officer (using OCC data if available, otherwise app_owner)
-    const { data: loanOfficer } = await supabase
+    const { data: loanOfficerRaw } = await supabase
       .schema(schema)
       .from('tblSovereignUsers')
       .select('*')
@@ -292,12 +294,46 @@ export async function getComprehensiveLoanData(
       .maybeSingle()
 
     // Get delegated user
-    const { data: delegatedUser } = await supabase
+    const { data: delegatedUserRaw } = await supabase
       .schema(schema)
       .from('tblSovereignUsers')
       .select('*')
       .eq('client_number', loanApplication.delegated_user || '')
       .maybeSingle()
+
+    // Normalize the data to handle both fallback_email and fall_back_email field names
+    const normalizeSovereignUser = (user: unknown): SovereignUser | null => {
+      if (!user || typeof user !== 'object') return null
+      const userRecord = user as Record<string, unknown>
+      return {
+        title: (userRecord.title as string | null) || null,
+        first_name: (userRecord.first_name as string) || '',
+        middle_name: (userRecord.middle_name as string | null) || null,
+        last_name: (userRecord.last_name as string) || '',
+        work_email: (userRecord.work_email as string) || '',
+        effective_date: (userRecord.effective_date as string | null) || null,
+        termination_date:
+          (userRecord.termination_date as string | null) || null,
+        client_number: (userRecord.client_number as string) || '',
+        clerk_user: (userRecord.clerk_user as string | null) || null,
+        key_person_initials:
+          (userRecord.key_person_initials as string | null) || null,
+        job_title: (userRecord.job_title as string | null) || null,
+        date_of_birth: (userRecord.date_of_birth as string | null) || null,
+        wished_birthday_for_the_day:
+          (userRecord.wished_birthday_for_the_day as boolean | null) || null,
+        default_org_unit_id:
+          (userRecord.default_org_unit_id as string | null) || null,
+        fallback_email:
+          (userRecord.fallback_email as string | null) ||
+          (userRecord.fall_back_email as string | null) ||
+          null,
+        is_on_leave: (userRecord.is_on_leave as boolean | null) || null,
+      }
+    }
+
+    const loanOfficer = normalizeSovereignUser(loanOfficerRaw)
+    const delegatedUser = normalizeSovereignUser(delegatedUserRaw)
 
     return {
       loanApplication,
